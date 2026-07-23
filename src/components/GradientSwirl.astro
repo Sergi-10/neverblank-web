@@ -1,0 +1,30 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<svg
+  viewBox="0 0 600 600"
+  class={`pointer-events-none ${className}`}
+  aria-hidden="true"
+>
+  <defs>
+    <linearGradient id="gradientSwirl" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color: var(--color-brand-gradient-blue)" />
+      <stop offset="25%" style="stop-color: var(--color-brand-gradient-turquoise)" />
+      <stop offset="50%" style="stop-color: var(--color-brand-gradient-purple)" />
+      <stop offset="75%" style="stop-color: var(--color-brand-gradient-pink)" />
+      <stop offset="100%" style="stop-color: var(--color-brand-gradient-orange)" />
+    </linearGradient>
+  </defs>
+  <path
+    d="M150,300 C150,180 250,100 380,120 C520,145 560,260 460,340 C370,410 230,380 230,280 C230,190 320,150 400,180 C470,205 480,270 430,300"
+    fill="none"
+    stroke="url(#gradientSwirl)"
+    stroke-width="42"
+    stroke-linecap="round"
+  />
+</svg>
