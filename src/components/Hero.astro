@@ -85,8 +85,7 @@
 
   const scrollButton = document.getElementById("hero-scroll-down");
   scrollButton?.addEventListener("click", () => {
-    if (!hero) return;
-    window.scrollTo({ top: hero.offsetHeight, behavior: "smooth" });
+    document.getElementById("nosotros")?.scrollIntoView({ behavior: "smooth" });
   });
 </script>
 
