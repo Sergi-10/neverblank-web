@@ -1,0 +1,281 @@
+---
+const steps = [
+  {
+    icon: "ti-clipboard-text",
+    title: "Define la estrategia",
+    subtitle:
+      "Perfil de cliente, tono de marca, competencia y hashtags — generado con IA, siempre editable.",
+  },
+  {
+    icon: "ti-calendar",
+    title: "Genera el calendario",
+    subtitle: "Un mes completo de contenido en minutos: carrusel, reel, story e hilo.",
+  },
+  {
+    icon: "ti-checks",
+    title: "Revisa y aprueba",
+    subtitle: "Cada publicación pasa por revisión antes de salir — tu criterio siempre manda.",
+  },
+  {
+    icon: "ti-rocket",
+    title: "Nunca más en blanco",
+    subtitle:
+      "Para agencias y freelances que gestionan varias cuentas sin mirar un calendario vacío.",
+  },
+];
+
+const weekdays = ["L", "M", "X", "J", "V", "S", "D"];
+const cellLabels = ["Reel", "Story", "Post", "Carrusel", "Hilo"];
+const filledCells = new Set([2, 5, 9, 13, 16, 20, 24, 27]);
+const calendarCells = Array.from({ length: 28 }, (_, i) => {
+  if (!filledCells.has(i)) return null;
+  const labelIndex = [...filledCells].indexOf(i);
+  return cellLabels[labelIndex % cellLabels.length];
+});
+
+const pills = [
+  { label: "Pendiente", delay: "0s" },
+  { label: "Aprobado", delay: "0.4s" },
+  { label: "Publicado", delay: "0.8s" },
+];
+---
+
+<section class="mx-auto mt-16 max-w-6xl px-6">
+  <div class="product-showcase relative overflow-hidden rounded-xl bg-brand-navy">
+    <div
+      class="pointer-events-none absolute left-1/2 top-1/2 h-[220%] w-[220%]"
+      style="transform: translate(-50%, -50%);"
+    >
+      <div class="ps-icon-float h-full w-full">
+        <svg viewBox="0 0 296.49 225.39" class="h-full w-full fill-current text-white/[0.11]" aria-hidden="true">
+          <path d="M227.6,59.02c6.7,0,12.15,5.45,12.15,12.15v88.25c0,6.7-5.45,12.15-12.15,12.15H64.64v-100.4c0-6.7,5.45-12.15,12.15-12.15h150.8M227.6,39.02H76.8c-17.76,0-32.15,14.4-32.15,32.15v120.4h182.95c17.76,0,32.15-14.4,32.15-32.15v-88.25c0-17.76-14.4-32.15-32.15-32.15h0Z" />
+          <polygon points="146.57 96.47 136.83 86.73 115.14 108.41 93.45 86.73 83.71 96.47 105.4 118.16 83.71 139.84 93.45 149.59 115.14 127.9 136.83 149.59 146.57 139.84 124.88 118.16 146.57 96.47" />
+          <rect x="161.83" y="86.65" width="63" height="63" rx="5.97" ry="5.97" />
+        </svg>
+      </div>
+    </div>
+
+    <div class="relative z-10 min-h-[460px]">
+      {steps.map((step, i) => (
+        <div class={`ps-step absolute inset-0 flex flex-col items-center justify-center px-8 py-16 text-center md:px-20 ${i === 0 ? "active" : ""}`} data-step={i}>
+          <span class="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-orange/10">
+            <i class={`ti ${step.icon} text-3xl text-brand-orange`}></i>
+          </span>
+
+          <h3 class="text-[22px] font-bold text-white">{step.title}</h3>
+          <p class="mx-auto mt-3 max-w-md text-base text-white/60">{step.subtitle}</p>
+
+          {i === 0 && (
+            <div class="mt-8 h-1 w-48 overflow-hidden rounded-full bg-white/10">
+              <div class="ps-step1-bar h-full w-0 rounded-full bg-brand-orange"></div>
+            </div>
+          )}
+
+          {i === 1 && (
+            <div class="mt-8 w-full max-w-sm">
+              <div class="grid grid-cols-7 gap-1.5">
+                {weekdays.map((d) => (
+                  <span class="text-center text-[10px] font-semibold uppercase text-white/40">{d}</span>
+                ))}
+                {calendarCells.map((label, idx) => (
+                  <span
+                    class="cal-cell flex h-8 items-center justify-center rounded-md bg-white/5 px-0.5 text-center text-[8px] leading-tight text-brand-orange"
+                    class:list={[label ? "bg-brand-orange/15" : ""]}
+                    style={`--cal-i: ${idx};`}
+                  >
+                    {label}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {i === 2 && (
+            <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
+              {pills.map((pill) => (
+                <span
+                  class="ps-pill rounded-full px-4 py-1.5 text-sm font-semibold"
+                  style={`animation-delay: ${pill.delay};`}
+                >
+                  {pill.label}
+                </span>
+              ))}
+            </div>
+          )}
+
+          {i === 3 && (
+            <a
+              href="#precios"
+              class="mt-8 inline-flex items-center gap-1 rounded-full bg-brand-orange px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-orange/90"
+            >
+              Empieza gratis <span aria-hidden="true">→</span>
+            </a>
+          )}
+        </div>
+      ))}
+    </div>
+
+    <div class="relative z-10 flex items-center justify-center gap-2 pb-6">
+      {steps.map((_, i) => (
+        <span class="ps-dot h-2 w-2 rounded-full bg-white/25" data-dot={i}></span>
+      ))}
+    </div>
+
+    <div class="absolute inset-x-0 bottom-0 z-10 h-[3px] bg-white/10">
+      <div class="ps-progress h-full w-0 bg-brand-orange"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const stepEls = Array.from(document.querySelectorAll<HTMLElement>(".ps-step"));
+  const dotEls = Array.from(document.querySelectorAll<HTMLElement>(".ps-dot"));
+  const progressEl = document.querySelector<HTMLElement>(".ps-progress");
+  const stepBarEl = document.querySelector<HTMLElement>(".ps-step1-bar");
+  const calCellEls = Array.from(document.querySelectorAll<HTMLElement>(".cal-cell"));
+
+  const STEP_MS = 4000;
+  let current = 0;
+
+  function restart(el: HTMLElement | null, className: string) {
+    if (!el) return;
+    el.classList.remove(className);
+    void el.offsetWidth;
+    el.classList.add(className);
+  }
+
+  function goToStep(index: number, isFirst = false) {
+    const prevEl = stepEls[current];
+    if (!isFirst && prevEl) {
+      prevEl.classList.remove("active");
+      prevEl.classList.add("exiting");
+      setTimeout(() => prevEl.classList.remove("exiting"), 520);
+    }
+
+    current = index;
+    stepEls[current]?.classList.add("active");
+
+    dotEls.forEach((dot, i) => dot.classList.toggle("ps-dot-active", i === index));
+
+    if (progressEl) {
+      if (index === 0) {
+        progressEl.style.transition = "none";
+        progressEl.style.width = "0%";
+        void progressEl.offsetWidth;
+      }
+      progressEl.style.transition = `width ${STEP_MS}ms linear`;
+      requestAnimationFrame(() => {
+        progressEl.style.width = `${(index + 1) * 25}%`;
+      });
+    }
+
+    if (index === 0) restart(stepBarEl, "ps-fill-run");
+    if (index === 1) calCellEls.forEach((cell) => restart(cell, "cal-pop"));
+  }
+
+  goToStep(0, true);
+  setInterval(() => goToStep((current + 1) % stepEls.length), STEP_MS);
+</script>
+
+<style>
+  .ps-icon-float {
+    animation: showcase-float-circle 40s ease infinite;
+  }
+
+  @keyframes showcase-float-circle {
+    0% { transform: translate(27px, 0px); }
+    12.5% { transform: translate(19px, 19px); }
+    25% { transform: translate(0px, 27px); }
+    37.5% { transform: translate(-19px, 19px); }
+    50% { transform: translate(-27px, 0px); }
+    62.5% { transform: translate(-19px, -19px); }
+    75% { transform: translate(0px, -27px); }
+    87.5% { transform: translate(19px, -19px); }
+    100% { transform: translate(27px, 0px); }
+  }
+
+  .ps-step {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .ps-step.active {
+    opacity: 1;
+    pointer-events: auto;
+    animation: fadeSlideIn 700ms ease forwards;
+  }
+
+  .ps-step.exiting {
+    opacity: 1;
+    pointer-events: none;
+    animation: fadeSlideOut 500ms ease forwards;
+  }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeSlideOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-20px); }
+  }
+
+  .ps-dot-active {
+    background-color: var(--color-brand-orange);
+  }
+
+  .ps-progress {
+    width: 0%;
+  }
+
+  .ps-step1-bar {
+    width: 0%;
+  }
+
+  .ps-step1-bar.ps-fill-run {
+    animation: stepBarFill 4000ms linear forwards;
+  }
+
+  @keyframes stepBarFill {
+    from { width: 0%; }
+    to { width: 100%; }
+  }
+
+  .cal-cell {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  .cal-cell.cal-pop {
+    animation: calPop 400ms ease forwards;
+    animation-delay: calc(var(--cal-i) * 90ms);
+  }
+
+  @keyframes calPop {
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .ps-pill {
+    animation: pillCycle 3s ease-in-out infinite;
+  }
+
+  @keyframes pillCycle {
+    0%, 28% {
+      background-color: color-mix(in srgb, var(--color-brand-orange) 20%, transparent);
+      color: var(--color-brand-orange);
+    }
+    33%, 61% {
+      background-color: color-mix(in srgb, var(--color-brand-gradient-turquoise) 22%, transparent);
+      color: var(--color-brand-gradient-turquoise);
+    }
+    66%, 94% {
+      background-color: color-mix(in srgb, #22c55e 20%, transparent);
+      color: #4ade80;
+    }
+    100% {
+      background-color: color-mix(in srgb, var(--color-brand-orange) 20%, transparent);
+      color: var(--color-brand-orange);
+    }
+  }
+</style>
