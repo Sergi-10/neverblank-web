@@ -54,4 +54,41 @@ const navLinks = [
 
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
+
+  let lastScrollY = window.scrollY;
+  let tickingDirection = false;
+
+  const updateDirection = () => {
+    const currentY = window.scrollY;
+    if (currentY > lastScrollY && currentY > 80) {
+      header?.classList.add("header-hidden");
+    } else {
+      header?.classList.remove("header-hidden");
+    }
+    lastScrollY = currentY;
+    tickingDirection = false;
+  };
+
+  const onScrollDirection = () => {
+    if (!tickingDirection) {
+      requestAnimationFrame(updateDirection);
+      tickingDirection = true;
+    }
+  };
+
+  window.addEventListener("scroll", onScrollDirection, { passive: true });
 </script>
+
+<style>
+  #site-header {
+    max-height: 128px;
+    overflow: hidden;
+    transition:
+      background-color 300ms ease,
+      max-height 700ms ease;
+  }
+
+  #site-header.header-hidden {
+    max-height: 0px;
+  }
+</style>
