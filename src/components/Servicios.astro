@@ -31,10 +31,11 @@ const columns = [
 ];
 ---
 
-<section id="servicios" class="relative -scroll-mt-20 overflow-hidden mt-16">
+<section id="servicios" class="relative scroll-mt-16 overflow-hidden mt-16">
   <div
+    id="servicios-bg"
     class="absolute inset-0 bg-cover bg-center"
-    style="background-image: url('/calendario_bg_brighter.jpg');"
+    style="background-image: url('/calendario_bg_brighter.jpg'); transform: scale(1); transform-origin: center;"
     aria-hidden="true"
   >
   </div>
@@ -96,6 +97,29 @@ const columns = [
     ))}
   </div>
 </section>
+
+<script>
+  const bg = document.getElementById("servicios-bg");
+  let ticking = false;
+
+  const updateZoom = () => {
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = maxScroll > 0 ? Math.min(Math.max(window.scrollY / maxScroll, 0), 1) : 0;
+    const scale = 1 + progress * 0.12;
+    if (bg) bg.style.transform = `scale(${scale})`;
+    ticking = false;
+  };
+
+  const onScroll = () => {
+    if (!ticking) {
+      requestAnimationFrame(updateZoom);
+      ticking = true;
+    }
+  };
+
+  updateZoom();
+  window.addEventListener("scroll", onScroll, { passive: true });
+</script>
 
 <style>
   .servicios-overlay {
