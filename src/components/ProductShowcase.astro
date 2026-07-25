@@ -18,7 +18,7 @@ const steps = [
   },
   {
     icon: "ti-rocket",
-    title: "Nunca más en blanco",
+    title: "NeverBlanc",
     subtitle:
       "Para agencias y freelances que gestionan varias cuentas sin mirar un calendario vacío.",
   },
@@ -40,7 +40,7 @@ const pills = [
 ];
 ---
 
-<section class="mx-auto mt-16 max-w-6xl px-6">
+<section class="mx-auto mt-28 max-w-7xl px-6">
   <div class="product-showcase relative overflow-hidden rounded-xl bg-brand-navy">
     <div
       class="pointer-events-none absolute left-1/2 top-1/2 h-[220%] w-[220%]"
@@ -105,10 +105,10 @@ const pills = [
 
           {i === 3 && (
             <a
-              href="#precios"
+              href="/app/login"
               class="mt-8 inline-flex items-center gap-1 rounded-full bg-brand-orange px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-orange/90"
             >
-              Empieza gratis <span aria-hidden="true">→</span>
+              Ir al programa <span aria-hidden="true">→</span>
             </a>
           )}
         </div>
@@ -134,8 +134,9 @@ const pills = [
   const stepBarEl = document.querySelector<HTMLElement>(".ps-step1-bar");
   const calCellEls = Array.from(document.querySelectorAll<HTMLElement>(".cal-cell"));
 
-  const STEP_MS = 4000;
+  const durations = [4000, 4000, 4000, 5000];
   let current = 0;
+  let timer: ReturnType<typeof setTimeout>;
 
   function restart(el: HTMLElement | null, className: string) {
     if (!el) return;
@@ -163,7 +164,7 @@ const pills = [
         progressEl.style.width = "0%";
         void progressEl.offsetWidth;
       }
-      progressEl.style.transition = `width ${STEP_MS}ms linear`;
+      progressEl.style.transition = `width ${durations[index]}ms linear`;
       requestAnimationFrame(() => {
         progressEl.style.width = `${(index + 1) * 25}%`;
       });
@@ -171,10 +172,12 @@ const pills = [
 
     if (index === 0) restart(stepBarEl, "ps-fill-run");
     if (index === 1) calCellEls.forEach((cell) => restart(cell, "cal-pop"));
+
+    clearTimeout(timer);
+    timer = setTimeout(() => goToStep((current + 1) % stepEls.length), durations[index]);
   }
 
   goToStep(0, true);
-  setInterval(() => goToStep((current + 1) % stepEls.length), STEP_MS);
 </script>
 
 <style>
