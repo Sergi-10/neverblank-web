@@ -40,8 +40,7 @@ const pills = [
 ];
 ---
 
-<section id="producto" class="mx-auto mt-8 max-w-6xl scroll-mt-24 px-6">
-  <div class="product-showcase relative overflow-hidden rounded-xl bg-brand-navy">
+<div id="producto" class="product-showcase relative scroll-mt-24 overflow-hidden rounded-xl bg-brand-navy">
     <div
       class="pointer-events-none absolute left-1/2 top-1/2 h-[220%] w-[220%]"
       style="transform: translate(-50%, -50%);"
@@ -103,14 +102,6 @@ const pills = [
             </div>
           )}
 
-          {i === 3 && (
-            <a
-              href="/app/login"
-              class="mt-8 inline-flex items-center gap-1 rounded-full bg-brand-orange px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-orange/90"
-            >
-              Ir al programa <span aria-hidden="true">→</span>
-            </a>
-          )}
         </div>
       ))}
     </div>
@@ -124,8 +115,7 @@ const pills = [
     <div class="absolute inset-x-0 bottom-0 z-10 h-[3px] bg-white/10">
       <div class="ps-progress h-full w-0 bg-brand-orange"></div>
     </div>
-  </div>
-</section>
+</div>
 
 <script>
   const stepEls = Array.from(document.querySelectorAll<HTMLElement>(".ps-step"));

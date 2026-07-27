@@ -4,8 +4,6 @@ import Header from "../components/Header.astro";
 import Hero from "../components/Hero.astro";
 import Nosotros from "../components/Nosotros.astro";
 import ProductShowcase from "../components/ProductShowcase.astro";
-import Servicios from "../components/Servicios.astro";
-import Contacto from "../components/Contacto.astro";
 import Footer from "../components/Footer.astro";
 ---
 
@@ -13,8 +11,45 @@ import Footer from "../components/Footer.astro";
   <Header />
   <Hero />
   <Nosotros />
-  <ProductShowcase />
-  <Servicios />
-  <Contacto />
+
+  <section class="mx-auto mt-16 max-w-6xl px-6">
+    <div class="grid gap-12 md:grid-cols-2 md:items-center">
+      <ProductShowcase />
+
+      <div class="text-brand-navy/80">
+        <p>
+          Toda agencia conoce el mismo momento: son las nueve de la noche, mañana toca publicar
+          en tres cuentas distintas, y el calendario sigue vacío. Un Word con la estrategia, un
+          Excel con las fechas, un WhatsApp con las ideas sueltas.
+        </p>
+        <p class="mt-4">
+          Con NeverBlanc, la IA genera el calendario mensual a partir de la estrategia de cada
+          cliente: carrusel, reel, story o hilo, con copy, texto de cada diapositiva y hashtags
+          ya pensadas.
+        </p>
+        <p class="mt-4">
+          Nada de eso sustituye tu criterio.{" "}
+          <span class="text-brand-orange">
+            Todo se queda en pendiente hasta que alguien lo revisa y lo aprueba.
+          </span>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto mt-16 max-w-4xl px-6">
+    <div class="rounded-2xl bg-brand-navy px-8 py-12 text-center md:py-16">
+      <h2 class="font-display text-3xl font-bold text-white md:text-4xl">
+        Es hora de dejar de improvisar y de <span class="text-brand-orange">sumar equipo</span>
+      </h2>
+      <a
+        href="/app/login"
+        class="mt-8 inline-flex items-center gap-1 rounded-full bg-brand-orange px-8 py-3 text-base font-semibold text-brand-navy transition-colors hover:bg-brand-orange/90"
+      >
+        Ir al programa
+      </a>
+    </div>
+  </section>
+
   <Footer />
 </Layout>
