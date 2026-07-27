@@ -36,3 +36,34 @@ const {
     <slot />
   </body>
 </html>
+
+<script>
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("reveal-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15 }
+  );
+
+  document.querySelectorAll(".reveal-up").forEach((el) => observer.observe(el));
+</script>
+
+<style is:global>
+  .reveal-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition:
+      opacity 700ms ease,
+      transform 700ms ease;
+  }
+
+  .reveal-up.reveal-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>

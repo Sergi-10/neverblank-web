@@ -40,7 +40,7 @@ const pills = [
 ];
 ---
 
-<div id="producto" class="product-showcase relative scroll-mt-24 overflow-hidden rounded-xl bg-brand-navy">
+<div id="producto" class="product-showcase relative scroll-mt-24 overflow-hidden rounded-xl bg-brand-navy shadow-2xl">
     <div
       class="pointer-events-none absolute left-1/2 top-1/2 h-[220%] w-[220%]"
       style="transform: translate(-50%, -50%);"
@@ -54,7 +54,7 @@ const pills = [
       </div>
     </div>
 
-    <div class="relative z-10 min-h-[460px]">
+    <div class="relative z-10 min-h-[400px]">
       {steps.map((step, i) => (
         <div class={`ps-step absolute inset-0 flex flex-col items-center justify-center px-8 py-16 text-center md:px-20 ${i === 0 ? "active" : ""}`} data-step={i}>
           <span class="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-brand-orange/10">
