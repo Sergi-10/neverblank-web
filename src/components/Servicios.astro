@@ -27,7 +27,15 @@ const columns = [
 ];
 ---
 
-<section id="servicios" class="relative scroll-mt-16 overflow-hidden bg-brand-navy mt-16">
+<section id="servicios" class="relative scroll-mt-16 overflow-hidden mt-16">
+  <div
+    id="servicios-bg"
+    class="absolute inset-0 bg-cover bg-center"
+    style="background-image: url('/calendario_bg_brighter.jpg'); transform: scale(1); transform-origin: center;"
+    aria-hidden="true"
+  >
+  </div>
+
   <div class="relative z-10 mx-auto max-w-6xl px-6 pt-16 pb-6">
     <span class="text-sm font-semibold uppercase tracking-widest text-white/50">
       Servicios
@@ -78,12 +86,16 @@ const columns = [
             <p class="mt-3 text-sm text-white/60">{col.tagline}</p>
 
             {i !== 3 && (
-              <span class="servicios-arrow mt-5 flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/10 opacity-0 transition-opacity duration-300">
-                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+              <a
+                href="/app/login"
+                aria-label={`Saber más sobre ${col.title}`}
+                class="servicios-arrow mt-5 flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white opacity-0 transition-all duration-300 hover:border-brand-orange hover:text-brand-orange"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
                   <path d="M5 12h14" />
                   <path d="M13 6l6 6-6 6" />
                 </svg>
-              </span>
+              </a>
             )}
           </div>
 
@@ -100,6 +112,29 @@ const columns = [
     ))}
   </div>
 </section>
+
+<script>
+  const bg = document.getElementById("servicios-bg");
+  let ticking = false;
+
+  const updateZoom = () => {
+    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = maxScroll > 0 ? Math.min(Math.max(window.scrollY / maxScroll, 0), 1) : 0;
+    const scale = 1 + progress * 0.12;
+    if (bg) bg.style.transform = `scale(${scale})`;
+    ticking = false;
+  };
+
+  const onScroll = () => {
+    if (!ticking) {
+      requestAnimationFrame(updateZoom);
+      ticking = true;
+    }
+  };
+
+  updateZoom();
+  window.addEventListener("scroll", onScroll, { passive: true });
+</script>
 
 <style>
   .servicios-overlay {
