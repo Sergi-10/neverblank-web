@@ -41,10 +41,7 @@ const {
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add("reveal-visible");
-          observer.unobserve(entry.target);
-        }
+        entry.target.classList.toggle("reveal-visible", entry.isIntersecting);
       });
     },
     { threshold: 0.15 }
@@ -56,10 +53,10 @@ const {
 <style is:global>
   .reveal-up {
     opacity: 0;
-    transform: translateY(40px);
+    transform: translateY(72px);
     transition:
-      opacity 700ms ease,
-      transform 700ms ease;
+      opacity 900ms ease,
+      transform 900ms ease;
   }
 
   .reveal-up.reveal-visible {
