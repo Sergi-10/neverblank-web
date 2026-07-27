@@ -3,43 +3,31 @@ const columns = [
   {
     number: "01",
     title: "Estrategia",
-    description:
-      "Perfil de cliente, público objetivo, tono de marca y competencia — generado con un cuestionario guiado por IA, siempre editable. Define la base sobre la que se construye todo el contenido de cada cuenta.",
+    tagline: "El punto de partida de cada cliente.",
     icon: "clipboard",
   },
   {
     number: "02",
     title: "Contenido",
-    description:
-      "Calendario mensual completo por cliente: carrusel, reel, story o hilo, con copy, texto de cada diapositiva y hashtags ya pensados. Genera un mes entero de publicaciones en minutos, no en días.",
+    tagline: "Un calendario que se rellena solo.",
     icon: "calendar",
   },
   {
     number: "03",
     title: "Gestión de equipo",
-    description:
-      "Varios clientes, varios usuarios, roles de agencia. Todo el equipo trabajando sobre el mismo calendario, con estados de aprobación y revisión, sin salir de la plataforma.",
+    tagline: "Todo el equipo, un mismo calendario.",
     icon: "users",
   },
   {
     number: "04",
     title: "Servicios",
-    description:
-      "Todo lo que necesitas para dejar de gestionar redes sociales a mano. Una sola herramienta que sustituye el Word, el Excel, el WhatsApp y los prompts sueltos.",
+    tagline: "Todo lo que necesitas, en un solo sitio.",
     icon: "gear",
   },
 ];
 ---
 
-<section id="servicios" class="relative scroll-mt-16 overflow-hidden mt-16">
-  <div
-    id="servicios-bg"
-    class="absolute inset-0 bg-cover bg-center"
-    style="background-image: url('/calendario_bg_brighter.jpg'); transform: scale(1); transform-origin: center;"
-    aria-hidden="true"
-  >
-  </div>
-
+<section id="servicios" class="relative scroll-mt-16 overflow-hidden bg-brand-navy mt-16">
   <div class="relative z-10 mx-auto max-w-6xl px-6 pt-16 pb-6">
     <span class="text-sm font-semibold uppercase tracking-widest text-white/50">
       Servicios
@@ -86,7 +74,17 @@ const columns = [
               <span class="font-display text-5xl font-extrabold text-white/20">{col.number}</span>
             </div>
 
-            <h3 class="mt-6 text-xl font-bold text-white">{col.title}</h3>
+            <h3 class="mt-8 text-2xl font-bold text-white">{col.title}</h3>
+            <p class="mt-3 text-sm text-white/60">{col.tagline}</p>
+
+            {i !== 3 && (
+              <span class="servicios-arrow mt-5 flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/10 opacity-0 transition-opacity duration-300">
+                <svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
+                  <path d="M5 12h14" />
+                  <path d="M13 6l6 6-6 6" />
+                </svg>
+              </span>
+            )}
           </div>
 
           {i === 3 && (
@@ -102,29 +100,6 @@ const columns = [
     ))}
   </div>
 </section>
-
-<script>
-  const bg = document.getElementById("servicios-bg");
-  let ticking = false;
-
-  const updateZoom = () => {
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = maxScroll > 0 ? Math.min(Math.max(window.scrollY / maxScroll, 0), 1) : 0;
-    const scale = 1 + progress * 0.12;
-    if (bg) bg.style.transform = `scale(${scale})`;
-    ticking = false;
-  };
-
-  const onScroll = () => {
-    if (!ticking) {
-      requestAnimationFrame(updateZoom);
-      ticking = true;
-    }
-  };
-
-  updateZoom();
-  window.addEventListener("scroll", onScroll, { passive: true });
-</script>
 
 <style>
   .servicios-overlay {
@@ -152,6 +127,10 @@ const columns = [
 
   .servicios-col:hover .servicios-content {
     transform: translateY(0);
+    opacity: 1;
+  }
+
+  .servicios-col:hover .servicios-arrow {
     opacity: 1;
   }
 </style>
