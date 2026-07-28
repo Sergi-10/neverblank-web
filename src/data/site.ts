@@ -8,11 +8,10 @@ export const CONTACT_ROUTE = "/contacto";
 export const CONTACT_EMAIL = "info@neverblanc.com";
 export const CONTACT_PHONE = "+34 600 000 000";
 
-// PENDIENTE: no existe ningún `contactar_header` en /public. Se reutiliza de forma
-// temporal la cabecera de servicios. Al subir la imagen definitiva basta con
-// cambiar esta constante por "/contactar_header.png" (o su extensión real).
-export const CONTACT_HERO_IMAGE = "/servicios_header.png";
-export const CONTACT_HERO_POSITION = "50% 55%";
+// Cabecera de la página de contacto. La posición encuadra el móvil de la foto
+// en la franja visible por encima del recuadro blanco.
+export const CONTACT_HERO_IMAGE = "/contactar_header.png";
+export const CONTACT_HERO_POSITION = "55% 40%";
 
 export interface Service {
   slug: string;
