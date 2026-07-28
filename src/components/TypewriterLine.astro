@@ -10,15 +10,11 @@ interface Props {
 }
 
 const { prefix = "Es la hora de", words, suffix, class: className = "" } = Astro.props;
-
-// Anchura reservada para la expresión más larga: evita que `suffix` se desplace
-// al cambiar de palabra (sin layout shift). +1ch de holgura para el cursor.
-const slotWidth = Math.max(...words.map((w) => w.length)) + 1;
 ---
 
 <p class={`text-white ${className}`}>
   {prefix}{" "}
-  <span class="tw-slot" style={`min-width:${slotWidth}ch`}>
+  <span class="tw-slot">
     <span class="tw-word text-brand-orange" data-words={JSON.stringify(words)}>{words[0]}</span
     ><span class="tw-caret" aria-hidden="true"></span>
   </span>{" "}
