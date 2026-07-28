@@ -1,0 +1,99 @@
+---
+interface Props {
+  /** Prefijo de los id/for para poder usar el formulario más de una vez sin duplicar ids */
+  idPrefix?: string;
+  class?: string;
+}
+
+const { idPrefix = "contact", class: className = "" } = Astro.props;
+---
+
+<!--
+  Formulario de contacto (maqueta visual, sin backend).
+  TODO: conectar aquí el envío real — añadir `action` / `method` al <form>,
+  o un handler de submit que llame al endpoint correspondiente.
+  No hay integración activa: no se simula ninguna respuesta de servidor.
+-->
+<form class={`space-y-8 ${className}`} data-contact-form>
+  <div class="grid gap-8 sm:grid-cols-2">
+    <div>
+      <label
+        class="block text-xs font-semibold uppercase tracking-wide text-gray-500"
+        for={`${idPrefix}-name`}
+      >
+        Nombre *
+      </label>
+      <input
+        id={`${idPrefix}-name`}
+        name="name"
+        type="text"
+        required
+        class="mt-2 w-full border-b border-gray-300 bg-transparent py-2 text-brand-navy focus:border-brand-orange focus:outline-none"
+      />
+    </div>
+    <div>
+      <label
+        class="block text-xs font-semibold uppercase tracking-wide text-gray-500"
+        for={`${idPrefix}-email`}
+      >
+        Email *
+      </label>
+      <input
+        id={`${idPrefix}-email`}
+        name="email"
+        type="email"
+        required
+        class="mt-2 w-full border-b border-gray-300 bg-transparent py-2 text-brand-navy focus:border-brand-orange focus:outline-none"
+      />
+    </div>
+  </div>
+
+  <div>
+    <label
+      class="block text-xs font-semibold uppercase tracking-wide text-gray-500"
+      for={`${idPrefix}-subject`}
+    >
+      Asunto *
+    </label>
+    <input
+      id={`${idPrefix}-subject`}
+      name="subject"
+      type="text"
+      required
+      class="mt-2 w-full border-b border-gray-300 bg-transparent py-2 text-brand-navy focus:border-brand-orange focus:outline-none"
+    />
+  </div>
+
+  <div>
+    <label
+      class="block text-xs font-semibold uppercase tracking-wide text-gray-500"
+      for={`${idPrefix}-message`}
+    >
+      Mensaje
+    </label>
+    <textarea
+      id={`${idPrefix}-message`}
+      name="message"
+      rows="5"
+      class="mt-2 h-[150px] w-full resize-none border-b border-gray-300 bg-transparent py-2 text-brand-navy focus:border-brand-orange focus:outline-none"
+    ></textarea>
+  </div>
+
+  <label class="flex items-start gap-3 text-sm text-gray-600" for={`${idPrefix}-privacy`}>
+    <input
+      id={`${idPrefix}-privacy`}
+      name="privacy"
+      type="checkbox"
+      required
+      class="mt-1 h-4 w-4 rounded border-gray-300 text-brand-orange focus:ring-brand-orange"
+    />
+    Sí, estoy de acuerdo con la política de privacidad y condiciones generales.
+  </label>
+
+  <button
+    type="submit"
+    class="rounded-full bg-brand-orange px-10 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+  >
+    Enviar
+  </button>
+</form>

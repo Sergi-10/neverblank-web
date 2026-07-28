@@ -1,0 +1,45 @@
+---
+import ContactForm from "./ContactForm.astro";
+import { APP_LOGIN_URL } from "../data/site";
+
+interface Props {
+  /** Encabezado de la sección, en naranja */
+  heading: string;
+  paragraphs: string[];
+  /** Prefijo de ids del formulario de la columna derecha */
+  idPrefix: string;
+}
+
+const { heading, paragraphs, idPrefix } = Astro.props;
+---
+
+<section class="bg-brand-bg py-16 md:py-24">
+  <div class="mx-auto grid max-w-6xl gap-12 px-6 md:grid-cols-2 md:items-start md:gap-16">
+    <div class="reveal-up">
+      <h2 class="font-display text-3xl font-bold text-brand-orange md:text-4xl">
+        {heading}
+      </h2>
+
+      <div class="mt-6 space-y-4 text-brand-navy/80">
+        {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+
+      <p class="mt-10 text-lg font-semibold text-brand-navy">Si prefieres probar</p>
+      <a
+        href={APP_LOGIN_URL}
+        class="mt-4 inline-flex rounded-full bg-brand-orange px-7 py-3 text-lg font-semibold text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+      >
+        Ir al programa
+      </a>
+    </div>
+
+    <div class="reveal-up rounded-2xl bg-white p-6 shadow-[0_24px_48px_-20px_rgba(20,40,60,0.28)] sm:p-8">
+      <h2 class="font-display text-2xl font-bold text-brand-navy">¿Hablamos?</h2>
+      <p class="mt-2 text-sm text-brand-navy/70">
+        Cuéntanos qué necesitas y te respondemos.
+      </p>
+
+      <ContactForm idPrefix={idPrefix} class="mt-8" />
+    </div>
+  </div>
+</section>

@@ -1,0 +1,115 @@
+---
+interface Props {
+  /** Parte fija inicial, en blanco */
+  prefix?: string;
+  /** Palabras que rotan con efecto de escritura, en naranja */
+  words: string[];
+  /** Parte fija final, en blanco */
+  suffix: string;
+  class?: string;
+}
+
+const { prefix = "Es la hora de", words, suffix, class: className = "" } = Astro.props;
+
+// Anchura reservada para la expresión más larga: evita que `suffix` se desplace
+// al cambiar de palabra (sin layout shift). +1ch de holgura para el cursor.
+const slotWidth = Math.max(...words.map((w) => w.length)) + 1;
+---
+
+<p class={`text-white ${className}`}>
+  {prefix}{" "}
+  <span class="tw-slot" style={`min-width:${slotWidth}ch`}>
+    <span class="tw-word text-brand-orange" data-words={JSON.stringify(words)}>{words[0]}</span
+    ><span class="tw-caret" aria-hidden="true"></span>
+  </span>{" "}
+  {suffix}
+</p>
+
+<script>
+  const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  document.querySelectorAll<HTMLElement>(".tw-word").forEach((el) => {
+    let words: string[] = [];
+    try {
+      words = JSON.parse(el.dataset.words || "[]");
+    } catch {
+      return;
+    }
+    if (!words.length) return;
+
+    // Con movimiento reducido se muestra una frase estática, sin animación.
+    if (prefersReduced) {
+      el.textContent = words[0];
+      return;
+    }
+
+    let wordIndex = 0;
+    let charIndex = 0;
+
+    const type = () => {
+      const word = words[wordIndex];
+      el.textContent = word.slice(0, charIndex);
+      if (charIndex < word.length) {
+        charIndex++;
+        setTimeout(type, 80);
+      } else {
+        setTimeout(erase, 1800);
+      }
+    };
+
+    const erase = () => {
+      const word = words[wordIndex];
+      el.textContent = word.slice(0, charIndex);
+      if (charIndex > 0) {
+        charIndex--;
+        setTimeout(erase, 50);
+      } else {
+        wordIndex = (wordIndex + 1) % words.length;
+        setTimeout(type, 300);
+      }
+    };
+
+    charIndex = 0;
+    el.textContent = "";
+    type();
+  });
+</script>
+
+<style>
+  .tw-slot {
+    display: inline-block;
+    max-inline-size: 100%;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  /* Cursor dibujado con CSS: no se escribe ningún carácter "|" en el marcado. */
+  .tw-caret::after {
+    content: "";
+    display: inline-block;
+    inline-size: 2px;
+    block-size: 1em;
+    margin-inline-start: 2px;
+    vertical-align: -0.15em;
+    background-color: currentColor;
+    animation: tw-blink 1s steps(1) infinite;
+  }
+
+  @keyframes tw-blink {
+    0%,
+    49% {
+      opacity: 1;
+    }
+    50%,
+    100% {
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    /* Frase estática: sin cursor ni parpadeo. */
+    .tw-caret::after {
+      display: none;
+    }
+  }
+</style>

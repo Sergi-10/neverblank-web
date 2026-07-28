@@ -1,48 +1,168 @@
 ---
+import { APP_LOGIN_URL, APP_REGISTER_URL, CONTACT_ROUTE } from "../data/site";
+
 const navLinks = [
   { label: "Servicios", href: "/servicios" },
-  { label: "Contáctanos", href: "/#contacto" },
+  { label: "Contáctanos", href: CONTACT_ROUTE },
 ];
 ---
 
 <header id="site-header" class="fixed inset-x-0 top-0 z-50 transition-colors duration-300">
-  <div class="mx-auto flex max-w-7xl items-center justify-between pl-3 pr-4 py-6">
-    <a href="/" class="flex items-center">
-      <img src="/neverblanc_logo.svg" alt="NeverBlanc" class="-ml-2 h-20 w-auto" />
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-2 py-4 pl-3 pr-3 sm:gap-3 sm:pr-4 md:py-6">
+    <a href="/" class="flex shrink-0 items-center">
+      <img
+        src="/neverblanc_logo.svg"
+        alt="NeverBlanc"
+        class="-ml-2 h-9 w-auto sm:h-12 md:h-20"
+      />
     </a>
 
-    <div class="flex items-center gap-8">
-      <nav class="hidden items-center gap-8 md:flex">
+    <div class="flex items-center gap-2 sm:gap-3 md:gap-8">
+      <nav class="hidden items-center gap-8 md:flex" aria-label="Navegación principal">
         {navLinks.map((link) => (
           <a
             href={link.href}
-            class="text-base font-medium text-white/80 transition-colors hover:text-brand-orange"
+            class="text-base font-medium text-white/80 transition-colors hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-orange"
           >
             {link.label}
           </a>
         ))}
       </nav>
 
-      <div class="flex items-center gap-4">
+      <div class="hidden items-center gap-4 md:flex">
         <a
-          href="/app/login"
-          class="text-lg font-medium text-white/80 transition-colors hover:text-brand-orange"
+          href={APP_LOGIN_URL}
+          class="text-lg font-medium text-white/80 transition-colors hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-orange"
         >
           Ir al programa
         </a>
         <a
-          href="/app/registro"
-          class="rounded-full bg-brand-orange px-7 py-3 text-lg font-semibold text-white transition-colors hover:bg-brand-orange/90"
+          href={APP_REGISTER_URL}
+          class="rounded-full bg-brand-orange px-7 py-3 text-lg font-semibold text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
         >
           Registrarse
         </a>
       </div>
+
+      {/* Móvil: "Ir al programa" queda fuera del toggle, justo a su izquierda */}
+      <a
+        href={APP_LOGIN_URL}
+        class="rounded-full bg-brand-orange px-3 py-2 text-xs font-semibold whitespace-nowrap text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:px-4 sm:text-sm md:hidden"
+      >
+        Ir al programa
+      </a>
+
+      <button
+        id="menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Abrir menú"
+        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-md text-white transition-colors hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange md:hidden"
+      >
+        <svg
+          class="menu-icon-open h-6 w-6"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M4 7h16M4 12h16M4 17h16" />
+        </svg>
+        <svg
+          class="menu-icon-close hidden h-6 w-6"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M6 6l12 12M18 6L6 18" />
+        </svg>
+      </button>
     </div>
   </div>
+
+  <nav
+    id="mobile-menu"
+    aria-label="Navegación móvil"
+    hidden
+    class="border-t border-white/10 bg-brand-navy px-6 pb-6 pt-4 md:hidden"
+  >
+    <ul class="flex flex-col gap-1">
+      {navLinks.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class="block py-3 text-lg font-medium text-white/90 transition-colors hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+      <li>
+        <a
+          href={APP_REGISTER_URL}
+          class="block py-3 text-lg font-medium text-white/90 transition-colors hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+        >
+          Registrarse
+        </a>
+      </li>
+    </ul>
+  </nav>
 </header>
 
 <script>
   const header = document.getElementById("site-header");
+  const toggle = document.getElementById("menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+  const iconOpen = toggle?.querySelector(".menu-icon-open");
+  const iconClose = toggle?.querySelector(".menu-icon-close");
+
+  const isMenuOpen = () => toggle?.getAttribute("aria-expanded") === "true";
+
+  const setMenu = (open: boolean) => {
+    if (!toggle || !menu) return;
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+    menu.hidden = !open;
+    iconOpen?.classList.toggle("hidden", open);
+    iconClose?.classList.toggle("hidden", !open);
+    // El header recorta su contenido (max-height) para el efecto persiana:
+    // al abrir el menú hay que dejarlo crecer para que el panel no se corte.
+    header?.classList.toggle("menu-open", open);
+  };
+
+  toggle?.addEventListener("click", () => setMenu(!isMenuOpen()));
+
+  // Cierra al elegir una opción.
+  menu?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => setMenu(false));
+  });
+
+  // Cierra al pulsar fuera del header.
+  document.addEventListener("click", (event) => {
+    if (!isMenuOpen()) return;
+    const target = event.target as Node;
+    if (!header?.contains(target)) setMenu(false);
+  });
+
+  // Cierra con Escape y devuelve el foco al botón.
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && isMenuOpen()) {
+      setMenu(false);
+      toggle?.focus();
+    }
+  });
+
+  // Al pasar a escritorio el panel deja de aplicar.
+  const desktop = window.matchMedia("(min-width: 768px)");
+  desktop.addEventListener("change", (event) => {
+    if (event.matches) setMenu(false);
+  });
 
   const onScroll = () => {
     if (window.scrollY > 10) {
@@ -60,10 +180,13 @@ const navLinks = [
 
   const updateDirection = () => {
     const currentY = window.scrollY;
-    if (currentY > lastScrollY && currentY > 80) {
-      header?.classList.add("header-hidden");
-    } else {
-      header?.classList.remove("header-hidden");
+    // Con el menú abierto el header no se pliega.
+    if (!isMenuOpen()) {
+      if (currentY > lastScrollY && currentY > 80) {
+        header?.classList.add("header-hidden");
+      } else {
+        header?.classList.remove("header-hidden");
+      }
     }
     lastScrollY = currentY;
     tickingDirection = false;
@@ -90,5 +213,12 @@ const navLinks = [
 
   #site-header.header-hidden {
     max-height: 0px;
+  }
+
+  /* Menú móvil desplegado: el header crece y deja de recortar el panel. */
+  #site-header.menu-open {
+    max-height: 100vh;
+    overflow-y: auto;
+    background-color: var(--color-brand-navy);
   }
 </style>

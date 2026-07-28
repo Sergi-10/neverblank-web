@@ -18,15 +18,21 @@
     </div>
 
     <div class="reveal-up group relative md:-mr-8 md:mt-16 md:w-[112%]">
-      <img
-        src="/nosotros_problema.png"
-        alt="El caos antes de NeverBlanc"
-        class="w-full rounded-xl object-cover shadow-[0_32px_64px_-12px_rgba(20,40,60,0.45)]"
-      />
+      {/*
+        `nosotros__solucion` es la imagen base: en móvil (sin hover) es la única
+        visible y, por tanto, la primera imagen del cuerpo. En escritorio queda
+        debajo de `nosotros_problema`, que se desvanece al pasar el ratón.
+      */}
       <img
         src="/nosotros__solucion.png"
         alt="El orden con NeverBlanc"
-        class="absolute inset-0 h-full w-full rounded-xl object-cover opacity-0 shadow-[0_32px_64px_-12px_rgba(20,40,60,0.45)] transition-opacity duration-500 ease group-hover:opacity-100"
+        class="w-full rounded-xl object-cover shadow-[0_32px_64px_-12px_rgba(20,40,60,0.45)]"
+      />
+      <img
+        src="/nosotros_problema.png"
+        alt="El caos antes de NeverBlanc"
+        aria-hidden="true"
+        class="absolute inset-0 hidden h-full w-full rounded-xl object-cover shadow-[0_32px_64px_-12px_rgba(20,40,60,0.45)] transition-opacity duration-500 ease md:block md:group-hover:opacity-0"
       />
     </div>
   </div>

@@ -5,6 +5,7 @@ import Hero from "../components/Hero.astro";
 import Nosotros from "../components/Nosotros.astro";
 import ProductShowcase from "../components/ProductShowcase.astro";
 import Footer from "../components/Footer.astro";
+import { APP_LOGIN_URL } from "../data/site";
 ---
 
 <Layout>
@@ -45,8 +46,8 @@ import Footer from "../components/Footer.astro";
         Es hora de dejar de improvisar y de <span class="text-brand-orange">sumar equipo</span>
       </h2>
       <a
-        href="/app/login"
-        class="inline-flex shrink-0 items-center gap-1 rounded-full bg-brand-orange px-8 py-3 text-base font-semibold text-brand-navy transition-colors hover:bg-brand-orange/90"
+        href={APP_LOGIN_URL}
+        class="inline-flex shrink-0 items-center gap-1 rounded-full bg-brand-orange px-8 py-3 text-base font-semibold text-brand-navy transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
       >
         Ir al programa
       </a>

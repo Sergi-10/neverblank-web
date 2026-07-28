@@ -1,28 +1,22 @@
 ---
+import { services } from "../data/site";
+
+// Las tres primeras tarjetas salen de la misma fuente que sus páginas
+// (/servicios/estrategia, /servicios/contenido, /servicios/gestion-equipo).
 const columns = [
-  {
-    number: "01",
-    title: "Estrategia",
-    tagline: "El punto de partida de cada cliente.",
-    icon: "clipboard",
-  },
-  {
-    number: "02",
-    title: "Contenido",
-    tagline: "Un calendario que se rellena solo.",
-    icon: "calendar",
-  },
-  {
-    number: "03",
-    title: "Gestión de equipo",
-    tagline: "Todo el equipo, un mismo calendario.",
-    icon: "users",
-  },
+  ...services.map((service) => ({
+    number: service.number,
+    title: service.title,
+    tagline: service.tagline,
+    icon: service.icon,
+    href: service.route,
+  })),
   {
     number: "04",
     title: "Servicios",
     tagline: "Todo lo que necesitas, en un solo sitio.",
-    icon: "gear",
+    icon: "gear" as const,
+    href: null,
   },
 ];
 ---
@@ -79,11 +73,11 @@ const columns = [
             <h3 class="mt-8 text-2xl font-bold text-white">{col.title}</h3>
             <p class="mt-3 text-sm text-white/60">{col.tagline}</p>
 
-            {i !== 3 && (
+            {col.href && (
               <a
-                href="/app/login"
+                href={col.href}
                 aria-label={`Saber más sobre ${col.title}`}
-                class="servicios-arrow mt-5 flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white opacity-0 transition-all duration-300 hover:border-brand-orange hover:text-brand-orange"
+                class="servicios-arrow mt-5 flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white opacity-0 transition-all duration-300 hover:border-brand-orange hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
               >
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
                   <path d="M5 12h14" />
@@ -159,7 +153,8 @@ const columns = [
     opacity: 1;
   }
 
-  .servicios-col:hover .servicios-arrow {
+  .servicios-col:hover .servicios-arrow,
+  .servicios-col:focus-within .servicios-arrow {
     opacity: 1;
   }
 </style>

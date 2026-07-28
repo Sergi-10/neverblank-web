@@ -1,4 +1,5 @@
 ---
+import { CONTACT_ROUTE, services } from "../data/site";
 ---
 
 <footer class="mt-16 bg-brand-navy py-16 text-white">
@@ -7,19 +8,23 @@
       <div>
         <h4 class="text-sm font-semibold uppercase tracking-widest text-brand-orange">Menú</h4>
         <ul class="mt-4 space-y-2 text-sm text-white/70">
-          <li><a href="#" class="transition-colors hover:text-brand-orange">Inicio</a></li>
-          <li><a href="#nosotros" class="transition-colors hover:text-brand-orange">Nosotros</a></li>
-          <li><a href="#servicios" class="transition-colors hover:text-brand-orange">Servicios</a></li>
-          <li><a href="#contacto" class="transition-colors hover:text-brand-orange">Contáctanos</a></li>
+          <li><a href="/" class="transition-colors hover:text-brand-orange">Inicio</a></li>
+          <li><a href="/#nosotros" class="transition-colors hover:text-brand-orange">Nosotros</a></li>
+          <li><a href="/servicios" class="transition-colors hover:text-brand-orange">Servicios</a></li>
+          <li><a href={CONTACT_ROUTE} class="transition-colors hover:text-brand-orange">Contáctanos</a></li>
         </ul>
       </div>
 
       <div>
         <h4 class="text-sm font-semibold uppercase tracking-widest text-brand-orange">Servicios</h4>
         <ul class="mt-4 space-y-2 text-sm text-white/70">
-          <li><a href="#servicios" class="transition-colors hover:text-brand-orange">Estrategia</a></li>
-          <li><a href="#servicios" class="transition-colors hover:text-brand-orange">Contenido</a></li>
-          <li><a href="#servicios" class="transition-colors hover:text-brand-orange">Gestión de equipo</a></li>
+          {services.map((service) => (
+            <li>
+              <a href={service.route} class="transition-colors hover:text-brand-orange">
+                {service.title}
+              </a>
+            </li>
+          ))}
         </ul>
       </div>
 
@@ -34,7 +39,7 @@
 
       <div>
         <h4 class="text-sm font-semibold uppercase tracking-widest text-brand-orange">Contactar</h4>
-        <a href="#contacto" class="mt-4 block text-sm font-semibold">
+        <a href={CONTACT_ROUTE} class="mt-4 block text-sm font-semibold">
           <span class="text-white">Prueba</span> <span class="text-brand-orange">Prueba</span>
         </a>
       </div>
