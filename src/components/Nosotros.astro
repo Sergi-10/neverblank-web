@@ -8,16 +8,19 @@
         ¡Hola! Somos el equipo detrás de <span class="text-brand-orange">NeverBlanc</span>.
       </h2>
 
-      <p class="mt-6 text-brand-navy/80">
+      {/* Sin clase de color: hereda el color de texto normal del body. */}
+      <p class="mt-6">
         <span class="text-brand-orange">
-          La plataforma que junta estrategia, calendario y contenido en un solo sitio
-        </span>, para
-        agencias que no tienen tiempo que perder. Quita el trabajo de partir de cero cada vez
-        que toca publicar.
+          La plataforma que reúne estrategia, calendario y contenido en un solo lugar
+        </span>, pensada para agencias y freelances que gestionan varias cuentas y no tienen
+        tiempo que perder. Centraliza la planificación, crea contenido con inteligencia
+        artificial y evita empezar de cero cada vez que toca publicar.
       </p>
     </div>
 
-    <div class="reveal-up group relative md:-mr-8 md:mt-16 md:w-[112%]">
+    {/* El ensanchado sólo desde xl: por debajo el contenedor mide lo que el
+        viewport y un 112% provocaría scroll horizontal. */}
+    <div class="reveal-up group relative md:mt-16 xl:-mr-8 xl:w-[112%]">
       {/*
         `nosotros__solucion` es la imagen base: en móvil (sin hover) es la única
         visible y, por tanto, la primera imagen del cuerpo. En escritorio queda

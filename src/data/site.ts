@@ -1,8 +1,74 @@
 // Destinos únicos de la app y de la página de contacto.
 // Todos los enlaces del sitio deben salir de aquí para no duplicar URLs.
-export const APP_LOGIN_URL = "/app/login";
-export const APP_REGISTER_URL = "/app/registro";
+export const APP_LOGIN_URL = "https://app.neverblanc.com/login";
+export const APP_REGISTER_URL = "https://app.neverblanc.com/register";
 export const CONTACT_ROUTE = "/contacto";
+export const PRICING_ROUTE = "/precios";
+
+// Atributos comunes de los enlaces que salen a la app (pestaña nueva y segura).
+export const EXTERNAL_LINK_ATTRS = { target: "_blank", rel: "noopener" } as const;
+
+export interface ShowcaseStep {
+  /** Clase del icono Tabler */
+  icon: string;
+  title: string;
+  subtitle: string;
+}
+
+// Fuente única de los 4 pasos: la consumen ProcessSteps.astro (proceso superior
+// de la home) y ProductShowcase.astro (tarjeta animada). No duplicar.
+export const showcaseSteps: ShowcaseStep[] = [
+  {
+    icon: "ti-clipboard-text",
+    title: "Define la estrategia",
+    subtitle:
+      "Perfil de cliente, tono de marca, competencia y hashtags, generado con IA y siempre editable.",
+  },
+  {
+    icon: "ti-calendar",
+    title: "Genera el calendario",
+    subtitle: "Un mes completo de contenido en minutos: carrusel, reel, story e hilo.",
+  },
+  {
+    icon: "ti-checks",
+    title: "Revisa y aprueba",
+    subtitle: "Cada publicación pasa por revisión antes de salir. Tu criterio siempre manda.",
+  },
+  {
+    icon: "ti-rocket",
+    title: "NeverBlanc",
+    subtitle:
+      "Para agencias y freelances que gestionan varias cuentas sin mirar un calendario vacío.",
+  },
+];
+
+// Narrativa "cómo trabaja una agencia SIN NeverBlanc" (proceso superior de la
+// home). Es contenido distinto al de showcaseSteps, que describe el producto.
+export const agencyPainSteps: ShowcaseStep[] = [
+  {
+    icon: "ti-users",
+    title: "La reunión",
+    subtitle: "Se define la estrategia a mano, en un documento que nadie vuelve a abrir.",
+  },
+  {
+    icon: "ti-layout-grid",
+    title: "El caos de herramientas",
+    subtitle:
+      "Un Word para la estrategia, un Excel para las fechas, un chat de WhatsApp para las ideas sueltas.",
+  },
+  {
+    icon: "ti-message-2",
+    title: "Los prompts sueltos",
+    subtitle:
+      "Copiar y pegar en una IA cada vez que hace falta un texto, sin contexto ni memoria del cliente.",
+  },
+  {
+    icon: "ti-mood-sad",
+    title: "El resultado",
+    subtitle:
+      "Publicaciones tarde, sin coherencia entre cliente y cliente, y un equipo quemado. Así no hay crecimiento posible.",
+  },
+];
 
 // Datos de contacto ya presentes en el proyecto (no se inventan nuevos).
 export const CONTACT_EMAIL = "info@neverblanc.com";
@@ -21,7 +87,8 @@ export interface Service {
   title: string;
   /** Frase corta bajo el título en la tarjeta de /servicios */
   tagline: string;
-  icon: "clipboard" | "calendar" | "users" | "gear";
+  /** Clase del icono Tabler para la tarjeta de /servicios */
+  icon: string;
   heroImage: string;
   /** background-position ajustado a cada imagen para no cortar el foco visual */
   heroPosition: string;
@@ -40,7 +107,7 @@ export const services: Service[] = [
     number: "01",
     title: "Estrategia",
     tagline: "El punto de partida de cada cliente.",
-    icon: "clipboard",
+    icon: "ti-target",
     heroImage: "/estrategia_header.png",
     heroPosition: "38% 48%",
     words: ["definir", "transformar", "dar forma a"],
@@ -58,8 +125,8 @@ export const services: Service[] = [
     route: "/servicios/contenido",
     number: "02",
     title: "Contenido",
-    tagline: "Un calendario que se rellena solo.",
-    icon: "calendar",
+    tagline: "Un mes completo en minutos.",
+    icon: "ti-calendar",
     heroImage: "/contenido_header.png",
     heroPosition: "50% 46%",
     words: ["potenciar", "dar vida a", "elevar"],
@@ -77,8 +144,8 @@ export const services: Service[] = [
     route: "/servicios/gestion-equipo",
     number: "03",
     title: "Gestión de equipo",
-    tagline: "Todo el equipo, un mismo calendario.",
-    icon: "users",
+    tagline: "Un solo sitio para todo el equipo.",
+    icon: "ti-users",
     heroImage: "/gestion_equipo_header.png",
     heroPosition: "50% 38%",
     words: ["coordinar", "alinear", "optimizar"],

@@ -3,9 +3,15 @@ import Layout from "../layouts/Layout.astro";
 import Header from "../components/Header.astro";
 import Hero from "../components/Hero.astro";
 import Nosotros from "../components/Nosotros.astro";
+import ProcessSteps from "../components/ProcessSteps.astro";
 import ProductShowcase from "../components/ProductShowcase.astro";
 import Footer from "../components/Footer.astro";
-import { APP_LOGIN_URL } from "../data/site";
+import {
+  APP_LOGIN_URL,
+  APP_REGISTER_URL,
+  EXTERNAL_LINK_ATTRS,
+  agencyPainSteps,
+} from "../data/site";
 ---
 
 <Layout>
@@ -13,40 +19,117 @@ import { APP_LOGIN_URL } from "../data/site";
   <Hero />
   <Nosotros />
 
-  <section class="mx-auto mt-16 max-w-6xl px-6">
-    <div class="grid gap-12 md:grid-cols-2 md:items-start">
-      <div class="reveal-up">
-        <ProductShowcase />
+  <section
+    id="producto"
+    class="relative mt-16 scroll-mt-24 overflow-hidden bg-brand-navy py-16 md:py-24"
+  >
+    {/* Círculos decorativos, recortados por los bordes de la sección */}
+    <div
+      class="pointer-events-none absolute -left-40 -top-32 h-[26rem] w-[26rem] rounded-full border-2 border-brand-orange/20"
+      aria-hidden="true"
+    >
+    </div>
+    <div
+      class="pointer-events-none absolute -right-48 top-1/3 h-[31rem] w-[31rem] rounded-full border-2 border-white/10"
+      aria-hidden="true"
+    >
+    </div>
+    <div
+      class="pointer-events-none absolute -bottom-56 left-1/3 h-[24rem] w-[24rem] rounded-full border-2 border-brand-orange/20"
+      aria-hidden="true"
+    >
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-6xl px-6">
+      <div class="reveal-up text-center">
+        <h2 class="font-display text-3xl font-bold text-white md:text-4xl">
+          Así se trabaja <span class="text-brand-orange">sin NeverBlanc</span>
+        </h2>
+        <p class="mt-4 text-base text-white/60 md:text-lg">
+          Cuatro pasos que toda agencia reconoce. Y ninguno acaba bien.
+        </p>
       </div>
 
-      <div class="reveal-up text-brand-navy/80">
-        <p>
-          Toda agencia conoce el mismo momento: son las nueve de la noche, mañana toca publicar
-          en tres cuentas distintas, y el calendario sigue vacío. Un Word con la estrategia, un
-          Excel con las fechas, un WhatsApp con las ideas sueltas.
-        </p>
-        <p class="mt-4">
-          Con NeverBlanc, la IA genera el calendario mensual a partir de la estrategia de cada
-          cliente: carrusel, reel, story o hilo, con copy, texto de cada diapositiva y hashtags
-          ya pensadas.
-        </p>
-        <p class="mt-4">
-          Nada de eso sustituye tu criterio.{" "}
-          <span class="text-brand-orange">
-            Todo se queda en pendiente hasta que alguien lo revisa y lo aprueba.
-          </span>
-        </p>
+      <ProcessSteps steps={agencyPainSteps} />
+
+      <div class="reveal-up mt-16 md:mt-24">
+        <h2 class="font-display text-center text-3xl font-bold text-white md:text-4xl">
+          Quién contrata <span class="text-brand-orange">NeverBlanc</span>:
+        </h2>
+
+        <div class="mt-8 rounded-2xl bg-white/5 p-6 ring-1 ring-white/10 md:p-10">
+          {/*
+            TODO: sustituir este hueco por el <video> real (con controls, poster
+            y su <source>) cuando el archivo esté en /public. No se referencia
+            ninguna ruta todavía para no provocar un 404.
+          */}
+          <div
+            class="flex aspect-video w-full items-center justify-center rounded-2xl bg-brand-navy-light/30"
+          >
+            <span class="flex flex-col items-center gap-3 text-white/40">
+              <i class="ti ti-player-play text-5xl" aria-hidden="true"></i>
+              <span class="text-sm">Vídeo demo</span>
+            </span>
+          </div>
+        </div>
       </div>
+
+      {/*
+        Composición: ordenador a la izquierda y marco blanco superpuesto a la
+        derecha en escritorio; en móvil se apilan (sin position:absolute).
+      */}
+      <div class="relative mt-14 md:mt-20">
+        <img
+          src="/ordenador_inicio.png"
+          alt="NeverBlanc abierto en un ordenador portátil"
+          class="h-auto w-full object-contain md:w-[58%]"
+        />
+
+        <div
+          class="relative z-10 mx-auto -mt-10 w-[96%] rounded-xl bg-white p-3 shadow-[0_28px_60px_-20px_rgba(0,0,0,0.55)] sm:-mt-14 md:absolute md:right-0 md:top-[46%] md:mt-0 md:w-[45%] md:-translate-y-1/2 md:p-4"
+        >
+          <ProductShowcase variant="embedded" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-brand-bg py-16 md:py-24">
+    <div class="mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-2">
+      <div class="reveal-up">
+        <h2 class="font-display text-3xl font-bold text-brand-navy md:text-4xl">
+          ¿Listo para dejar el <span class="text-brand-orange">caos atrás</span>?
+        </h2>
+        <p class="mt-4 text-gray-600">
+          Únete a las agencias y freelances que ya gestionan su contenido sin perder el hilo.
+        </p>
+        <a
+          href={APP_REGISTER_URL}
+          target={EXTERNAL_LINK_ATTRS.target}
+          rel={EXTERNAL_LINK_ATTRS.rel}
+          class="mt-8 inline-flex rounded-full bg-brand-orange px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+        >
+          Empezar gratis — sin tarjeta
+        </a>
+      </div>
+
+      <img
+        src="/inicio_2.png"
+        alt="NeverBlanc"
+        class="reveal-up w-full rounded-2xl shadow-lg"
+      />
     </div>
   </section>
 
   <section class="mx-auto mt-16 max-w-6xl px-6">
     <div class="reveal-up flex flex-col items-center gap-6 rounded-2xl bg-brand-navy px-8 py-10 shadow-[0_32px_64px_-12px_rgba(20,40,60,0.45)] md:flex-row md:justify-between md:py-12">
-      <h2 class="font-display text-center text-2xl font-bold text-white md:whitespace-nowrap md:text-left md:text-3xl">
+      <h2 class="font-display text-center text-2xl font-bold text-white md:text-left md:text-3xl lg:whitespace-nowrap">
         Es hora de dejar de improvisar y de <span class="text-brand-orange">sumar equipo</span>
       </h2>
       <a
         href={APP_LOGIN_URL}
+        target={EXTERNAL_LINK_ATTRS.target}
+        rel={EXTERNAL_LINK_ATTRS.rel}
         class="inline-flex shrink-0 items-center gap-1 rounded-full bg-brand-orange px-8 py-3 text-base font-semibold text-brand-navy transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
       >
         Ir al programa

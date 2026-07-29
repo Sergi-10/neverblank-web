@@ -4,8 +4,13 @@ import { CONTACT_ROUTE, services } from "../data/site";
 
 <footer class="mt-16 bg-brand-navy py-16 text-white">
   <div class="mx-auto max-w-6xl px-6">
-    <div class="reveal-up grid gap-16 lg:grid-cols-4">
+    <div class="reveal-up grid grid-cols-2 gap-x-8 gap-y-12 md:gap-16 lg:grid-cols-4">
       <div>
+        <img
+          src="/neverblanc_logo.svg"
+          alt="NeverBlanc"
+          class="mb-6 h-10 w-auto md:h-12"
+        />
         <h4 class="text-sm font-semibold uppercase tracking-widest text-brand-orange">Menú</h4>
         <ul class="mt-4 space-y-2 text-sm text-white/70">
           <li><a href="/" class="transition-colors hover:text-brand-orange">Inicio</a></li>
@@ -39,8 +44,29 @@ import { CONTACT_ROUTE, services } from "../data/site";
 
       <div>
         <h4 class="text-sm font-semibold uppercase tracking-widest text-brand-orange">Contactar</h4>
-        <a href={CONTACT_ROUTE} class="mt-4 block text-sm font-semibold">
-          <span class="text-white">Prueba</span> <span class="text-brand-orange">Prueba</span>
+        <ul class="mt-4 space-y-2 break-words text-base">
+          <li>
+            <a
+              href="mailto:hola@neverblanc.com"
+              class="text-white transition-colors hover:text-brand-orange"
+            >
+              hola@neverblanc.com
+            </a>
+          </li>
+          <li>
+            <a
+              href="tel:+34684789962"
+              class="text-white transition-colors hover:text-brand-orange"
+            >
+              +34 684 789 962
+            </a>
+          </li>
+        </ul>
+        <a
+          href={CONTACT_ROUTE}
+          class="mt-4 block text-sm font-semibold text-brand-orange transition-colors hover:text-brand-orange/80"
+        >
+          Formulario de contacto
         </a>
       </div>
     </div>

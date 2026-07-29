@@ -1,160 +1,159 @@
 ---
-import { services } from "../data/site";
+import { services, PRICING_ROUTE } from "../data/site";
 
-// Las tres primeras tarjetas salen de la misma fuente que sus páginas
-// (/servicios/estrategia, /servicios/contenido, /servicios/gestion-equipo).
-const columns = [
+// Las tres primeras tarjetas salen de la misma fuente que sus páginas.
+const cards = [
   ...services.map((service) => ({
     number: service.number,
     title: service.title,
     tagline: service.tagline,
     icon: service.icon,
     href: service.route,
+    cta: "Descúbrelo →",
   })),
   {
     number: "04",
+    title: "Precios",
+    tagline:
+      "Planes que se adaptan a tu ritmo, desde el freelance en solitario hasta la agencia con quince cuentas.",
+    icon: "ti-tag",
+    href: PRICING_ROUTE,
+    cta: "Ver planes y precios →",
+  },
+];
+
+// Cada nota con un tono distinto de la paleta de marca.
+const postIts = [
+  {
     title: "Servicios",
-    tagline: "Todo lo que necesitas, en un solo sitio.",
-    icon: "gear" as const,
-    href: null,
+    text: "Todo en un mismo sitio: estrategia, contenido, calendario y equipo.",
+    bg: "bg-brand-orange-light",
+  },
+  {
+    title: "Multicliente",
+    text: "Un perfil, una estrategia y un calendario por cada cliente de tu agencia.",
+    bg: "bg-brand-gradient-blue/25",
+  },
+  {
+    title: "Flujo de aprobación",
+    text: "Pendiente, aprobado, publicado. Nada sale sin que tú lo revises.",
+    bg: "bg-brand-gradient-turquoise/25",
+  },
+  {
+    title: "Gestión de equipo",
+    text: "Varios usuarios, roles de agencia, todo el equipo sobre el mismo calendario.",
+    bg: "bg-stone-200",
   },
 ];
 ---
 
-<section id="servicios" class="relative scroll-mt-16 overflow-hidden mt-16">
-  <div
-    id="servicios-bg"
-    class="absolute inset-0 bg-cover bg-center"
-    style="background-image: url('/calendario_bg_brighter.jpg'); transform: scale(1); transform-origin: center;"
-    aria-hidden="true"
-  >
-  </div>
+<section id="servicios" class="scroll-mt-16 bg-brand-bg">
+  <div class="mx-auto max-w-6xl px-6 py-20">
+    <h2 class="text-center text-3xl font-bold text-brand-navy md:text-4xl">
+      Todo lo que necesitas, nada que sobre
+    </h2>
 
-  <div class="servicios-grid relative grid md:grid-cols-4">
-    {columns.map((col, i) => (
-      <div class="servicios-col relative overflow-hidden border-b border-white/20 last:border-b-0 md:border-b-0 md:border-r md:last:border-r-0">
-        <div class="servicios-overlay pointer-events-none absolute inset-0 bg-black/60"></div>
-
-        <div class="servicios-content relative z-10 flex min-h-[420px] flex-col justify-between p-8 pt-16 md:p-10 md:pt-20">
-          <div>
-            <div class="flex items-start justify-between">
-              {col.icon === "clipboard" && (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-12 w-12 text-brand-orange">
-                  <rect x="6" y="4" width="12" height="17" rx="1.5" />
-                  <path d="M9 4V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1" />
-                  <path d="M9 12l2 2 4-4" />
-                </svg>
-              )}
-              {col.icon === "calendar" && (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-12 w-12 text-brand-orange">
-                  <rect x="3.5" y="5" width="17" height="15" rx="1.5" />
-                  <path d="M3.5 9.5h17" />
-                  <path d="M8 3v3M16 3v3" />
-                  <path d="M8 13.5h.01M12 13.5h.01M16 13.5h.01M8 16.5h.01M12 16.5h.01M16 16.5h.01" />
-                </svg>
-              )}
-              {col.icon === "users" && (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-12 w-12 text-brand-orange">
-                  <circle cx="9" cy="8" r="3" />
-                  <path d="M3.5 20c0-3.31 2.46-6 5.5-6s5.5 2.69 5.5 6" />
-                  <circle cx="17" cy="9" r="2.5" />
-                  <path d="M15.5 14.2c2.53.4 4.5 2.66 4.5 5.8" />
-                </svg>
-              )}
-              {col.icon === "gear" && (
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="h-12 w-12 text-brand-orange">
-                  <circle cx="12" cy="12" r="3" />
-                  <path d="M12 3v2.2M12 18.8V21M21 12h-2.2M5.2 12H3M18.2 5.8l-1.55 1.55M7.35 16.65 5.8 18.2M18.2 18.2l-1.55-1.55M7.35 7.35 5.8 5.8" />
-                </svg>
-              )}
-              <span class="font-display text-5xl font-extrabold text-white/20">{col.number}</span>
-            </div>
-
-            <h3 class="mt-8 text-2xl font-bold text-white">{col.title}</h3>
-            <p class="mt-3 text-sm text-white/60">{col.tagline}</p>
-
-            {col.href && (
-              <a
-                href={col.href}
-                aria-label={`Saber más sobre ${col.title}`}
-                class="servicios-arrow mt-5 flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-white/10 text-white opacity-0 transition-all duration-300 hover:border-brand-orange hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
-              >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-5 w-5">
-                  <path d="M5 12h14" />
-                  <path d="M13 6l6 6-6 6" />
-                </svg>
-              </a>
-            )}
+    <div class="mt-12 grid gap-6 md:grid-cols-4">
+      {cards.map((card) => (
+        <div
+          class="service-card flex flex-col rounded-xl border-2 border-gray-200 bg-white p-6 transition-all duration-300 ease-out hover:scale-105 hover:border-brand-navy hover:bg-brand-navy"
+        >
+          <div class="flex items-start justify-between">
+            <i class={`ti ${card.icon} text-[48px] leading-none text-brand-orange`} aria-hidden="true"></i>
+            <span class="card-number font-display text-4xl font-bold text-gray-300">
+              {card.number}
+            </span>
           </div>
 
-          {i === 3 && (
-            <a
-              href="#precios"
-              class="mt-3 inline-flex items-center gap-1 text-lg font-semibold text-brand-orange transition-all hover:gap-2 hover:underline"
+          <h3 class="card-title mt-6 text-xl font-bold text-brand-navy">{card.title}</h3>
+          <p class="card-text mt-3 grow text-sm leading-relaxed text-brand-navy/70">
+            {card.tagline}
+          </p>
+
+          <a
+            href={card.href}
+            class="mt-6 inline-block self-start rounded-full bg-brand-orange px-5 py-2.5 text-sm font-semibold text-white transition-shadow hover:shadow-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+          >
+            {card.cta}
+          </a>
+        </div>
+      ))}
+    </div>
+
+  </div>
+
+  {/*
+    Bloque final a ancho completo: el portátil se ancla al borde izquierdo del
+    viewport y queda recortado por él (overflow-hidden en el envoltorio);
+    los post-its se quedan dentro del contenedor centrado.
+  */}
+  <div class="relative overflow-hidden">
+    <div class="relative z-10 mx-auto max-w-6xl px-6 pb-20">
+      <div class="grid items-center gap-8 md:grid-cols-2">
+        <div>
+          {/* En móvil el portátil va en flujo, sin recortar */}
+          <img
+            src="/ordenador_servicios.png"
+            alt="NeverBlanc en tu ordenador"
+            class="h-auto w-full rounded-2xl object-contain shadow-lg md:hidden"
+          />
+        </div>
+
+        <div class="mx-auto grid max-w-[26rem] grid-cols-2 gap-5 md:mx-0 md:-ml-10">
+          {postIts.map((note, i) => (
+            <div
+              class:list={[
+                "post-it rounded-sm p-4 shadow-lg",
+                note.bg,
+                i % 2 === 0 ? "rotate-1" : "-rotate-1",
+              ]}
             >
-              Ver precios <span aria-hidden="true">→</span>
-            </a>
-          )}
+              <h3 class="text-base font-bold text-brand-navy">{note.title}</h3>
+              <p class="mt-2 text-sm leading-snug text-brand-navy/80">{note.text}</p>
+            </div>
+          ))}
         </div>
       </div>
-    ))}
+    </div>
+
+    {/* Escritorio: recortado por el borde izquierdo del viewport */}
+    <img
+      src="/ordenador_servicios.png"
+      alt="NeverBlanc en tu ordenador"
+      class="pointer-events-none absolute left-0 top-1/2 hidden h-auto w-[54rem] max-w-none -translate-x-[33%] -translate-y-1/2 object-contain md:block"
+    />
   </div>
 </section>
 
-<script>
-  const bg = document.getElementById("servicios-bg");
-  let ticking = false;
-
-  const updateZoom = () => {
-    const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-    const progress = maxScroll > 0 ? Math.min(Math.max(window.scrollY / maxScroll, 0), 1) : 0;
-    const scale = 1 + progress * 0.12;
-    if (bg) bg.style.transform = `scale(${scale})`;
-    ticking = false;
-  };
-
-  const onScroll = () => {
-    if (!ticking) {
-      requestAnimationFrame(updateZoom);
-      ticking = true;
-    }
-  };
-
-  updateZoom();
-  window.addEventListener("scroll", onScroll, { passive: true });
-</script>
-
 <style>
-  .servicios-overlay {
-    transition: background-color 500ms ease;
+  /* En hover la tarjeta pasa a azul marino: texto en blanco, icono naranja
+     y número en white/30. Sin hover todo el contenido ya es legible. */
+  .service-card:hover .card-title {
+    color: #ffffff;
   }
 
-  .servicios-content {
-    transition:
-      transform 500ms ease,
-      opacity 500ms ease;
+  .service-card:hover .card-text {
+    color: rgb(255 255 255 / 0.8);
   }
 
-  .servicios-grid:hover .servicios-overlay {
-    background-color: rgb(0 0 0 / 0.1);
+  .service-card:hover .card-number {
+    color: rgb(255 255 255 / 0.3);
   }
 
-  .servicios-grid:hover .servicios-content {
-    transform: translateY(-100%);
-    opacity: 0;
+  /* En móvil se reduce la rotación del post-it para evitar cortes laterales. */
+  @media (max-width: 767px) {
+    .post-it {
+      transform: rotate(0.5deg);
+    }
   }
 
-  .servicios-col:hover .servicios-overlay {
-    background-color: rgb(0 0 0 / 0.6);
-  }
+  @media (prefers-reduced-motion: reduce) {
+    .service-card {
+      transition: none;
+    }
 
-  .servicios-col:hover .servicios-content {
-    transform: translateY(0);
-    opacity: 1;
-  }
-
-  .servicios-col:hover .servicios-arrow,
-  .servicios-col:focus-within .servicios-arrow {
-    opacity: 1;
+    .service-card:hover {
+      transform: none;
+    }
   }
 </style>
