@@ -63,11 +63,6 @@ const plans = [
 >
   <Header />
 
-  {/* Barra de aviso sobre el banner principal */}
-  <div class="bg-brand-orange py-2 text-center text-sm font-medium text-white">
-    Todos los planes incluyen soporte y actualizaciones
-  </div>
-
   <section
     class="relative flex min-h-[22rem] items-center justify-center overflow-hidden bg-brand-navy px-6 pb-10 pt-16 sm:min-h-[26rem] md:min-h-[60vh] md:pb-16 md:pt-24"
   >
@@ -90,8 +85,23 @@ const plans = [
     </div>
   </section>
 
-  <section class="mt-16 md:mt-24">
-    <div class="mx-auto max-w-6xl px-6 py-16">
+  <div class="bg-brand-orange py-3 text-center text-sm font-medium text-white md:py-4">
+    Todos los planes incluyen soporte y actualizaciones
+  </div>
+
+  <section class="bg-brand-bg py-12 md:py-16">
+    <div class="mx-auto max-w-3xl px-6 text-center">
+      <h2 class="font-display text-3xl font-bold text-brand-navy md:text-4xl">
+        Elige el plan que mejor encaja con tu <span class="text-brand-orange">agencia</span>
+      </h2>
+      <p class="mt-3 text-base text-brand-navy/80 md:text-lg">
+        Empieza con lo que necesitas hoy y cambia de plan cuando tu equipo y tus clientes crezcan.
+      </p>
+    </div>
+  </section>
+
+  <section class="mt-2 pb-16 md:pb-24">
+    <div class="mx-auto max-w-6xl px-6">
       <div class="grid gap-8 md:grid-cols-3">
         {plans.map((plan) => (
           <div

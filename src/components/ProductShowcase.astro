@@ -33,15 +33,15 @@ const pills = [
 ];
 
 const rootClass = embedded
-  ? "product-showcase relative overflow-hidden rounded-lg bg-brand-navy"
-  : "product-showcase relative scroll-mt-24 overflow-hidden rounded-xl bg-brand-navy shadow-[0_32px_64px_-12px_rgba(20,40,60,0.45)]";
+  ? "product-showcase relative overflow-hidden rounded-[1.5rem] bg-brand-navy/90 ring-1 ring-white/10 shadow-[0_20px_45px_-24px_rgba(0,0,0,0.45)] backdrop-blur-[2px]"
+  : "product-showcase relative scroll-mt-24 overflow-hidden rounded-[1.5rem] bg-brand-navy shadow-[0_32px_64px_-12px_rgba(20,40,60,0.45)]";
 
 const stageClass = embedded
-  ? "relative z-10 min-h-[19rem] sm:min-h-[21rem]"
-  : "relative z-10 min-h-[400px]";
+  ? "relative z-10 min-h-[19rem] px-5 py-7 sm:min-h-[21rem] sm:px-7 sm:py-8 md:min-h-[23rem] md:px-8 md:py-9 lg:min-h-[25rem] lg:px-10"
+  : "relative z-10 min-h-[400px] px-8 py-16 md:px-20";
 
 const stepPadding = embedded
-  ? "px-5 py-8 sm:px-8 sm:py-10"
+  ? "px-4 py-6 sm:px-6"
   : "px-8 py-16 md:px-20";
 ---
 

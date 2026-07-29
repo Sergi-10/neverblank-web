@@ -4,13 +4,16 @@ import { CONTACT_ROUTE, services } from "../data/site";
 
 <footer class="mt-16 bg-brand-navy py-16 text-white">
   <div class="mx-auto max-w-6xl px-6">
-    <div class="reveal-up grid grid-cols-2 gap-x-8 gap-y-12 md:gap-16 lg:grid-cols-4">
-      <div>
+    <div class="reveal-up grid gap-8 sm:grid-cols-2 lg:grid-cols-5 lg:gap-8">
+      <div class="min-w-0 lg:pr-6">
         <img
           src="/neverblanc_logo.svg"
           alt="NeverBlanc"
           class="mb-6 h-10 w-auto md:h-12"
         />
+      </div>
+
+      <div class="min-w-0">
         <h4 class="text-sm font-semibold uppercase tracking-widest text-brand-orange">Menú</h4>
         <ul class="mt-4 space-y-2 text-sm text-white/70">
           <li><a href="/" class="transition-colors hover:text-brand-orange">Inicio</a></li>
@@ -20,7 +23,7 @@ import { CONTACT_ROUTE, services } from "../data/site";
         </ul>
       </div>
 
-      <div>
+      <div class="min-w-0">
         <h4 class="text-sm font-semibold uppercase tracking-widest text-brand-orange">Servicios</h4>
         <ul class="mt-4 space-y-2 text-sm text-white/70">
           {services.map((service) => (
@@ -33,7 +36,7 @@ import { CONTACT_ROUTE, services } from "../data/site";
         </ul>
       </div>
 
-      <div>
+      <div class="min-w-0">
         <h4 class="text-sm font-semibold uppercase tracking-widest text-brand-orange">Legales</h4>
         <ul class="mt-4 space-y-2 text-sm text-white/70">
           <li><a href="#" class="transition-colors hover:text-brand-orange">Política de privacidad</a></li>
@@ -42,7 +45,7 @@ import { CONTACT_ROUTE, services } from "../data/site";
         </ul>
       </div>
 
-      <div>
+      <div class="min-w-0">
         <h4 class="text-sm font-semibold uppercase tracking-widest text-brand-orange">Contactar</h4>
         <ul class="mt-4 space-y-2 break-words text-base">
           <li>
