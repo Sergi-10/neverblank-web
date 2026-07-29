@@ -2,8 +2,37 @@
 import { CONTACT_ROUTE, services } from "../data/site";
 ---
 
-<footer class="mt-16 bg-brand-navy py-16 text-white">
-  <div class="mx-auto max-w-6xl px-6">
+<footer class="relative mt-16 bg-brand-navy py-16 text-white">
+  {/* Círculos decorativos: visibles en todas las pantallas (más pequeños en
+      móvil), se recortan en horizontal (overflow-x-clip) pero asoman por
+      arriba a propósito, mezclándose con la sección clara anterior. */}
+  <div
+    class="pointer-events-none absolute -left-12 -top-14 h-[9rem] w-[9rem] rounded-full border-2 border-brand-gradient-blue/30 sm:-left-14 sm:-top-16 sm:h-[11rem] sm:w-[11rem] md:-left-16 md:-top-20 md:h-[15rem] md:w-[15rem]"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute -right-14 -top-16 h-[12rem] w-[12rem] rounded-full border-2 border-white/20 sm:-right-16 sm:-top-20 sm:h-[15rem] sm:w-[15rem] md:-right-24 md:-top-28 md:h-[21rem] md:w-[21rem]"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute -right-10 bottom-2 h-[10rem] w-[10rem] rounded-full border-2 border-brand-orange/25 sm:-right-12 md:-right-16 md:bottom-6 md:h-[16rem] md:w-[16rem]"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute -left-10 bottom-4 h-[8rem] w-[8rem] rounded-full border-2 border-brand-orange/20 md:-left-12 md:h-[10rem] md:w-[10rem]"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute left-1/3 -top-8 h-[6rem] w-[6rem] rounded-full border-2 border-white/15 md:h-[9rem] md:w-[9rem]"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="relative z-10 mx-auto max-w-6xl px-6">
     <div class="reveal-up grid gap-8 sm:grid-cols-2 lg:grid-cols-5 lg:gap-8">
       <div class="min-w-0 lg:pr-6">
         <img

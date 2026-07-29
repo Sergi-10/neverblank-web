@@ -19,6 +19,11 @@
   --font-sans: "Inter", sans-serif;
 }
 
+html,
+body {
+  overflow-x: hidden;
+}
+
 body {
   background-color: var(--color-brand-bg);
   color: var(--color-brand-navy);

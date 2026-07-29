@@ -21,36 +21,43 @@ import {
 
   <section
     id="producto"
-    class="relative mt-16 scroll-mt-24 overflow-hidden bg-brand-navy py-16 md:py-24"
+    class="relative mt-16 scroll-mt-24 bg-brand-navy py-16 md:py-24"
   >
-    {/* Círculos decorativos, recortados por los bordes de la sección */}
+    {/* Círculos decorativos: solo se recortan en horizontal; los que
+        quedan junto al borde superior/inferior asoman de verdad sobre
+        las secciones claras vecinas, sin cortarse. */}
     <div
-      class="pointer-events-none absolute -left-40 -top-32 h-[26rem] w-[26rem] rounded-full border-2 border-brand-orange/20"
+      class="pointer-events-none absolute -left-40 -top-32 h-[26rem] w-[26rem] rounded-full border-2 border-brand-orange/25"
       aria-hidden="true"
     >
     </div>
     <div
-      class="pointer-events-none absolute -right-48 top-1/3 h-[31rem] w-[31rem] rounded-full border-2 border-white/10"
+      class="pointer-events-none absolute -right-48 top-1/3 h-[31rem] w-[31rem] rounded-full border-2 border-white/15"
       aria-hidden="true"
     >
     </div>
     <div
-      class="pointer-events-none absolute -bottom-56 left-1/3 h-[24rem] w-[24rem] rounded-full border-2 border-brand-orange/20"
+      class="pointer-events-none absolute bottom-10 left-1/3 h-[24rem] w-[24rem] rounded-full border-2 border-brand-orange/25"
       aria-hidden="true"
     >
     </div>
     <div
-      class="pointer-events-none absolute -right-24 -top-24 hidden h-[18rem] w-[18rem] rounded-full border-2 border-brand-gradient-blue/15 md:block"
+      class="pointer-events-none absolute -right-24 -top-24 hidden h-[18rem] w-[18rem] rounded-full border-2 border-brand-gradient-blue/20 md:block"
       aria-hidden="true"
     >
     </div>
     <div
-      class="pointer-events-none absolute -left-24 bottom-16 h-[16rem] w-[16rem] rounded-full border-2 border-brand-gradient-blue/15"
+      class="pointer-events-none absolute -left-24 bottom-16 h-[16rem] w-[16rem] rounded-full border-2 border-brand-gradient-blue/20"
       aria-hidden="true"
     >
     </div>
     <div
-      class="pointer-events-none absolute right-10 bottom-0 hidden h-[10rem] w-[10rem] rounded-full border-2 border-brand-orange/15 lg:block"
+      class="pointer-events-none absolute right-10 bottom-0 hidden h-[10rem] w-[10rem] rounded-full border-2 border-brand-orange/20 lg:block"
+      aria-hidden="true"
+    >
+    </div>
+    <div
+      class="pointer-events-none absolute left-1/4 top-4 hidden h-[9rem] w-[9rem] rounded-full border-2 border-white/10 lg:block"
       aria-hidden="true"
     >
     </div>
@@ -67,27 +74,42 @@ import {
 
       <ProcessSteps steps={agencyPainSteps} />
 
+      <div class="reveal-up mx-auto mt-14 max-w-2xl text-center md:mt-20">
+        <p class="font-display text-lg font-semibold text-white sm:whitespace-nowrap sm:text-2xl md:text-3xl">
+          <span class="text-brand-orange">NeverBlanc</span>. Menos Excel, más estrategia:
+        </p>
+      </div>
+
       {/*
         Composición: ordenador (PNG transparente, sin tarjeta ni sombra) a la
-        izquierda y ProductShowcase en un contenedor oscuro a la derecha.
-        En móvil se apilan: primero el ordenador, después el showcase.
+        izquierda y ProductShowcase en un contenedor oscuro a la derecha, con
+        el showcase desplazado hacia arriba para romper la alineación y dar
+        una composición más dinámica. En móvil se apilan sin desfase.
       */}
-      <div class="reveal-up mt-14 grid items-center gap-6 md:mt-20 md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:gap-4 lg:gap-5">
+      <div class="reveal-up mt-8 grid items-end gap-6 md:mt-12 md:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] md:gap-4 lg:gap-5">
         <img
           src="/ordenador_inicio.png"
           alt="NeverBlanc abierto en un ordenador portátil"
-          class="mx-auto h-auto w-full max-w-[38rem] object-contain"
+          class="mx-auto hidden h-auto w-full max-w-[38rem] object-contain md:block"
         />
 
-        <div class="w-full max-w-[28rem] justify-self-center md:max-w-none md:justify-self-end">
+        <div class="w-full max-w-[28rem] justify-self-center md:max-w-none md:-translate-y-8 md:justify-self-end lg:-translate-y-10">
           <ProductShowcase variant="embedded" />
         </div>
       </div>
     </div>
   </section>
 
-  <section class="bg-brand-bg py-16 md:py-24">
-    <div class="mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-2">
+  <section class="relative bg-brand-bg py-16 md:py-24">
+    {/* Esta sección pinta después de "producto": el círculo que asoma por
+        arriba queda por encima y sí se ve, sin cortarse en el borde. */}
+    <div
+      class="pointer-events-none absolute -top-20 left-1/3 h-[24rem] w-[24rem] rounded-full border-2 border-brand-orange/20"
+      aria-hidden="true"
+    >
+    </div>
+
+    <div class="relative z-10 mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
       <div class="reveal-up">
         <h2 class="font-display text-3xl font-bold text-brand-navy md:text-4xl">
           ¿Listo para dejar el <span class="text-brand-orange">caos atrás</span>?
@@ -108,7 +130,7 @@ import {
       <img
         src="/inicio_2.png"
         alt="NeverBlanc"
-        class="reveal-up w-full"
+        class="reveal-up w-full drop-shadow-xl"
       />
     </div>
   </section>

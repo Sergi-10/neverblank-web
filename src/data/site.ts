@@ -115,9 +115,9 @@ export const services: Service[] = [
     description:
       "Reúne público objetivo, propuesta de valor, competencia y tono de marca en un solo lugar y genera la estrategia de cada cliente con IA.",
     paragraphs: [
-      "Cada cliente necesita una estrategia adaptada a su negocio. En NeverBlanc puedes reunir en un único lugar toda la información necesaria para definirla: público objetivo, propuesta de valor, servicios, competencia, tono de comunicación, palabras clave, hashtags y plataformas recomendadas.",
-      "Completa un cuestionario y utiliza la inteligencia artificial para generar o resumir la estrategia del cliente. Después podrás revisarla, modificarla y mantenerla actualizada directamente desde la plataforma.",
-      "Así, cada publicación parte de una dirección clara y coherente con la identidad, los objetivos y el público de la marca.",
+      "Antes, la estrategia de cada cliente se quedaba en un documento que nadie volvía a abrir. NeverBlanc la convierte en un perfil vivo: público objetivo, propuesta de valor, competencia, tono de comunicación, palabras clave y plataformas recomendadas, todo en un mismo lugar y siempre a mano.",
+      "El proceso es simple: completas un cuestionario guiado, la IA genera o resume la estrategia a partir de esas respuestas y tú la revisas y ajustas hasta que refleje al cliente. Queda guardada y editable, sin volver a empezar de cero en cada reunión.",
+      "El resultado: cada publicación que generes después parte de esa misma dirección, sin perder tiempo explicando otra vez quién es el cliente o qué quiere transmitir.",
     ],
   },
   {
@@ -134,9 +134,9 @@ export const services: Service[] = [
     description:
       "Convierte la estrategia de cada cliente en un calendario de contenido completo generado con inteligencia artificial.",
     paragraphs: [
-      "Convierte la estrategia de cada cliente en un calendario de contenido completo. NeverBlanc genera mediante inteligencia artificial publicaciones adaptadas a la marca, las plataformas seleccionadas y el periodo que necesites.",
-      "Cada publicación puede incluir el título, el copy final, el texto que aparecerá dentro del diseño o de cada diapositiva, la estrategia de hashtags y una idea visual para crear la pieza.",
-      "Revisa el contenido desde el calendario, edítalo directamente, reorganiza las publicaciones y trabaja con formatos como posts, carruseles, reels, stories, vídeos, hilos o artículos.",
+      "Antes, cada publicación salía de un prompt suelto copiado y pegado en una IA sin memoria del cliente. NeverBlanc parte de la estrategia que ya tienes guardada y genera un calendario de contenido completo, coherente con la marca y las plataformas de cada cliente.",
+      "El proceso: eliges el periodo que necesitas, pulsas generar y la IA crea las publicaciones con título, copy, texto para el diseño (por diapositiva si es carrusel), hashtags e idea visual. Tú revisas, editas o regeneras lo que no encaje, directamente desde el calendario.",
+      "Trabajas con posts, carruseles, reels, stories, vídeos, hilos o artículos según la plataforma, y pasas de una página en blanco a un mes de contenido en minutos, no en días.",
     ],
   },
   {
@@ -153,9 +153,9 @@ export const services: Service[] = [
     description:
       "Centraliza clientes, estrategias y calendarios para que todo el equipo trabaje sobre la misma planificación.",
     paragraphs: [
-      "Centraliza el trabajo de tu agencia y evita que la información quede repartida entre hojas de cálculo, documentos y conversaciones de WhatsApp.",
-      "NeverBlanc permite que varios miembros trabajen sobre los mismos clientes, estrategias y calendarios. Todo el equipo puede consultar la planificación, revisar publicaciones y mantener un flujo de trabajo compartido.",
-      "Controla el estado de cada contenido mediante las fases Pendiente, Aprobado y Publicado, para que todos sepan qué está preparado, qué necesita revisión y qué trabajo ya se ha completado.",
+      "Antes, la información de cada cliente se repartía entre hojas de cálculo, documentos y chats de WhatsApp, y cada persona tenía su propia versión. NeverBlanc centraliza clientes, estrategias y calendarios en un único sitio, con roles de agencia para cada miembro del equipo.",
+      "El proceso: cualquier persona del equipo entra, ve los mismos clientes y el mismo calendario, y trabaja sobre publicaciones que pasan por tres fases (pendiente, aprobado y publicado) antes de salir.",
+      "Así siempre queda claro qué está listo, qué necesita revisión y qué ya se ha publicado, sin depender de quién se acuerde de avisar al resto.",
     ],
   },
 ];
