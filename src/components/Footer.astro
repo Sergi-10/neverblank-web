@@ -1,5 +1,5 @@
 ---
-import { CONTACT_ROUTE, services } from "../data/site";
+import { CONTACT_ROUTE, PRICING_ROUTE, services } from "../data/site";
 ---
 
 <footer class="relative mt-16 bg-brand-navy py-16 text-white">
@@ -62,6 +62,11 @@ import { CONTACT_ROUTE, services } from "../data/site";
               </a>
             </li>
           ))}
+          <li>
+            <a href={PRICING_ROUTE} class="font-semibold text-brand-orange transition-colors hover:text-brand-orange/80">
+              Precios
+            </a>
+          </li>
         </ul>
       </div>
 

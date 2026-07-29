@@ -4,11 +4,13 @@ import {
   APP_REGISTER_URL,
   CONTACT_ROUTE,
   EXTERNAL_LINK_ATTRS,
+  PRICING_ROUTE,
+  services,
 } from "../data/site";
 
-const navLinks = [
-  { label: "Servicios", href: "/servicios" },
-  { label: "Contáctanos", href: CONTACT_ROUTE },
+const serviceLinks = [
+  ...services.map((service) => ({ label: service.title, href: service.route })),
+  { label: "Precios", href: PRICING_ROUTE },
 ];
 ---
 
@@ -24,14 +26,37 @@ const navLinks = [
 
     <div class="flex items-center gap-2 sm:gap-3 md:gap-8">
       <nav class="hidden items-center gap-8 md:flex" aria-label="Navegación principal">
-        {navLinks.map((link) => (
+        <div class="group relative">
           <a
-            href={link.href}
-            class="text-base font-medium text-white/80 transition-colors hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-orange"
+            href="/servicios"
+            class="flex items-center gap-1 text-base font-medium text-white/80 transition-colors hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-orange"
           >
-            {link.label}
+            Servicios
+            <i class="ti ti-chevron-down text-sm transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180" aria-hidden="true"></i>
           </a>
-        ))}
+
+          <div class="invisible absolute left-0 top-full w-56 pt-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100">
+            <ul class="rounded-xl bg-brand-navy p-2 shadow-xl ring-1 ring-white/10">
+              {serviceLinks.map((link) => (
+                <li>
+                  <a
+                    href={link.href}
+                    class="block rounded-lg px-3 py-2.5 text-sm font-medium text-white/80 transition-colors hover:bg-white/5 hover:text-brand-orange"
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <a
+          href={CONTACT_ROUTE}
+          class="text-base font-medium text-white/80 transition-colors hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-orange"
+        >
+          Contáctanos
+        </a>
       </nav>
 
       <div class="hidden items-center gap-4 md:flex">
@@ -86,16 +111,34 @@ const navLinks = [
     class="border-t border-white/10 bg-brand-navy px-6 pb-6 pt-4 md:hidden"
   >
     <ul class="flex flex-col gap-1">
-      {navLinks.map((link) => (
-        <li>
-          <a
-            href={link.href}
-            class="block py-3 text-lg font-medium text-white/90 transition-colors hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
-          >
-            {link.label}
-          </a>
-        </li>
-      ))}
+      <li>
+        <details class="group/services">
+          <summary class="flex cursor-pointer list-none items-center justify-between py-3 text-lg font-medium text-white/90 transition-colors hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange">
+            <a href="/servicios">Servicios</a>
+            <i class="ti ti-chevron-down text-base transition-transform duration-200 group-open/services:rotate-180" aria-hidden="true"></i>
+          </summary>
+          <ul class="ml-4 flex flex-col gap-1 border-l border-white/10 pl-4">
+            {serviceLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="block py-2 text-base font-medium text-white/70 transition-colors hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </details>
+      </li>
+      <li>
+        <a
+          href={CONTACT_ROUTE}
+          class="block py-3 text-lg font-medium text-white/90 transition-colors hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+        >
+          Contáctanos
+        </a>
+      </li>
       <li>
         <a
           href={APP_REGISTER_URL}
@@ -196,14 +239,17 @@ const navLinks = [
 <style>
   #site-header {
     max-height: 128px;
-    overflow: hidden;
     transition:
       background-color 300ms ease,
       max-height 700ms ease;
   }
 
+  /* El recorte solo se activa al ocultar el header en scroll: en reposo
+     debe quedar sin overflow:hidden para no cortar el desplegable de
+     Servicios, que sobresale por debajo de la barra. */
   #site-header.header-hidden {
     max-height: 0px;
+    overflow: hidden;
   }
 
   /* Hamburguesa animada: 3 barras que se cruzan en X al abrir. */
