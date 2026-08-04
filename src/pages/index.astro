@@ -10,7 +10,14 @@ import TypewriterLine from "../components/TypewriterLine.astro";
 import PricingPlans from "../components/PricingPlans.astro";
 import ContactForm from "../components/ContactForm.astro";
 import Footer from "../components/Footer.astro";
-import { CONTACT_EMAIL, CONTACT_PHONE } from "../data/site";
+import {
+  APP_LOGIN_URL,
+  EXTERNAL_LINK_ATTRS,
+  CONTACT_EMAIL,
+  CONTACT_PHONE,
+  CONTACT_HERO_IMAGE,
+  CONTACT_HERO_POSITION,
+} from "../data/site";
 
 // Cifras de capacidad real del producto (no clientes inventados): "marcas" y
 // "posts al mes" coinciden con el tope del plan Enterprise en `plans`.
@@ -32,21 +39,17 @@ const stats = [
   {/* Nosotros: equipo, problema y solución, todo bajo un único id="nosotros". */}
   <Nosotros />
 
-  {/*
-    Cifras de capacidad, fondo blanco: transición entre el navy con el que
-    termina Nosotros (ProductShowcase) y el navy con el que empieza la
-    cabecera de Servicios (ServiceHero), para que no queden pegados.
-  */}
-  <section class="bg-brand-bg py-10 md:py-14">
-    <div class="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-8 px-6 text-center md:grid-cols-4">
+  {/* Cifras de capacidad, sobre fondo naranja. */}
+  <section class="bg-brand-orange py-10 md:py-14">
+    <div class="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-8 px-6 text-center text-white md:grid-cols-4">
       {stats.map((stat) => (
         <div class="reveal-up">
           {stat.value ? (
-            <p class="font-display text-4xl font-extrabold text-brand-orange md:text-5xl">{stat.value}</p>
+            <p class="font-display text-4xl font-extrabold md:text-5xl">{stat.value}</p>
           ) : (
-            <i class={`ti ${stat.icon} text-4xl text-brand-orange md:text-5xl`} aria-hidden="true"></i>
+            <i class={`ti ${stat.icon} text-4xl md:text-5xl`} aria-hidden="true"></i>
           )}
-          <p class="mt-2 text-sm font-medium text-brand-navy/80 md:text-base">{stat.label}</p>
+          <p class="mt-2 text-sm font-medium text-white/90 md:text-base">{stat.label}</p>
         </div>
       ))}
     </div>
@@ -54,7 +57,7 @@ const stats = [
 
   {/* Servicios: mismo ServiceHero que usa /servicios (imagen real de fondo)
       embebido aquí, seguido de los tickets interactivos. */}
-  <div id="servicios" class="scroll-mt-16">
+  <div id="servicios" class="scroll-mt-32">
     <ServiceHero
       as="h2"
       title="Servicios de NeverBlanc"
@@ -117,57 +120,88 @@ const stats = [
     </div>
   </section>
 
-  {/* Contacto / CTA final: el botón despliega la tarjeta de contacto en el
-      mismo sitio (sin navegar a /contacto ni abrir enlaces externos). */}
-  <section id="contacto" class="scroll-mt-24 bg-brand-bg py-16 md:py-24">
-    <div class="mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
-      <div class="reveal-up">
-        <h2 class="font-display text-3xl font-bold text-brand-navy md:text-4xl">
+  {/* Contacto / CTA final: mismo tratamiento de cabecera que #servicios
+      (ServiceHero con imagen real de fondo), seguido del bloque ya
+      validado: el botón despliega la tarjeta de contacto en el mismo sitio
+      (sin navegar a /contacto ni abrir enlaces externos). */}
+  <div id="contacto" class="scroll-mt-32">
+    <ServiceHero
+      as="h2"
+      title="Contactar"
+      image={CONTACT_HERO_IMAGE}
+      position={CONTACT_HERO_POSITION}
+      prefix="Estamos aquí para"
+      words={["escucharte", "ayudarte", "orientarte", "acompañarte"]}
+      suffix="cuando lo necesites"
+    />
+
+    <section class="bg-brand-bg py-16 md:py-24">
+      <div class="mx-auto max-w-6xl px-6">
+        <h2 class="reveal-up font-display text-lg font-bold text-brand-navy sm:whitespace-nowrap sm:text-lg md:text-2xl lg:text-3xl">
           ¿Quieres ver si <span class="text-brand-orange">NeverBlanc</span> encaja con tu forma de trabajar?
         </h2>
-        <p class="mt-4 text-gray-600">
-          Prueba la plataforma o cuéntanos tu caso.
-        </p>
-
-        <details class="contact-toggle group mt-8">
-          <summary class="inline-flex w-fit cursor-pointer list-none items-center gap-2 rounded-full bg-brand-orange px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange">
-            Contáctanos
-            <i
-              class="ti ti-chevron-down text-base transition-transform duration-300 group-open:rotate-180"
-              aria-hidden="true"
-            ></i>
-          </summary>
-
-          <div class="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-[0_32px_64px_-24px_rgba(20,40,60,0.35)] sm:p-8">
-            <div class="flex flex-col gap-6 sm:flex-row sm:gap-10">
-              <div>
-                <i class="ti ti-mail text-2xl text-brand-orange" aria-hidden="true"></i>
-                <p class="mt-2 font-semibold text-brand-navy">
-                  <a href={`mailto:${CONTACT_EMAIL}`} class="hover:text-brand-orange">{CONTACT_EMAIL}</a>
-                </p>
-              </div>
-              <div>
-                <i class="ti ti-phone text-2xl text-brand-orange" aria-hidden="true"></i>
-                <p class="mt-2 font-semibold text-brand-navy">
-                  <a href={`tel:${CONTACT_PHONE.replace(/\s/g, "")}`} class="hover:text-brand-orange">
-                    {CONTACT_PHONE}
-                  </a>
-                </p>
-              </div>
-            </div>
-
-            <ContactForm idPrefix="home-contacto" class="mt-8" />
-          </div>
-        </details>
       </div>
 
-      <img
-        src="/inicio_2.png"
-        alt="Panel de login de NeverBlanc en un ordenador portátil"
-        class="reveal-up w-full drop-shadow-xl"
-      />
-    </div>
-  </section>
+      <div class="mx-auto mt-8 grid max-w-6xl items-center gap-12 px-6 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
+        <div class="reveal-up">
+          <p class="text-gray-600">
+            Prueba la plataforma o cuéntanos tu caso.
+          </p>
+
+          <details class="contact-toggle group mt-8">
+            <summary class="inline-flex w-fit cursor-pointer list-none items-center gap-2 rounded-full bg-brand-orange px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange">
+              Contáctanos
+              <i
+                class="ti ti-chevron-down text-base transition-transform duration-300 group-open:rotate-180"
+                aria-hidden="true"
+              ></i>
+            </summary>
+
+            <div class="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-[0_32px_64px_-24px_rgba(20,40,60,0.35)] sm:p-8">
+              <div class="flex flex-col gap-6 sm:flex-row sm:gap-10">
+                <div>
+                  <i class="ti ti-mail text-2xl text-brand-orange" aria-hidden="true"></i>
+                  <p class="mt-2 font-semibold text-brand-navy">
+                    <a href={`mailto:${CONTACT_EMAIL}`} class="hover:text-brand-orange">{CONTACT_EMAIL}</a>
+                  </p>
+                </div>
+                <div>
+                  <i class="ti ti-phone text-2xl text-brand-orange" aria-hidden="true"></i>
+                  <p class="mt-2 font-semibold text-brand-navy">
+                    <a href={`tel:${CONTACT_PHONE.replace(/\s/g, "")}`} class="hover:text-brand-orange">
+                      {CONTACT_PHONE}
+                    </a>
+                  </p>
+                </div>
+              </div>
+
+              <ContactForm idPrefix="home-contacto" class="mt-8" />
+
+              <div class="mt-8 border-t border-gray-200 pt-6">
+                <p class="text-sm font-semibold text-brand-navy">
+                  O si prefieres probar el programa
+                </p>
+                <a
+                  href={APP_LOGIN_URL}
+                  target={EXTERNAL_LINK_ATTRS.target}
+                  rel={EXTERNAL_LINK_ATTRS.rel}
+                  class="mt-3 inline-flex rounded-full bg-brand-orange px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+                >
+                  Ir al programa
+                </a>
+              </div>
+            </div>
+          </details>
+        </div>
+
+        <img
+          src="/inicio_2.png"
+          alt="Panel de login de NeverBlanc en un ordenador portátil"
+          class="reveal-up w-full drop-shadow-[0_24px_48px_rgba(20,40,60,0.45)]"
+        />
+      </div>
+    </section>
+  </div>
 
   <Footer />
 </Layout>

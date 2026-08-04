@@ -8,8 +8,8 @@ import { APP_LOGIN_URL, APP_REGISTER_URL, EXTERNAL_LINK_ATTRS } from "../data/si
 const navLinks = [
   { label: "Nosotros", href: "/#nosotros" },
   { label: "Servicios", href: "/#servicios" },
-  { label: "Precios", href: "/#precios" },
-  { label: "Contacto", href: "/#contacto" },
+  { label: "Precios", href: "/#precios", accent: true },
+  { label: "Contactar", href: "/#contacto" },
 ];
 ---
 
@@ -28,7 +28,7 @@ const navLinks = [
         {navLinks.map((link) => (
           <a
             href={link.href}
-            class="text-base font-medium text-white/80 transition-colors hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-orange"
+            class={`text-base font-medium transition-colors hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-orange ${link.accent ? "text-brand-orange" : "text-white/80"}`}
           >
             {link.label}
           </a>
@@ -91,7 +91,7 @@ const navLinks = [
         <li>
           <a
             href={link.href}
-            class="block py-3 text-lg font-medium text-white/90 transition-colors hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+            class={`block py-3 text-lg font-medium transition-colors hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange ${link.accent ? "text-brand-orange" : "text-white/90"}`}
           >
             {link.label}
           </a>
