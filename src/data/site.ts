@@ -36,9 +36,8 @@ export const showcaseSteps: ShowcaseStep[] = [
   },
   {
     icon: "ti-rocket",
-    title: "NeverBlanc",
-    subtitle:
-      "Para agencias y freelances que gestionan varias cuentas sin mirar un calendario vacío.",
+    title: "Publica con control",
+    subtitle: "Cada publicación sale aprobada, a tiempo y sin sorpresas.",
   },
 ];
 
@@ -70,9 +69,11 @@ export const agencyPainSteps: ShowcaseStep[] = [
   },
 ];
 
-// Datos de contacto ya presentes en el proyecto (no se inventan nuevos).
-export const CONTACT_EMAIL = "info@neverblanc.com";
-export const CONTACT_PHONE = "+34 600 000 000";
+// Único email de contacto real: usarlo siempre desde aquí (Footer.astro y
+// contacto.astro lo importaban antes de forma inconsistente).
+export const CONTACT_EMAIL = "hello@neverblanc.com";
+
+export const CONTACT_PHONE = "+34 696874885";
 
 // Cabecera de la página de contacto. La posición encuadra el móvil de la foto
 // en la franja visible por encima del recuadro blanco.
@@ -157,5 +158,47 @@ export const services: Service[] = [
       "El proceso: cualquier persona del equipo entra, ve los mismos clientes y el mismo calendario, y trabaja sobre publicaciones que pasan por tres fases (pendiente, aprobado y publicado) antes de salir.",
       "Así siempre queda claro qué está listo, qué necesita revisión y qué ya se ha publicado, sin depender de quién se acuerde de avisar al resto.",
     ],
+  },
+];
+
+export interface PricingPlan {
+  name: string;
+  description: string;
+  price: string;
+  suffix: string;
+  features: string[];
+  cta: string;
+  highlighted: boolean;
+}
+
+// Fuente única de los planes: la consumen /precios y la sección #precios de
+// la home a través de PricingPlans.astro. No duplicar en ningún otro sitio.
+export const plans: PricingPlan[] = [
+  {
+    name: "Starter",
+    description: "Para quien empieza en solitario",
+    price: "19€",
+    suffix: "/mes",
+    features: ["1 usuario", "3 marcas", "3 generaciones por marca", "30 posts al mes"],
+    cta: "Empezar con Starter",
+    highlighted: false,
+  },
+  {
+    name: "Profesional",
+    description: "Para equipos que ya gestionan varias marcas",
+    price: "49€",
+    suffix: "/mes",
+    features: ["3 usuarios", "10 marcas", "6 generaciones por marca", "60 posts al mes"],
+    cta: "Empezar con Profesional",
+    highlighted: true,
+  },
+  {
+    name: "Enterprise",
+    description: "Para agencias con operación grande",
+    price: "98€",
+    suffix: "/mes",
+    features: ["6 usuarios", "20 marcas", "12 generaciones por marca", "120 posts al mes"],
+    cta: "Empezar con Enterprise",
+    highlighted: false,
   },
 ];

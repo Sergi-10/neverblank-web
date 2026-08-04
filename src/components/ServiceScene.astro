@@ -1,0 +1,175 @@
+---
+interface Props {
+  /** Composición específica del servicio: contenido distinto en cada una,
+   * y distinto del carrusel de ProductShowcase que ya se ve en #nosotros. */
+  variant: "estrategia" | "contenido" | "gestion-equipo";
+}
+
+const { variant } = Astro.props;
+
+const copy = {
+  estrategia: {
+    icon: "ti-target",
+    title: "Ficha de estrategia",
+    subtitle: "Todo lo que define al cliente, en un mismo perfil.",
+  },
+  contenido: {
+    icon: "ti-sparkles",
+    title: "Publicación lista para revisar",
+    subtitle: "Copy, hashtags e idea de diseño, generados a la vez.",
+  },
+  "gestion-equipo": {
+    icon: "ti-users",
+    title: "Un equipo, un mismo panel",
+    subtitle: "Cada miembro ve los mismos clientes y calendarios.",
+  },
+}[variant];
+
+const profileFields = ["Público objetivo", "Propuesta de valor", "Tono de marca", "Hashtags habituales"];
+const copyLines = ["w-[92%]", "w-[78%]", "w-[60%]"];
+const hashtags = ["#marca", "#campaña", "#alcance"];
+const teammates = [
+  { initials: "AL", role: "Owner" },
+  { initials: "MS", role: "Miembro" },
+  { initials: "JR", role: "Miembro" },
+];
+---
+
+{/*
+  Mismo lenguaje visual que ProductShowcase (fondo navy, icono de marca
+  flotante, misma familia de animación de entrada), pero cada composición es
+  propia del servicio: no repite el carrusel de pasos que ya se ve en
+  #nosotros (documento con check, calendario semanal, pills de estado).
+*/}
+<div
+  data-service-scene
+  class="scene-card relative flex h-full items-center overflow-hidden rounded-2xl bg-brand-navy p-7 shadow-[0_20px_45px_-20px_rgba(20,40,60,0.5)] transition-shadow duration-300 hover:shadow-[0_28px_60px_-16px_rgba(20,40,60,0.6)] md:p-8"
+>
+  <div
+    class="pointer-events-none absolute left-1/2 top-1/2 h-[220%] w-[220%]"
+    style="transform: translate(-50%, -50%);"
+  >
+    <div class="scene-icon-float h-full w-full">
+      <svg viewBox="0 0 296.49 225.39" class="h-full w-full fill-current text-white/[0.11]" aria-hidden="true">
+        <path d="M227.6,59.02c6.7,0,12.15,5.45,12.15,12.15v88.25c0,6.7-5.45,12.15-12.15,12.15H64.64v-100.4c0-6.7,5.45-12.15,12.15-12.15h150.8M227.6,39.02H76.8c-17.76,0-32.15,14.4-32.15,32.15v120.4h182.95c17.76,0,32.15-14.4,32.15-32.15v-88.25c0-17.76-14.4-32.15-32.15-32.15h0Z" />
+        <polygon points="146.57 96.47 136.83 86.73 115.14 108.41 93.45 86.73 83.71 96.47 105.4 118.16 83.71 139.84 93.45 149.59 115.14 127.9 136.83 149.59 146.57 139.84 124.88 118.16 146.57 96.47" />
+        <rect x="161.83" y="86.65" width="63" height="63" rx="5.97" ry="5.97" />
+      </svg>
+    </div>
+  </div>
+
+  <div class="relative z-10 mx-auto flex w-full flex-col items-center py-4 text-center">
+    <span class="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-orange/10">
+      <i class={`ti ${copy.icon} text-2xl text-brand-orange`} aria-hidden="true"></i>
+    </span>
+    <h4 class="text-lg font-bold text-white">{copy.title}</h4>
+    <p class="mx-auto mt-2 max-w-xs text-sm text-white/60">{copy.subtitle}</p>
+
+    {variant === "estrategia" && (
+      <ul class="mt-5 w-full max-w-[16rem] space-y-2.5 text-left">
+        {profileFields.map((field, idx) => (
+          <li class="scene-item flex items-center gap-2.5" style={`--i: ${idx};`}>
+            <i class="ti ti-circle-check shrink-0 text-base text-brand-orange" aria-hidden="true"></i>
+            <span class="text-sm text-white/80">{field}</span>
+          </li>
+        ))}
+      </ul>
+    )}
+
+    {variant === "contenido" && (
+      <div class="mt-5 w-full max-w-[16rem]">
+        <div class="space-y-2">
+          {copyLines.map((width, idx) => (
+            <div
+              class:list={["scene-item h-2 rounded-full bg-white/15", width]}
+              style={`--i: ${idx};`}
+            >
+            </div>
+          ))}
+        </div>
+        <div class="mt-4 flex flex-wrap justify-center gap-1.5">
+          {hashtags.map((tag, idx) => (
+            <span
+              class="scene-item rounded-full bg-brand-orange/15 px-2.5 py-1 text-[11px] font-semibold text-brand-orange"
+              style={`--i: ${idx + copyLines.length};`}
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    )}
+
+    {variant === "gestion-equipo" && (
+      <div class="mt-5 w-full max-w-[16rem]">
+        <div class="flex items-center justify-center -space-x-2">
+          {teammates.map((mate, idx) => (
+            <span
+              class="scene-item flex h-9 w-9 items-center justify-center rounded-full border-2 border-brand-navy bg-brand-orange/20 text-xs font-bold text-brand-orange"
+              style={`--i: ${idx};`}
+            >
+              {mate.initials}
+            </span>
+          ))}
+        </div>
+        <div class="mt-3 flex flex-wrap justify-center gap-1.5">
+          {teammates.map((mate, idx) => (
+            <span
+              class="scene-item rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-semibold text-white/70"
+              style={`--i: ${idx + teammates.length};`}
+            >
+              {mate.role}
+            </span>
+          ))}
+        </div>
+      </div>
+    )}
+  </div>
+</div>
+
+<style>
+  .scene-icon-float {
+    animation: scene-float-circle 40s ease infinite;
+  }
+
+  @keyframes scene-float-circle {
+    0% { transform: translate(27px, 0px); }
+    12.5% { transform: translate(19px, 19px); }
+    25% { transform: translate(0px, 27px); }
+    37.5% { transform: translate(-19px, 19px); }
+    50% { transform: translate(-27px, 0px); }
+    62.5% { transform: translate(-19px, -19px); }
+    75% { transform: translate(0px, -27px); }
+    87.5% { transform: translate(19px, -19px); }
+    100% { transform: translate(27px, 0px); }
+  }
+
+  /* Misma familia de animación de entrada que el resto del sitio: fundido +
+     desplazamiento vertical corto, escalonado por elemento vía --i. */
+  .scene-item {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  .scene-item.scene-play {
+    animation: scene-item-in 450ms ease forwards;
+    animation-delay: calc(var(--i) * 120ms);
+  }
+
+  @keyframes scene-item-in {
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .scene-icon-float {
+      animation: none;
+    }
+
+    .scene-item,
+    .scene-item.scene-play {
+      opacity: 1;
+      transform: none;
+      animation: none;
+    }
+  }
+</style>

@@ -4,132 +4,166 @@ import Header from "../components/Header.astro";
 import Hero from "../components/Hero.astro";
 import Nosotros from "../components/Nosotros.astro";
 import ProcessSteps from "../components/ProcessSteps.astro";
-import ProductShowcase from "../components/ProductShowcase.astro";
+import ServiceHero from "../components/ServiceHero.astro";
+import Servicios from "../components/Servicios.astro";
+import TypewriterLine from "../components/TypewriterLine.astro";
+import PricingPlans from "../components/PricingPlans.astro";
+import ContactForm from "../components/ContactForm.astro";
 import Footer from "../components/Footer.astro";
-import {
-  APP_LOGIN_URL,
-  APP_REGISTER_URL,
-  EXTERNAL_LINK_ATTRS,
-  agencyPainSteps,
-} from "../data/site";
+import { CONTACT_EMAIL, CONTACT_PHONE } from "../data/site";
+
+// Cifras de capacidad real del producto (no clientes inventados): "marcas" y
+// "posts al mes" coinciden con el tope del plan Enterprise en `plans`.
+const stats = [
+  { value: "1", label: "calendario por cliente" },
+  { value: "20", label: "marcas, como máximo" },
+  { value: "120", label: "posts al mes, como máximo" },
+  { icon: "ti-users-group", label: "Equipo y aprobación en un mismo lugar" },
+];
 ---
 
-<Layout>
+<Layout
+  title="NeverBlanc Web"
+  description="Gestiona estrategia, contenido, calendario y equipo de todos tus clientes desde un mismo lugar. Planes desde 19€/mes."
+>
   <Header />
   <Hero />
+
+  {/* Nosotros: equipo, problema y solución, todo bajo un único id="nosotros". */}
   <Nosotros />
 
-  <section
-    id="producto"
-    class="relative mt-16 scroll-mt-24 bg-brand-navy py-16 md:py-24"
-  >
-    {/* Círculos decorativos: solo se recortan en horizontal; los que
-        quedan junto al borde superior/inferior asoman de verdad sobre
-        las secciones claras vecinas, sin cortarse. */}
+  {/*
+    Cifras de capacidad, fondo blanco: transición entre el navy con el que
+    termina Nosotros (ProductShowcase) y el navy con el que empieza la
+    cabecera de Servicios (ServiceHero), para que no queden pegados.
+  */}
+  <section class="bg-brand-bg py-10 md:py-14">
+    <div class="mx-auto grid max-w-6xl grid-cols-2 gap-x-6 gap-y-8 px-6 text-center md:grid-cols-4">
+      {stats.map((stat) => (
+        <div class="reveal-up">
+          {stat.value ? (
+            <p class="font-display text-4xl font-extrabold text-brand-orange md:text-5xl">{stat.value}</p>
+          ) : (
+            <i class={`ti ${stat.icon} text-4xl text-brand-orange md:text-5xl`} aria-hidden="true"></i>
+          )}
+          <p class="mt-2 text-sm font-medium text-brand-navy/80 md:text-base">{stat.label}</p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  {/* Servicios: mismo ServiceHero que usa /servicios (imagen real de fondo)
+      embebido aquí, seguido de los tickets interactivos. */}
+  <div id="servicios" class="scroll-mt-16">
+    <ServiceHero
+      as="h2"
+      title="Servicios de NeverBlanc"
+      image="/servicios_header.png"
+      position="50% 45%"
+      words={["impulsar", "automatizar", "consolidar"]}
+      suffix="tu negocio"
+    />
+    <Servicios />
+  </div>
+
+  {/*
+    Proceso: los 4 pasos del producto (showcaseSteps), ya usados también en
+    el panel animado de ProductShowcase.
+  */}
+  <section class="relative overflow-x-clip bg-brand-navy py-16 md:py-24">
     <div
-      class="pointer-events-none absolute -left-40 -top-32 h-[26rem] w-[26rem] rounded-full border-2 border-brand-orange/25"
+      class="pointer-events-none absolute -right-32 -bottom-24 h-[22rem] w-[22rem] rounded-full border-2 border-brand-gradient-blue/20"
       aria-hidden="true"
     >
     </div>
     <div
-      class="pointer-events-none absolute -right-48 top-1/3 h-[31rem] w-[31rem] rounded-full border-2 border-white/15"
-      aria-hidden="true"
-    >
-    </div>
-    <div
-      class="pointer-events-none absolute bottom-10 left-1/3 h-[24rem] w-[24rem] rounded-full border-2 border-brand-orange/25"
-      aria-hidden="true"
-    >
-    </div>
-    <div
-      class="pointer-events-none absolute -right-24 -top-24 hidden h-[18rem] w-[18rem] rounded-full border-2 border-brand-gradient-blue/20 md:block"
-      aria-hidden="true"
-    >
-    </div>
-    <div
-      class="pointer-events-none absolute -left-24 bottom-16 h-[16rem] w-[16rem] rounded-full border-2 border-brand-gradient-blue/20"
-      aria-hidden="true"
-    >
-    </div>
-    <div
-      class="pointer-events-none absolute right-10 bottom-0 hidden h-[10rem] w-[10rem] rounded-full border-2 border-brand-orange/20 lg:block"
-      aria-hidden="true"
-    >
-    </div>
-    <div
-      class="pointer-events-none absolute left-1/4 top-4 hidden h-[9rem] w-[9rem] rounded-full border-2 border-white/10 lg:block"
+      class="pointer-events-none absolute -left-20 top-8 hidden h-[14rem] w-[14rem] rounded-full border-2 border-brand-orange/20 md:block"
       aria-hidden="true"
     >
     </div>
 
-    <div class="relative z-10 mx-auto max-w-6xl px-6">
-      <div class="reveal-up text-center">
-        <h2 class="font-display text-3xl font-bold text-white md:text-4xl">
-          Así se trabaja <span class="text-brand-orange">sin NeverBlanc</span>
+    <div class="relative z-10 mx-auto max-w-6xl px-6 text-center">
+      <div class="reveal-up">
+        <TypewriterLine
+          words={["definir", "organizar", "publicar"]}
+          suffix="tu contenido"
+          class="justify-center text-lg text-white/70 md:text-xl"
+        />
+        <h2 class="mt-4 font-display text-3xl font-bold text-white md:text-4xl">
+          Así funciona por dentro
         </h2>
         <p class="mt-4 text-base text-white/60 md:text-lg">
-          Cuatro pasos que toda agencia reconoce. Y ninguno acaba bien.
+          Cuatro pasos, un mismo sitio, cero prompts sueltos.
         </p>
       </div>
 
-      <ProcessSteps steps={agencyPainSteps} />
+      <ProcessSteps />
+    </div>
+  </section>
 
-      <div class="reveal-up mx-auto mt-14 max-w-2xl text-center md:mt-20">
-        <p class="font-display text-lg font-semibold text-white sm:whitespace-nowrap sm:text-2xl md:text-3xl">
-          <span class="text-brand-orange">NeverBlanc</span>. Menos Excel, más estrategia:
-        </p>
+  {/* Precios: mismo array `plans` y misma tarjeta que /precios. */}
+  <section id="precios" class="scroll-mt-24 bg-brand-bg py-16 md:py-24">
+    <div class="mx-auto max-w-6xl px-6">
+      <div class="reveal-up text-center">
+        <h2 class="font-display text-3xl font-bold text-brand-navy md:text-4xl">
+          Empieza pequeño. Escala cuando tu equipo y tus
+          <span class="text-brand-orange">marcas crezcan</span>.
+        </h2>
       </div>
 
-      {/*
-        Composición: ordenador (PNG transparente, sin tarjeta ni sombra) a la
-        izquierda y ProductShowcase en un contenedor oscuro a la derecha, con
-        el showcase desplazado hacia arriba para romper la alineación y dar
-        una composición más dinámica. En móvil se apilan sin desfase.
-      */}
-      <div class="reveal-up mt-8 grid items-end gap-6 md:mt-12 md:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] md:gap-4 lg:gap-5">
-        <img
-          src="/ordenador_inicio.png"
-          alt="NeverBlanc abierto en un ordenador portátil"
-          class="mx-auto hidden h-auto w-full max-w-[38rem] object-contain md:block"
-        />
-
-        <div class="w-full max-w-[28rem] justify-self-center md:max-w-none md:-translate-y-8 md:justify-self-end lg:-translate-y-10">
-          <ProductShowcase variant="embedded" />
-        </div>
+      <div class="reveal-up mt-12">
+        <PricingPlans />
       </div>
     </div>
   </section>
 
-  <section class="relative bg-brand-bg py-16 md:py-24">
-    {/* Esta sección pinta después de "producto": el círculo que asoma por
-        arriba queda por encima y sí se ve, sin cortarse en el borde. */}
-    <div
-      class="pointer-events-none absolute -top-20 left-1/3 h-[24rem] w-[24rem] rounded-full border-2 border-brand-orange/20"
-      aria-hidden="true"
-    >
-    </div>
-
-    <div class="relative z-10 mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
+  {/* Contacto / CTA final: el botón despliega la tarjeta de contacto en el
+      mismo sitio (sin navegar a /contacto ni abrir enlaces externos). */}
+  <section id="contacto" class="scroll-mt-24 bg-brand-bg py-16 md:py-24">
+    <div class="mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]">
       <div class="reveal-up">
         <h2 class="font-display text-3xl font-bold text-brand-navy md:text-4xl">
-          ¿Listo para dejar el <span class="text-brand-orange">caos atrás</span>?
+          ¿Quieres ver si <span class="text-brand-orange">NeverBlanc</span> encaja con tu forma de trabajar?
         </h2>
         <p class="mt-4 text-gray-600">
-          Únete a las agencias y freelances que ya gestionan su contenido sin perder el hilo.
+          Prueba la plataforma o cuéntanos tu caso.
         </p>
-        <a
-          href={APP_REGISTER_URL}
-          target={EXTERNAL_LINK_ATTRS.target}
-          rel={EXTERNAL_LINK_ATTRS.rel}
-          class="mt-8 inline-flex rounded-full bg-brand-orange px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
-        >
-          Empezar gratis — sin tarjeta
-        </a>
+
+        <details class="contact-toggle group mt-8">
+          <summary class="inline-flex w-fit cursor-pointer list-none items-center gap-2 rounded-full bg-brand-orange px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange">
+            Contáctanos
+            <i
+              class="ti ti-chevron-down text-base transition-transform duration-300 group-open:rotate-180"
+              aria-hidden="true"
+            ></i>
+          </summary>
+
+          <div class="mt-6 rounded-2xl border border-gray-200 bg-white p-6 shadow-[0_32px_64px_-24px_rgba(20,40,60,0.35)] sm:p-8">
+            <div class="flex flex-col gap-6 sm:flex-row sm:gap-10">
+              <div>
+                <i class="ti ti-mail text-2xl text-brand-orange" aria-hidden="true"></i>
+                <p class="mt-2 font-semibold text-brand-navy">
+                  <a href={`mailto:${CONTACT_EMAIL}`} class="hover:text-brand-orange">{CONTACT_EMAIL}</a>
+                </p>
+              </div>
+              <div>
+                <i class="ti ti-phone text-2xl text-brand-orange" aria-hidden="true"></i>
+                <p class="mt-2 font-semibold text-brand-navy">
+                  <a href={`tel:${CONTACT_PHONE.replace(/\s/g, "")}`} class="hover:text-brand-orange">
+                    {CONTACT_PHONE}
+                  </a>
+                </p>
+              </div>
+            </div>
+
+            <ContactForm idPrefix="home-contacto" class="mt-8" />
+          </div>
+        </details>
       </div>
 
       <img
         src="/inicio_2.png"
-        alt="NeverBlanc"
+        alt="Panel de login de NeverBlanc en un ordenador portátil"
         class="reveal-up w-full drop-shadow-xl"
       />
     </div>
