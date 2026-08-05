@@ -170,15 +170,55 @@ const navLinks = [
   let lastScrollY = window.scrollY;
   let tickingDirection = false;
 
+  // El salto a un ancla (#servicios, #contacto...) mueve scrollY hacia abajo
+  // de golpe, igual que si el usuario bajara rápido con el dedo. Sin esto,
+  // updateDirection lo confunde con "scroll manual hacia abajo" y oculta el
+  // header (max-height:0) justo cuando la sección de destino empieza a
+  // asomar, dejando ver la sección anterior sin ningún header encima. Se
+  // suspende el ocultado mientras dura el salto: al cargar la página ya con
+  // hash en la URL, y al pulsar cualquier enlace a un ancla propia (header,
+  // menú móvil o footer).
+  // El scroll suave (html{scroll-smooth}) tarda más cuanto más lejos está el
+  // ancla (p. ej. #contacto, casi al final de la página, tarda bastante más
+  // que #servicios): un timeout corto se queda corto y deja de suprimir a
+  // mitad de la animación. Se usa "scrollend" (cuando el navegador lo
+  // soporta) para levantar la supresión justo cuando el scroll realmente
+  // termina, con un timeout largo de seguridad por si no lo soporta o no
+  // llega a dispararse.
+  let suppressHide = false;
+  let suppressTimer: ReturnType<typeof setTimeout> | undefined;
+
+  const suppressHideFor = (ms: number) => {
+    suppressHide = true;
+    clearTimeout(suppressTimer);
+    suppressTimer = setTimeout(() => {
+      suppressHide = false;
+    }, ms);
+  };
+
+  if ("onscrollend" in window) {
+    window.addEventListener("scrollend", () => {
+      suppressHide = false;
+      clearTimeout(suppressTimer);
+    });
+  }
+
+  if (location.hash) suppressHideFor(4000);
+
+  document.querySelectorAll<HTMLAnchorElement>('a[href*="#"]').forEach((link) => {
+    link.addEventListener("click", () => suppressHideFor(4000));
+  });
+
   const updateDirection = () => {
     const currentY = window.scrollY;
-    // Con el menú abierto el header no se pliega.
-    if (!isMenuOpen()) {
-      if (currentY > lastScrollY && currentY > 80) {
-        header?.classList.add("header-hidden");
-      } else {
-        header?.classList.remove("header-hidden");
-      }
+    if (isMenuOpen()) {
+      // Con el menú abierto el header no se pliega.
+    } else if (suppressHide) {
+      header?.classList.remove("header-hidden");
+    } else if (currentY > lastScrollY && currentY > 80) {
+      header?.classList.add("header-hidden");
+    } else {
+      header?.classList.remove("header-hidden");
     }
     lastScrollY = currentY;
     tickingDirection = false;
