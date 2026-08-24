@@ -1,8 +1,7 @@
-// Destinos únicos de la app y de la página de contacto.
-// Todos los enlaces del sitio deben salir de aquí para no duplicar URLs.
+// Destinos únicos de la app. Todos los enlaces del sitio deben salir de
+// aquí para no duplicar URLs.
 export const APP_LOGIN_URL = "https://app.neverblanc.com/login";
 export const APP_REGISTER_URL = "https://app.neverblanc.com/register";
-export const CONTACT_ROUTE = "/contacto";
 
 // Atributos comunes de los enlaces que salen a la app (pestaña nueva y segura).
 export const EXTERNAL_LINK_ATTRS = { target: "_blank", rel: "noopener" } as const;
@@ -85,8 +84,7 @@ export const agencyPainSteps: ShowcaseStep[] = [
   },
 ];
 
-// Único email de contacto real: usarlo siempre desde aquí (Footer.astro y
-// contacto.astro lo importaban antes de forma inconsistente).
+// Único email de contacto real: usarlo siempre desde aquí.
 export const CONTACT_EMAIL = "hello@neverblanc.com";
 
 export const CONTACT_PHONE = "+34 696874885";
