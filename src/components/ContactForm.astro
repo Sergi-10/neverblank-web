@@ -164,7 +164,7 @@ const hasSecondary = Astro.slots.has("secondary");
   </label>
 
   {hasSecondary ? (
-    <div class="contact-actions gap-x-6 gap-y-3 border-t border-gray-200 pt-6">
+    <div class="contact-actions gap-x-3 gap-y-3">
       <div class="contact-actions-submit">
         <button
           type="submit"
@@ -335,7 +335,9 @@ const hasSecondary = Astro.slots.has("secondary");
 
   @media (min-width: 640px) {
     .contact-actions {
-      grid-template-columns: 1fr auto 1fr;
+      grid-template-columns: auto auto auto;
+      justify-content: start;
+      justify-items: start;
       align-items: center;
       grid-template-areas:
         ".      divider note"
