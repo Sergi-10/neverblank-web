@@ -18,10 +18,8 @@ const hasSecondary = Astro.slots.has("secondary");
 ---
 
 <!--
-  Formulario de contacto (maqueta visual, sin backend).
-  TODO: conectar aquí el envío real — añadir `action` / `method` al <form>,
-  o un handler de submit que llame al endpoint correspondiente.
-  No hay integración activa: no se simula ninguna respuesta de servidor.
+  Formulario de contacto: el envío real va por fetch a /api/contact (ver
+  script al final de este archivo), no por action/method nativos del <form>.
 -->
 <form class={`space-y-8 ${className}`} data-contact-form>
   {hasAside ? (
@@ -192,6 +190,118 @@ const hasSecondary = Astro.slots.has("secondary");
     </button>
   )}
 </form>
+
+<script>
+  type Tone = "warning" | "success" | "error";
+
+  const TONE_STYLES: Record<Tone, { border: string; icon: string }> = {
+    warning: { border: "border-brand-orange", icon: "ti-alert-triangle text-brand-orange" },
+    success: { border: "border-brand-orange", icon: "ti-circle-check text-brand-orange" },
+    error: { border: "border-red-500", icon: "ti-alert-circle text-red-500" },
+  };
+
+  function getToastRegion(): HTMLElement {
+    let region = document.getElementById("contact-toast-region");
+    if (!region) {
+      region = document.createElement("div");
+      region.id = "contact-toast-region";
+      region.setAttribute("aria-live", "polite");
+      region.className =
+        "pointer-events-none fixed inset-x-4 top-24 z-[100] flex flex-col items-stretch gap-2 sm:inset-x-auto sm:right-6 sm:items-end";
+      document.body.appendChild(region);
+    }
+    return region;
+  }
+
+  function showToast(message: string, tone: Tone) {
+    const region = getToastRegion();
+    const { border, icon } = TONE_STYLES[tone];
+
+    const toast = document.createElement("div");
+    toast.className = `pointer-events-auto flex w-full max-w-sm items-start gap-3 rounded-xl border-l-4 ${border} bg-white p-4 text-sm text-brand-navy shadow-[0_20px_45px_-15px_rgba(20,40,60,0.45)]`;
+
+    const iconEl = document.createElement("i");
+    iconEl.className = `ti ${icon} mt-0.5 text-lg`;
+    iconEl.setAttribute("aria-hidden", "true");
+
+    const textEl = document.createElement("p");
+    textEl.className = "flex-1";
+    textEl.textContent = message;
+
+    const closeButton = document.createElement("button");
+    closeButton.type = "button";
+    closeButton.className = "shrink-0 text-gray-400 transition-colors hover:text-brand-navy";
+    closeButton.setAttribute("aria-label", "Cerrar aviso");
+    const closeIcon = document.createElement("i");
+    closeIcon.className = "ti ti-x";
+    closeIcon.setAttribute("aria-hidden", "true");
+    closeButton.appendChild(closeIcon);
+
+    const dismiss = () => toast.remove();
+    closeButton.addEventListener("click", dismiss);
+
+    toast.append(iconEl, textEl, closeButton);
+    region.appendChild(toast);
+    setTimeout(dismiss, 4000);
+  }
+
+  const REQUIRED_FIELDS: { field: string; label: string }[] = [
+    { field: "name", label: "Nombre" },
+    { field: "email", label: "Email" },
+    { field: "subject", label: "Asunto" },
+  ];
+
+  function initContactForm(form: HTMLFormElement) {
+    if (form.dataset.contactReady === "1") return;
+    form.dataset.contactReady = "1";
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      const data = new FormData(form);
+      const missing = REQUIRED_FIELDS.filter(
+        ({ field }) => !String(data.get(field) ?? "").trim()
+      );
+
+      if (missing.length > 0) {
+        showToast(`Falta rellenar: ${missing.map((m) => m.label).join(", ")}`, "warning");
+        return;
+      }
+
+      const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+      submitButton?.setAttribute("disabled", "true");
+
+      try {
+        const response = await fetch("/api/contact", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            nombre: data.get("name"),
+            email: data.get("email"),
+            asunto: data.get("subject"),
+            mensaje: data.get("message"),
+          }),
+        });
+
+        if (!response.ok) throw new Error("request-failed");
+
+        showToast("Mensaje enviado correctamente, te responderemos pronto.", "success");
+        form.reset();
+      } catch {
+        showToast(
+          "No se ha podido enviar el mensaje, inténtalo de nuevo o escríbenos a hello@neverblanc.com",
+          "error"
+        );
+      } finally {
+        submitButton?.removeAttribute("disabled");
+      }
+    });
+  }
+
+  document
+    .querySelectorAll<HTMLFormElement>("[data-contact-form]")
+    .forEach(initContactForm);
+</script>
 
 <style>
   /*
