@@ -1,6 +1,7 @@
 ---
 import ProcessSteps from "./ProcessSteps.astro";
 import ProductShowcase from "./ProductShowcase.astro";
+import TypewriterLine from "./TypewriterLine.astro";
 import { agencyPainSteps } from "../data/site";
 ---
 
@@ -64,9 +65,11 @@ import { agencyPainSteps } from "../data/site";
 
     <div class="relative z-10 mx-auto max-w-[90rem] px-6">
       <div class="reveal-up mx-auto max-w-2xl text-center">
-        <p class="text-sm font-semibold text-white/70">
-          Es la hora de <span class="text-brand-orange">organizar</span> tu contenido
-        </p>
+        <TypewriterLine
+          words={["organizar", "planificar", "gestionar"]}
+          suffix="tu contenido"
+          class="justify-center text-base font-semibold text-white/70"
+        />
         <p class="mt-2 font-display text-lg font-semibold text-white sm:whitespace-nowrap sm:text-2xl md:text-3xl">
           Así funciona por dentro
         </p>
@@ -81,11 +84,11 @@ import { agencyPainSteps } from "../data/site";
         el showcase desplazado hacia arriba para romper la alineación y dar
         una composición más dinámica. En móvil se apilan sin desfase.
       */}
-      <div class="reveal-up mt-8 grid items-end gap-6 overflow-visible md:mt-12 md:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)] md:gap-4 lg:grid-cols-[minmax(0,1.8fr)_minmax(0,1fr)] lg:gap-5">
+      <div class="reveal-up mt-8 grid items-end gap-6 overflow-visible md:mt-12 md:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)] md:gap-4 lg:gap-5">
         <img
           src="/ordenador_inicio.png"
           alt="Calendario de contenido de NeverBlanc abierto en un ordenador portátil"
-          class="mx-auto hidden h-auto w-full max-w-[80rem] object-contain md:block md:-ml-6 lg:-ml-10"
+          class="mx-auto hidden h-auto w-full max-w-[66rem] object-contain md:block md:-ml-6 lg:-ml-10"
         />
 
         <div class="relative z-10 w-full max-w-[28rem] justify-self-center md:max-w-none md:-translate-y-8 md:justify-self-end lg:-translate-y-10">
