@@ -164,20 +164,16 @@ const hasSecondary = Astro.slots.has("secondary");
   </label>
 
   {hasSecondary ? (
-    <div class="contact-actions gap-x-3 gap-y-3">
-      <div class="contact-actions-submit">
-        <button
-          type="submit"
-          class="rounded-full bg-brand-orange px-10 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
-        >
-          Enviar
-        </button>
-      </div>
-      <div class="contact-actions-divider" aria-hidden="true"></div>
-      <p class="contact-actions-note text-sm font-semibold text-brand-navy">
-        O si ya tienes cuenta
-      </p>
-      <div class="contact-actions-login">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6">
+      <button
+        type="submit"
+        class="rounded-full bg-brand-orange px-10 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+      >
+        Enviar
+      </button>
+      <div class="hidden w-px bg-gray-200 sm:block sm:self-stretch" aria-hidden="true"></div>
+      <div>
+        <p class="text-sm font-semibold text-brand-navy">O si ya tienes cuenta</p>
         <slot name="secondary" />
       </div>
     </div>
@@ -302,54 +298,3 @@ const hasSecondary = Astro.slots.has("secondary");
     .querySelectorAll<HTMLFormElement>("[data-contact-form]")
     .forEach(initContactForm);
 </script>
-
-<style>
-  /*
-    Fila final: Enviar y el link "secondary" (Iniciar sesión) deben quedar
-    exactamente a la misma altura, sin que la nota de arriba los descuadre.
-    Áreas nombradas en vez de flex: en el layout de escritorio "submit" y
-    "login" viven en la MISMA fila del grid (nada más comparte esa fila), así
-    que su centro vertical coincide por construcción — no depende de cuánto
-    mida la nota.
-  */
-  .contact-actions {
-    display: grid;
-    grid-template-areas: "submit" "note" "login";
-  }
-
-  .contact-actions-submit {
-    grid-area: submit;
-  }
-
-  .contact-actions-note {
-    grid-area: note;
-  }
-
-  .contact-actions-login {
-    grid-area: login;
-  }
-
-  .contact-actions-divider {
-    display: none;
-  }
-
-  @media (min-width: 640px) {
-    .contact-actions {
-      grid-template-columns: auto auto auto;
-      justify-content: start;
-      justify-items: start;
-      align-items: center;
-      grid-template-areas:
-        ".      divider note"
-        "submit divider login";
-    }
-
-    .contact-actions-divider {
-      display: block;
-      grid-area: divider;
-      width: 1px;
-      height: 100%;
-      background-color: var(--color-gray-200, #e5e7eb);
-    }
-  }
-</style>
