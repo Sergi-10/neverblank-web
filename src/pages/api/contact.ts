@@ -55,8 +55,7 @@ export const POST: APIRoute = async ({ request }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        // TODO: confirmar remitente verificado en Brevo
-        sender: { name: "NeverBlanc", email: "noreply@neverblanc.com" },
+        sender: { name: "NeverBlanc", email: "hello@neverblanc.com" },
         to: [{ email: "hello@neverblanc.com", name: "NeverBlanc" }],
         replyTo: { email, name: nombre },
         subject: `Nuevo contacto desde la web: ${asunto}`,
