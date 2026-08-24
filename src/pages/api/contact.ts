@@ -1,4 +1,5 @@
 import type { APIRoute } from "astro";
+import nodemailer from "nodemailer";
 
 // Ruta dinámica: la única del sitio. El resto de páginas siguen prerenderizadas
 // (output "static" por defecto, ver astro.config.mjs).
@@ -48,30 +49,27 @@ export const POST: APIRoute = async ({ request }) => {
   ].join("\n");
 
   try {
-    const brevoResponse = await fetch("https://api.brevo.com/v3/smtp/email", {
-      method: "POST",
-      headers: {
-        "api-key": process.env.BREVO_API_KEY ?? "",
-        "Content-Type": "application/json",
+    const transporter = nodemailer.createTransport({
+      host: "mail.neverblanc.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: "noreply@neverblanc.com",
+        pass: process.env.SMTP_PASSWORD,
       },
-      body: JSON.stringify({
-        sender: { name: "NeverBlanc", email: "hello@neverblanc.com" },
-        to: [{ email: "hello@neverblanc.com", name: "NeverBlanc" }],
-        replyTo: { email, name: nombre },
-        subject: `Nuevo contacto desde la web: ${asunto}`,
-        textContent,
-      }),
     });
 
-    if (!brevoResponse.ok) {
-      const errorBody = await brevoResponse.text();
-      console.error("Brevo error:", brevoResponse.status, errorBody);
-      return jsonResponse({ error: "Brevo no ha podido enviar el correo." }, 500);
-    }
+    await transporter.sendMail({
+      from: '"NeverBlanc" <noreply@neverblanc.com>',
+      to: "hello@neverblanc.com",
+      replyTo: `"${nombre}" <${email}>`,
+      subject: `Nuevo contacto desde la web: ${asunto}`,
+      text: textContent,
+    });
 
     return jsonResponse({ success: true }, 200);
   } catch (err) {
-    console.error("Error contactando con Brevo:", err);
-    return jsonResponse({ error: "No se ha podido contactar con el servicio de email." }, 500);
+    console.error("Error enviando el email por SMTP:", err);
+    return jsonResponse({ error: "No se ha podido enviar el correo." }, 500);
   }
 };
