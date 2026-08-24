@@ -7,9 +7,12 @@ interface Props {
 
 const { idPrefix = "contact", class: className = "" } = Astro.props;
 
-// Slots opcionales: "aside" (imagen junto a Nombre/Email/Asunto) y
-// "secondary" (CTA alternativo junto al botón Enviar). Si no se rellenan
-// (p. ej. en /contacto), el formulario cae al layout simple de una columna.
+// Slots opcionales: "info" (fila de email/teléfono, para que la imagen de
+// "aside" empiece a su misma altura), "aside" (imagen junto a Info/Nombre/
+// Email/Asunto) y "secondary" (link alternativo junto al botón Enviar). Si
+// no se rellenan (p. ej. en /contacto), el formulario cae al layout simple
+// de una columna.
+const hasInfo = Astro.slots.has("info");
 const hasAside = Astro.slots.has("aside");
 const hasSecondary = Astro.slots.has("secondary");
 ---
@@ -24,6 +27,11 @@ const hasSecondary = Astro.slots.has("secondary");
   {hasAside ? (
     <div class="grid gap-8 md:grid-cols-2 md:items-stretch">
       <div class="space-y-8">
+        {hasInfo && (
+          <div>
+            <slot name="info" />
+          </div>
+        )}
         <div class="grid gap-8 sm:grid-cols-2">
           <div>
             <label
@@ -74,7 +82,7 @@ const hasSecondary = Astro.slots.has("secondary");
         </div>
       </div>
 
-      <div class="hidden md:block">
+      <div class="hidden md:flex">
         <slot name="aside" />
       </div>
     </div>
@@ -158,8 +166,8 @@ const hasSecondary = Astro.slots.has("secondary");
   </label>
 
   {hasSecondary ? (
-    <div class="flex flex-col divide-y divide-gray-200 sm:flex-row sm:divide-x sm:divide-y-0">
-      <div class="sm:w-1/2 sm:pr-8">
+    <div class="contact-actions gap-x-6 gap-y-3 border-t border-gray-200 pt-6">
+      <div class="contact-actions-submit">
         <button
           type="submit"
           class="rounded-full bg-brand-orange px-10 py-3 text-sm font-semibold uppercase tracking-wide text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
@@ -167,7 +175,11 @@ const hasSecondary = Astro.slots.has("secondary");
           Enviar
         </button>
       </div>
-      <div class="pt-6 sm:w-1/2 sm:pl-8 sm:pt-0">
+      <div class="contact-actions-divider" aria-hidden="true"></div>
+      <p class="contact-actions-note text-sm font-semibold text-brand-navy">
+        O si prefieres probar el programa
+      </p>
+      <div class="contact-actions-login">
         <slot name="secondary" />
       </div>
     </div>
@@ -180,3 +192,52 @@ const hasSecondary = Astro.slots.has("secondary");
     </button>
   )}
 </form>
+
+<style>
+  /*
+    Fila final: Enviar y el link "secondary" (Iniciar sesión) deben quedar
+    exactamente a la misma altura, sin que la nota de arriba los descuadre.
+    Áreas nombradas en vez de flex: en el layout de escritorio "submit" y
+    "login" viven en la MISMA fila del grid (nada más comparte esa fila), así
+    que su centro vertical coincide por construcción — no depende de cuánto
+    mida la nota.
+  */
+  .contact-actions {
+    display: grid;
+    grid-template-areas: "submit" "note" "login";
+  }
+
+  .contact-actions-submit {
+    grid-area: submit;
+  }
+
+  .contact-actions-note {
+    grid-area: note;
+  }
+
+  .contact-actions-login {
+    grid-area: login;
+  }
+
+  .contact-actions-divider {
+    display: none;
+  }
+
+  @media (min-width: 640px) {
+    .contact-actions {
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      grid-template-areas:
+        ".      divider note"
+        "submit divider login";
+    }
+
+    .contact-actions-divider {
+      display: block;
+      grid-area: divider;
+      width: 1px;
+      height: 100%;
+      background-color: var(--color-gray-200, #e5e7eb);
+    }
+  }
+</style>
