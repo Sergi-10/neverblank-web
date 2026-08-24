@@ -29,17 +29,18 @@ const heroChips = ["Empieza gratis, sin tarjeta", "Cancela cuando quieras", "Tod
   <Header />
   <Hero />
 
-  {/* Frase puente + chips de producto, sobre fondo naranja, pegados al Hero. */}
+  {/* Frase puente + 3 afirmaciones de producto, sobre fondo naranja, pegadas
+      al Hero. Mismo peso visual (tamaño/negrita) que tenía la franja de
+      cifras eliminada en la ronda 2, aplicado ahora a texto real en vez de
+      números inventados: grid de 3 columnas, sin chips tipo pastilla. */}
   <section class="bg-brand-orange py-10 md:py-14">
-    <div class="mx-auto max-w-4xl px-6 text-center">
-      <p class="reveal-up font-display text-lg font-semibold text-white md:text-xl">
+    <div class="mx-auto max-w-6xl px-6 text-center text-white">
+      <p class="reveal-up font-display text-lg font-semibold md:text-xl">
         De la reunión con el cliente a la publicación programada, sin salir de un solo sitio.
       </p>
-      <div class="reveal-up mt-6 flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center">
+      <div class="mt-8 grid gap-x-6 gap-y-6 sm:grid-cols-3 md:mt-10">
         {heroChips.map((chip) => (
-          <span class="rounded-full bg-white px-5 py-2 text-sm font-medium text-brand-navy">
-            {chip}
-          </span>
+          <p class="reveal-up font-display text-2xl font-extrabold leading-snug md:text-3xl">{chip}</p>
         ))}
       </div>
     </div>
