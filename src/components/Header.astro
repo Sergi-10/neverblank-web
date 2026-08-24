@@ -34,6 +34,8 @@ const navLinks = [
         ))}
       </nav>
 
+      <span class="hidden h-5 w-px bg-brand-orange md:block" aria-hidden="true"></span>
+
       <div class="hidden items-center gap-4 md:flex">
         <a
           href={APP_LOGIN_URL}
@@ -96,12 +98,13 @@ const navLinks = [
           </a>
         </li>
       ))}
+      <li class="my-2 h-px w-full bg-brand-orange" aria-hidden="true"></li>
       <li>
         <a
           href={APP_REGISTER_URL}
           target={EXTERNAL_LINK_ATTRS.target}
           rel={EXTERNAL_LINK_ATTRS.rel}
-          class="mt-2 inline-flex rounded-full bg-brand-orange px-6 py-2.5 text-base font-semibold text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+          class="mt-1 inline-flex rounded-full bg-brand-orange px-6 py-2.5 text-base font-semibold text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
         >
           Registrarse
         </a>
