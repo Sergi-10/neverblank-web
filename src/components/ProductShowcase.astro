@@ -76,13 +76,13 @@ const stepPadding = embedded
           {step.subtitle}
         </p>
 
-        {i === 0 && (
+        {i === 2 && (
           <div class={`h-1 w-48 overflow-hidden rounded-full bg-white/10 ${embedded ? "mt-5" : "mt-8"}`}>
             <div class="ps-step1-bar h-full w-0 rounded-full bg-brand-orange"></div>
           </div>
         )}
 
-        {i === 1 && (
+        {i === 4 && (
           <div class={`w-full ${embedded ? "mt-5 max-w-[17rem]" : "mt-8 max-w-sm"}`}>
             <div class="grid grid-cols-7 gap-1.5">
               {weekdays.map((d) => (
@@ -101,7 +101,7 @@ const stepPadding = embedded
           </div>
         )}
 
-        {i === 2 && (
+        {i === 6 && (
           <div class={`flex flex-wrap items-center justify-center gap-3 ${embedded ? "mt-5" : "mt-8"}`}>
             {pills.map((pill) => (
               <span
@@ -129,7 +129,8 @@ const stepPadding = embedded
 </div>
 
 <script>
-  const DURATIONS = [4000, 4000, 4000, 5000];
+  const STEP_DURATION = 4000;
+  const LAST_STEP_DURATION = 5000;
 
   type ShowcaseRoot = HTMLElement & { __psTimer?: ReturnType<typeof setTimeout> };
 
@@ -164,6 +165,8 @@ const stepPadding = embedded
     }
 
     let current = 0;
+    const durationFor = (index: number) =>
+      index === stepEls.length - 1 ? LAST_STEP_DURATION : STEP_DURATION;
 
     const goToStep = (index: number, isFirst = false) => {
       const prevEl = stepEls[current];
@@ -183,20 +186,20 @@ const stepPadding = embedded
           progressEl.style.width = "0%";
           void progressEl.offsetWidth;
         }
-        progressEl.style.transition = `width ${DURATIONS[index]}ms linear`;
+        progressEl.style.transition = `width ${durationFor(index)}ms linear`;
         requestAnimationFrame(() => {
-          progressEl.style.width = `${(index + 1) * 25}%`;
+          progressEl.style.width = `${((index + 1) / stepEls.length) * 100}%`;
         });
       }
 
-      if (index === 0) restart(stepBarEl, "ps-fill-run");
-      if (index === 1) calCellEls.forEach((cell) => restart(cell, "cal-pop"));
+      if (index === 2) restart(stepBarEl, "ps-fill-run");
+      if (index === 4) calCellEls.forEach((cell) => restart(cell, "cal-pop"));
 
       // Un único temporizador vivo por instancia.
       clearTimeout(root.__psTimer);
       root.__psTimer = setTimeout(
         () => goToStep((current + 1) % stepEls.length),
-        DURATIONS[index]
+        durationFor(index)
       );
     };
 

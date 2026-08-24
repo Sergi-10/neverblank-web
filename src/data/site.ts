@@ -14,36 +14,12 @@ export interface ShowcaseStep {
   subtitle: string;
 }
 
-// Fuente única de los 4 pasos: la consumen ProcessSteps.astro (proceso superior
-// de la home) y ProductShowcase.astro (tarjeta animada). No duplicar.
-export const showcaseSteps: ShowcaseStep[] = [
-  {
-    icon: "ti-clipboard-text",
-    title: "Define la estrategia",
-    subtitle:
-      "Perfil de cliente, tono de marca, competencia y hashtags, generado con IA y siempre editable.",
-  },
-  {
-    icon: "ti-calendar",
-    title: "Genera el calendario",
-    subtitle: "Un mes completo de contenido en minutos: carrusel, reel, story e hilo.",
-  },
-  {
-    icon: "ti-checks",
-    title: "Revisa y aprueba",
-    subtitle: "Cada publicación pasa por revisión antes de salir. Tu criterio siempre manda.",
-  },
-  {
-    icon: "ti-rocket",
-    title: "Publica con control",
-    subtitle: "Cada publicación sale aprobada, a tiempo y sin sorpresas.",
-  },
-];
-
 // Flujo real de uso, verificado en app.neverblanc.com el 24/08/2026: de la
-// reunión con el cliente a la publicación aprobada. Usado en la sección
-// "Así funciona por dentro" de la home (ProcessSteps con este array).
-export const howItWorksSteps: ShowcaseStep[] = [
+// reunión con el cliente a la publicación aprobada. Fuente única de los 7
+// pasos: la consumen ProcessSteps.astro (pasos por defecto) y
+// ProductShowcase.astro (carrusel animado de la sección "Cómo funciona"). No
+// duplicar.
+export const showcaseSteps: ShowcaseStep[] = [
   {
     icon: "ti-users",
     title: "Reunión con el cliente",
