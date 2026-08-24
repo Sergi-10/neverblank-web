@@ -1,0 +1,92 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import ContactForm from "../components/ContactForm.astro";
+import Footer from "../components/Footer.astro";
+import {
+  APP_LOGIN_URL,
+  APP_REGISTER_URL,
+  EXTERNAL_LINK_ATTRS,
+  CONTACT_EMAIL,
+  CONTACT_PHONE,
+} from "../data/site";
+---
+
+<Layout
+  title="Contacto — NeverBlanc"
+  description="Habla con el equipo de NeverBlanc: resolvemos tus dudas sobre estrategia, contenido y gestión de equipo."
+>
+  <Header />
+
+  <section class="bg-brand-bg px-6 pb-8 pt-28 text-center md:pt-36">
+    <h2 class="font-display text-3xl font-bold text-brand-navy md:text-4xl">Contacto</h2>
+  </section>
+
+  <div class="relative z-10 mx-auto max-w-4xl px-6 pb-16 md:pb-24">
+    <div
+      class="reveal-up rounded-2xl bg-white p-6 shadow-[0_32px_64px_-24px_rgba(20,40,60,0.35)] sm:p-10 md:p-14"
+    >
+      <span class="text-sm font-semibold uppercase tracking-widest text-brand-orange">
+        ¿En qué podemos ayudarte?
+      </span>
+      <h1 class="font-display mt-3 text-3xl font-bold text-brand-navy sm:text-4xl md:text-5xl">
+        Contacta con nosotros
+      </h1>
+
+      <div class="mt-8 flex flex-col gap-6 sm:flex-row sm:gap-12">
+        <div>
+          <i class="ti ti-mail text-[40px] text-brand-orange" aria-hidden="true"></i>
+          <p class="mt-2 font-semibold text-brand-orange">
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              class="hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+            >
+              {CONTACT_EMAIL}
+            </a>
+          </p>
+          <p class="text-sm text-gray-500">Email de contacto</p>
+        </div>
+        <div>
+          <i class="ti ti-phone text-[40px] text-brand-orange" aria-hidden="true"></i>
+          <p class="mt-2 font-semibold text-brand-orange">
+            <a
+              href={`tel:${CONTACT_PHONE.replace(/\s/g, "")}`}
+              class="hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+            >
+              {CONTACT_PHONE}
+            </a>
+          </p>
+          <p class="text-sm text-gray-500">Teléfono de contacto</p>
+        </div>
+      </div>
+
+      <ContactForm idPrefix="contacto" class="mt-12" />
+
+      <div class="mt-12 border-t border-gray-200 pt-8">
+        <p class="text-lg font-semibold text-brand-navy">
+          O si prefieres, prueba nuestro programa o regístrate
+        </p>
+        <div class="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+          <a
+            href={APP_LOGIN_URL}
+            target={EXTERNAL_LINK_ATTRS.target}
+            rel={EXTERNAL_LINK_ATTRS.rel}
+            class="inline-flex justify-center rounded-full bg-brand-orange px-7 py-3 text-lg font-semibold text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+          >
+            Iniciar sesión
+          </a>
+          <a
+            href={APP_REGISTER_URL}
+            target={EXTERNAL_LINK_ATTRS.target}
+            rel={EXTERNAL_LINK_ATTRS.rel}
+            class="inline-flex justify-center rounded-full border border-brand-navy/20 px-7 py-3 text-lg font-semibold text-brand-navy transition-colors hover:border-brand-orange hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+          >
+            Registrarse
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <Footer />
+</Layout>

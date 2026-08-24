@@ -1,0 +1,185 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Hero from "../components/Hero.astro";
+import Nosotros from "../components/Nosotros.astro";
+import ProcessSteps from "../components/ProcessSteps.astro";
+import Servicios from "../components/Servicios.astro";
+import TypewriterLine from "../components/TypewriterLine.astro";
+import PricingPlans from "../components/PricingPlans.astro";
+import ContactForm from "../components/ContactForm.astro";
+import Footer from "../components/Footer.astro";
+import {
+  APP_LOGIN_URL,
+  APP_REGISTER_URL,
+  EXTERNAL_LINK_ATTRS,
+  CONTACT_EMAIL,
+  CONTACT_PHONE,
+  howItWorksSteps,
+} from "../data/site";
+
+// Chips bajo el Hero: copy real de producto, sin cifras sin verificar.
+const heroChips = ["Empieza gratis, sin tarjeta", "Cancela cuando quieras", "Todo en un solo lugar"];
+---
+
+<Layout
+  title="NeverBlanc Web"
+  description="Gestiona estrategia, contenido, calendario y equipo de todos tus clientes desde un mismo lugar. Planes desde 19€/mes."
+>
+  <Header />
+  <Hero />
+
+  {/* Frase puente + chips de producto, sobre fondo naranja, pegados al Hero. */}
+  <section class="bg-brand-orange py-10 md:py-14">
+    <div class="mx-auto max-w-4xl px-6 text-center">
+      <p class="reveal-up font-display text-lg font-semibold text-white md:text-xl">
+        De la reunión con el cliente a la publicación programada, sin salir de un solo sitio.
+      </p>
+      <div class="reveal-up mt-6 flex flex-col items-center gap-3 sm:flex-row sm:flex-wrap sm:justify-center">
+        {heroChips.map((chip) => (
+          <span class="rounded-full bg-white px-5 py-2 text-sm font-medium text-brand-navy">
+            {chip}
+          </span>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  {/* Cómo funciona: problema y solución, todo bajo un único id="como-funciona". */}
+  <Nosotros />
+
+  {/* Características: título suelto sobre fondo gris, sin imagen de cabecera. */}
+  <div id="caracteristicas" class="scroll-mt-[72px] sm:scroll-mt-20 md:scroll-mt-32">
+    <section class="bg-brand-bg pt-16 md:pt-24">
+      <div class="mx-auto max-w-3xl px-6 text-center">
+        <h2 class="reveal-up font-display text-3xl font-bold text-brand-navy md:text-4xl">
+          Todo lo que necesitas para dejar de currar a mano
+        </h2>
+      </div>
+    </section>
+    <Servicios />
+  </div>
+
+  {/* Proceso: los 7 pasos reales de uso (howItWorksSteps), de la reunión con
+      el cliente a la publicación aprobada. */}
+  <section class="relative overflow-x-clip bg-brand-navy py-16 md:py-24">
+    <div
+      class="pointer-events-none absolute -right-32 -bottom-24 h-[22rem] w-[22rem] rounded-full border-2 border-brand-gradient-blue/20"
+      aria-hidden="true"
+    >
+    </div>
+    <div
+      class="pointer-events-none absolute -left-20 top-8 hidden h-[14rem] w-[14rem] rounded-full border-2 border-brand-orange/20 md:block"
+      aria-hidden="true"
+    >
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-6xl px-6 text-center">
+      <div class="reveal-up">
+        <TypewriterLine
+          words={["definir", "organizar", "publicar"]}
+          suffix="tu contenido"
+          class="justify-center text-lg text-white/70 md:text-xl"
+        />
+        <h2 class="mt-4 font-display text-3xl font-bold text-white md:text-4xl">
+          Así funciona por dentro
+        </h2>
+        <p class="mt-4 text-base text-white/60 md:text-lg">
+          Siete pasos, un mismo sitio, cero prompts sueltos.
+        </p>
+      </div>
+
+      <ProcessSteps steps={howItWorksSteps} />
+
+      <a
+        href={APP_REGISTER_URL}
+        target={EXTERNAL_LINK_ATTRS.target}
+        rel={EXTERNAL_LINK_ATTRS.rel}
+        class="reveal-up mt-12 inline-flex rounded-full bg-brand-orange px-8 py-3 text-base font-semibold text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white md:mt-16"
+      >
+        Empezar ahora
+      </a>
+    </div>
+  </section>
+
+  {/* Precios: mismo array `plans` y misma tarjeta que /precios. */}
+  <section id="precios" class="scroll-mt-24 bg-brand-bg py-16 md:py-24">
+    <div class="mx-auto max-w-6xl px-6">
+      <div class="reveal-up text-center">
+        <h2 class="font-display text-3xl font-bold text-brand-navy md:text-4xl">
+          Empieza pequeño. Escala cuando tu equipo y tus
+          <span class="text-brand-orange">marcas crezcan</span>.
+        </h2>
+        <p class="reveal-up mt-3 text-center text-base text-brand-navy/60 md:text-lg">
+          Sin permanencia. Cancela cuando quieras.
+        </p>
+      </div>
+
+      <div class="reveal-up mt-12">
+        <PricingPlans />
+      </div>
+
+      <p class="reveal-up mt-8 text-center text-sm text-brand-navy/60">
+        ¿Se te acaban los créditos de IA a mitad de mes? Compra más cuando los necesites, sin cambiar de plan.
+      </p>
+    </div>
+  </section>
+
+  {/* Contacto: formulario y datos de contacto siempre visibles, sin toggle
+      ni cabecera con imagen. */}
+  <section
+    id="contacto"
+    class="scroll-mt-[72px] bg-brand-bg py-16 sm:scroll-mt-20 md:scroll-mt-32 md:py-24"
+  >
+    <div class="mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)]">
+      <div class="reveal-up">
+        <p class="text-gray-600">
+          Prueba la plataforma o cuéntanos tu caso.
+        </p>
+
+        <div class="mt-8 rounded-2xl border border-gray-200 bg-white p-6 shadow-[0_32px_64px_-24px_rgba(20,40,60,0.35)] sm:p-8">
+          <div class="flex flex-col gap-6 sm:flex-row sm:gap-10">
+            <div>
+              <i class="ti ti-mail text-2xl text-brand-orange" aria-hidden="true"></i>
+              <p class="mt-2 font-semibold text-brand-navy">
+                <a href={`mailto:${CONTACT_EMAIL}`} class="hover:text-brand-orange">{CONTACT_EMAIL}</a>
+              </p>
+            </div>
+            <div>
+              <i class="ti ti-phone text-2xl text-brand-orange" aria-hidden="true"></i>
+              <p class="mt-2 font-semibold text-brand-navy">
+                <a href={`tel:${CONTACT_PHONE.replace(/\s/g, "")}`} class="hover:text-brand-orange">
+                  {CONTACT_PHONE}
+                </a>
+              </p>
+            </div>
+          </div>
+
+          <ContactForm idPrefix="home-contacto" class="mt-8" />
+
+          <div class="mt-8 border-t border-gray-200 pt-6">
+            <p class="text-sm font-semibold text-brand-navy">
+              O si prefieres probar el programa
+            </p>
+            <a
+              href={APP_LOGIN_URL}
+              target={EXTERNAL_LINK_ATTRS.target}
+              rel={EXTERNAL_LINK_ATTRS.rel}
+              class="mt-3 inline-flex rounded-full bg-brand-orange px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+            >
+              Iniciar sesión
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <img
+        src="/inicio_2.png"
+        alt="Panel de login de NeverBlanc en un ordenador portátil"
+        class="reveal-up w-full drop-shadow-[0_24px_48px_rgba(20,40,60,0.45)]"
+      />
+    </div>
+  </section>
+
+  <Footer />
+</Layout>

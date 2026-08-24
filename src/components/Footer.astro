@@ -1,0 +1,112 @@
+---
+import { CONTACT_EMAIL, CONTACT_PHONE, CONTACT_ROUTE } from "../data/site";
+
+// Mismos apartados que la nav del header: todos anclas de la home.
+const menuLinks = [
+  { label: "Inicio", href: "/" },
+  { label: "Características", href: "/#caracteristicas" },
+  { label: "Cómo funciona", href: "/#como-funciona" },
+  { label: "Precios", href: "/#precios", accent: true },
+  { label: "Contactar", href: "/#contacto" },
+];
+---
+
+<footer class="relative mt-16 bg-brand-navy py-16 text-white">
+  {/* Círculos decorativos: visibles en todas las pantallas (más pequeños en
+      móvil), se recortan en horizontal (overflow-x-clip) pero asoman por
+      arriba a propósito, mezclándose con la sección clara anterior. */}
+  <div
+    class="pointer-events-none absolute -left-12 -top-14 h-[9rem] w-[9rem] rounded-full border-2 border-brand-gradient-blue/30 sm:-left-14 sm:-top-16 sm:h-[11rem] sm:w-[11rem] md:-left-16 md:-top-20 md:h-[15rem] md:w-[15rem]"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute -right-14 -top-16 h-[12rem] w-[12rem] rounded-full border-2 border-white/20 sm:-right-16 sm:-top-20 sm:h-[15rem] sm:w-[15rem] md:-right-24 md:-top-28 md:h-[21rem] md:w-[21rem]"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute -right-10 bottom-2 h-[10rem] w-[10rem] rounded-full border-2 border-brand-orange/25 sm:-right-12 md:-right-16 md:bottom-6 md:h-[16rem] md:w-[16rem]"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute -left-10 bottom-4 h-[8rem] w-[8rem] rounded-full border-2 border-brand-orange/20 md:-left-12 md:h-[10rem] md:w-[10rem]"
+    aria-hidden="true"
+  >
+  </div>
+  <div
+    class="pointer-events-none absolute left-1/3 -top-8 h-[6rem] w-[6rem] rounded-full border-2 border-white/15 md:h-[9rem] md:w-[9rem]"
+    aria-hidden="true"
+  >
+  </div>
+
+  <div class="relative z-10 mx-auto max-w-6xl px-6">
+    <div class="reveal-up grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-8">
+      <div class="min-w-0 lg:pr-6">
+        <img
+          src="/neverblanc_logo.svg"
+          alt="NeverBlanc"
+          class="mb-6 h-10 w-auto md:h-12"
+        />
+      </div>
+
+      <div class="min-w-0">
+        <h4 class="text-sm font-semibold uppercase tracking-widest text-brand-orange">Menú</h4>
+        <ul class="mt-4 space-y-2 text-sm text-white/70">
+          {menuLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class:list={["transition-colors hover:text-brand-orange", link.accent ? "font-semibold text-brand-orange" : ""]}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="min-w-0">
+        <h4 class="text-sm font-semibold uppercase tracking-widest text-brand-orange">Legales</h4>
+        <ul class="mt-4 space-y-2 text-sm text-white/70">
+          <li><a href="#" class="transition-colors hover:text-brand-orange">Política de privacidad</a></li>
+          <li><a href="#" class="transition-colors hover:text-brand-orange">Aviso legal</a></li>
+          <li><a href="#" class="transition-colors hover:text-brand-orange">Política de cookies</a></li>
+        </ul>
+      </div>
+
+      <div class="min-w-0">
+        <h4 class="text-sm font-semibold uppercase tracking-widest text-brand-orange">Contactar</h4>
+        <ul class="mt-4 space-y-2 break-words text-base">
+          <li>
+            <a
+              href={`mailto:${CONTACT_EMAIL}`}
+              class="text-white transition-colors hover:text-brand-orange"
+            >
+              {CONTACT_EMAIL}
+            </a>
+          </li>
+          <li>
+            <a
+              href={`tel:${CONTACT_PHONE.replace(/\s/g, "")}`}
+              class="text-white transition-colors hover:text-brand-orange"
+            >
+              {CONTACT_PHONE}
+            </a>
+          </li>
+        </ul>
+        <a
+          href={CONTACT_ROUTE}
+          class="mt-4 block text-sm font-semibold text-brand-orange transition-colors hover:text-brand-orange/80"
+        >
+          Formulario de contacto
+        </a>
+      </div>
+    </div>
+
+    <div class="mt-12 border-t border-white/10 pt-6 text-center text-sm text-white/50">
+      © 2026 NeverBlanc. Todos los derechos reservados.
+    </div>
+  </div>
+</footer>

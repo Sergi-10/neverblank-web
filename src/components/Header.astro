@@ -1,0 +1,299 @@
+---
+import { APP_LOGIN_URL, APP_REGISTER_URL, EXTERNAL_LINK_ATTRS } from "../data/site";
+
+// Anclas de la home: el "/" delante hace que funcionen igual estando ya en
+// "/" (salto de sección normal) o llegando desde /precios o /contacto
+// (navega a la home y salta a la sección).
+const navLinks = [
+  { label: "Cómo funciona", href: "/#como-funciona" },
+  { label: "Características", href: "/#caracteristicas" },
+  { label: "Precios", href: "/#precios" },
+  { label: "Contactar", href: "/#contacto" },
+];
+---
+
+<header id="site-header" class="fixed inset-x-0 top-0 z-50 transition-colors duration-300">
+  <div class="mx-auto flex max-w-7xl items-center justify-between gap-2 py-4 pl-3 pr-3 sm:gap-3 sm:pr-4 md:py-6">
+    <a href="/" class="flex shrink-0 items-center">
+      <img
+        src="/neverblanc_logo.svg"
+        alt="NeverBlanc"
+        class="-ml-2 h-9 w-auto sm:h-12 md:h-20"
+      />
+    </a>
+
+    <div class="flex items-center gap-2 sm:gap-3 md:gap-8">
+      <nav class="hidden items-center gap-7 md:flex" aria-label="Navegación principal">
+        {navLinks.map((link) => (
+          <a
+            href={link.href}
+            class="text-base font-medium text-white/80 transition-colors hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-orange"
+          >
+            {link.label}
+          </a>
+        ))}
+      </nav>
+
+      <div class="hidden items-center gap-4 md:flex">
+        <a
+          href={APP_LOGIN_URL}
+          target={EXTERNAL_LINK_ATTRS.target}
+          rel={EXTERNAL_LINK_ATTRS.rel}
+          class="text-lg font-medium text-white/80 transition-colors hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand-orange"
+        >
+          Iniciar sesión
+        </a>
+        <a
+          href={APP_REGISTER_URL}
+          target={EXTERNAL_LINK_ATTRS.target}
+          rel={EXTERNAL_LINK_ATTRS.rel}
+          class="rounded-full bg-brand-orange px-7 py-3 text-lg font-semibold text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+        >
+          Registrarse
+        </a>
+      </div>
+
+      {/* Móvil: "Iniciar sesión" queda fuera del toggle, justo a su izquierda */}
+      <a
+        href={APP_LOGIN_URL}
+        target={EXTERNAL_LINK_ATTRS.target}
+        rel={EXTERNAL_LINK_ATTRS.rel}
+        class="rounded-full bg-brand-orange px-3 py-2 text-xs font-semibold whitespace-nowrap text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white sm:px-4 sm:text-sm md:hidden"
+      >
+        Iniciar sesión
+      </a>
+
+      <button
+        id="menu-toggle"
+        type="button"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Abrir menú"
+        class="menu-toggle relative flex h-10 w-10 shrink-0 items-center justify-center rounded-md text-white transition-colors hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange md:hidden"
+      >
+        {/* 3 líneas que se convierten en X al abrir */}
+        <span class="menu-bar menu-bar-top" aria-hidden="true"></span>
+        <span class="menu-bar menu-bar-mid" aria-hidden="true"></span>
+        <span class="menu-bar menu-bar-bottom" aria-hidden="true"></span>
+      </button>
+    </div>
+  </div>
+
+  <nav
+    id="mobile-menu"
+    aria-label="Navegación móvil"
+    hidden
+    class="border-t border-white/10 bg-brand-navy px-6 pb-6 pt-4 md:hidden"
+  >
+    <ul class="flex flex-col gap-1">
+      {navLinks.map((link) => (
+        <li>
+          <a
+            href={link.href}
+            class="block py-3 text-lg font-medium text-white/90 transition-colors hover:text-brand-orange focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+          >
+            {link.label}
+          </a>
+        </li>
+      ))}
+      <li>
+        <a
+          href={APP_REGISTER_URL}
+          target={EXTERNAL_LINK_ATTRS.target}
+          rel={EXTERNAL_LINK_ATTRS.rel}
+          class="mt-2 inline-flex rounded-full bg-brand-orange px-6 py-2.5 text-base font-semibold text-white transition-colors hover:bg-brand-orange/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange"
+        >
+          Registrarse
+        </a>
+      </li>
+    </ul>
+  </nav>
+</header>
+
+<script>
+  const header = document.getElementById("site-header");
+  const toggle = document.getElementById("menu-toggle");
+  const menu = document.getElementById("mobile-menu");
+  const isMenuOpen = () => toggle?.getAttribute("aria-expanded") === "true";
+
+  const setMenu = (open: boolean) => {
+    if (!toggle || !menu) return;
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+    menu.hidden = !open;
+    toggle.classList.toggle("is-open", open);
+    // El header recorta su contenido (max-height) para el efecto persiana:
+    // al abrir el menú hay que dejarlo crecer para que el panel no se corte.
+    header?.classList.toggle("menu-open", open);
+  };
+
+  toggle?.addEventListener("click", () => setMenu(!isMenuOpen()));
+
+  // Cierra al elegir una opción.
+  menu?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => setMenu(false));
+  });
+
+  // Cierra al pulsar fuera del header.
+  document.addEventListener("click", (event) => {
+    if (!isMenuOpen()) return;
+    const target = event.target as Node;
+    if (!header?.contains(target)) setMenu(false);
+  });
+
+  // Cierra con Escape y devuelve el foco al botón.
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && isMenuOpen()) {
+      setMenu(false);
+      toggle?.focus();
+    }
+  });
+
+  // Al pasar a escritorio el panel deja de aplicar.
+  const desktop = window.matchMedia("(min-width: 768px)");
+  desktop.addEventListener("change", (event) => {
+    if (event.matches) setMenu(false);
+  });
+
+  const onScroll = () => {
+    if (window.scrollY > 10) {
+      header?.classList.add("bg-brand-navy", "shadow-sm");
+    } else {
+      header?.classList.remove("bg-brand-navy", "shadow-sm");
+    }
+  };
+
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  let lastScrollY = window.scrollY;
+  let tickingDirection = false;
+
+  // El salto a un ancla (#servicios, #contacto...) mueve scrollY hacia abajo
+  // de golpe, igual que si el usuario bajara rápido con el dedo. Sin esto,
+  // updateDirection lo confunde con "scroll manual hacia abajo" y oculta el
+  // header (max-height:0) justo cuando la sección de destino empieza a
+  // asomar, dejando ver la sección anterior sin ningún header encima. Se
+  // suspende el ocultado mientras dura el salto: al cargar la página ya con
+  // hash en la URL, y al pulsar cualquier enlace a un ancla propia (header,
+  // menú móvil o footer).
+  // El scroll suave (html{scroll-smooth}) tarda más cuanto más lejos está el
+  // ancla (p. ej. #contacto, casi al final de la página, tarda bastante más
+  // que #servicios): un timeout corto se queda corto y deja de suprimir a
+  // mitad de la animación. Se usa "scrollend" (cuando el navegador lo
+  // soporta) para levantar la supresión justo cuando el scroll realmente
+  // termina, con un timeout largo de seguridad por si no lo soporta o no
+  // llega a dispararse.
+  let suppressHide = false;
+  let suppressTimer: ReturnType<typeof setTimeout> | undefined;
+
+  const suppressHideFor = (ms: number) => {
+    suppressHide = true;
+    clearTimeout(suppressTimer);
+    suppressTimer = setTimeout(() => {
+      suppressHide = false;
+    }, ms);
+  };
+
+  if ("onscrollend" in window) {
+    window.addEventListener("scrollend", () => {
+      suppressHide = false;
+      clearTimeout(suppressTimer);
+    });
+  }
+
+  if (location.hash) suppressHideFor(4000);
+
+  document.querySelectorAll<HTMLAnchorElement>('a[href*="#"]').forEach((link) => {
+    link.addEventListener("click", () => suppressHideFor(4000));
+  });
+
+  const updateDirection = () => {
+    const currentY = window.scrollY;
+    if (isMenuOpen()) {
+      // Con el menú abierto el header no se pliega.
+    } else if (suppressHide) {
+      header?.classList.remove("header-hidden");
+    } else if (currentY > lastScrollY && currentY > 80) {
+      header?.classList.add("header-hidden");
+    } else {
+      header?.classList.remove("header-hidden");
+    }
+    lastScrollY = currentY;
+    tickingDirection = false;
+  };
+
+  const onScrollDirection = () => {
+    if (!tickingDirection) {
+      requestAnimationFrame(updateDirection);
+      tickingDirection = true;
+    }
+  };
+
+  window.addEventListener("scroll", onScrollDirection, { passive: true });
+</script>
+
+<style>
+  #site-header {
+    max-height: 128px;
+    transition:
+      background-color 300ms ease,
+      max-height 700ms ease;
+  }
+
+  /* El recorte solo se activa al ocultar el header en scroll: en reposo no
+     lleva overflow:hidden para no cortar nada que sobresalga de la barra. */
+  #site-header.header-hidden {
+    max-height: 0px;
+    overflow: hidden;
+  }
+
+  /* Hamburguesa animada: 3 barras que se cruzan en X al abrir. */
+  .menu-bar {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 1.5rem;
+    height: 2px;
+    margin-left: -0.75rem;
+    margin-top: -1px;
+    border-radius: 2px;
+    background-color: currentColor;
+    transition:
+      transform 300ms ease,
+      opacity 300ms ease;
+  }
+
+  .menu-bar-top {
+    transform: translateY(-7px);
+  }
+
+  .menu-bar-bottom {
+    transform: translateY(7px);
+  }
+
+  .menu-toggle.is-open .menu-bar-top {
+    transform: translateY(0) rotate(45deg);
+  }
+
+  .menu-toggle.is-open .menu-bar-mid {
+    opacity: 0;
+  }
+
+  .menu-toggle.is-open .menu-bar-bottom {
+    transform: translateY(0) rotate(-45deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .menu-bar {
+      transition: none;
+    }
+  }
+
+  /* Menú móvil desplegado: el header crece y deja de recortar el panel. */
+  #site-header.menu-open {
+    max-height: 100vh;
+    overflow-y: auto;
+    background-color: var(--color-brand-navy);
+  }
+</style>

@@ -1,0 +1,49 @@
+---
+import { showcaseSteps, type ShowcaseStep } from "../data/site";
+
+interface Props {
+  /** Pasos a mostrar. Por defecto, los del producto (showcaseSteps). */
+  steps?: ShowcaseStep[];
+}
+
+const { steps = showcaseSteps } = Astro.props;
+---
+
+<div class="process-steps relative mt-12 md:mt-16">
+  {/* Línea que conecta los indicadores (solo escritorio, y solo cuando el
+      grid es de 4 columnas: su posición está calculada para ese caso). */}
+  {steps.length === 4 && <div class="process-line" aria-hidden="true"></div>}
+
+  <ol class="relative grid grid-cols-2 gap-x-6 gap-y-10 md:grid-cols-4 md:gap-8">
+    {steps.map((step, i) => (
+      <li class="flex flex-col items-center text-center">
+        <span
+          class="relative z-10 flex h-14 w-14 items-center justify-center rounded-full bg-brand-orange text-lg font-bold text-white"
+        >
+          <span class="sr-only">Paso </span>{i + 1}
+        </span>
+        <h3 class="mt-4 text-base font-bold text-white md:text-lg">{step.title}</h3>
+        <p class="mt-2 text-sm leading-relaxed text-white/60">{step.subtitle}</p>
+      </li>
+    ))}
+  </ol>
+</div>
+
+<style>
+  .process-line {
+    display: none;
+  }
+
+  @media (min-width: 768px) {
+    /* De centro a centro del primer y último indicador (4 columnas iguales). */
+    .process-line {
+      display: block;
+      position: absolute;
+      top: 1.75rem;
+      left: 12.5%;
+      right: 12.5%;
+      height: 2px;
+      background-color: rgb(255 255 255 / 0.15);
+    }
+  }
+</style>

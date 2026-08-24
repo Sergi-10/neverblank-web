@@ -1,0 +1,362 @@
+---
+import { showcaseSteps } from "../data/site";
+
+interface Props {
+  /**
+   * "default"  -> tarjeta suelta, con sombra propia y radio grande.
+   * "embedded" -> dentro del marco blanco: sin sombra (la pone el marco),
+   *               radio y alturas reducidos.
+   */
+  variant?: "default" | "embedded";
+  /** id opcional para anclas de scroll */
+  id?: string;
+}
+
+const { variant = "default", id } = Astro.props;
+const embedded = variant === "embedded";
+
+const steps = showcaseSteps;
+
+const weekdays = ["L", "M", "X", "J", "V", "S", "D"];
+const cellLabels = ["Reel", "Story", "Post", "Carrusel", "Hilo"];
+const filledCells = new Set([2, 5, 9, 13, 16, 20, 24, 27]);
+const calendarCells = Array.from({ length: 28 }, (_, i) => {
+  if (!filledCells.has(i)) return null;
+  const labelIndex = [...filledCells].indexOf(i);
+  return cellLabels[labelIndex % cellLabels.length];
+});
+
+const pills = [
+  { label: "Pendiente", delay: "0s" },
+  { label: "Aprobado", delay: "0.4s" },
+  { label: "Publicado", delay: "0.8s" },
+];
+
+const rootClass = embedded
+  ? "product-showcase relative overflow-hidden rounded-[1.5rem] bg-brand-navy/90 ring-1 ring-white/10 shadow-[0_25px_55px_-18px_rgba(0,0,0,0.5)] backdrop-blur-[2px]"
+  : "product-showcase relative scroll-mt-24 overflow-hidden rounded-[1.5rem] bg-brand-navy shadow-[0_32px_64px_-12px_rgba(20,40,60,0.45)]";
+
+const stageClass = embedded
+  ? "relative z-10 min-h-[19rem] px-5 py-7 sm:min-h-[21rem] sm:px-7 sm:py-8 md:min-h-[23rem] md:px-8 md:py-9 lg:min-h-[25rem] lg:px-10"
+  : "relative z-10 min-h-[400px] px-8 py-16 md:px-20";
+
+const stepPadding = embedded
+  ? "px-4 py-6 sm:px-6"
+  : "px-8 py-16 md:px-20";
+---
+
+<div id={id} data-product-showcase class={rootClass}>
+  <div
+    class="pointer-events-none absolute left-1/2 top-1/2 h-[220%] w-[220%]"
+    style="transform: translate(-50%, -50%);"
+  >
+    <div class="ps-icon-float h-full w-full">
+      <svg viewBox="0 0 296.49 225.39" class="h-full w-full fill-current text-white/[0.11]" aria-hidden="true">
+        <path d="M227.6,59.02c6.7,0,12.15,5.45,12.15,12.15v88.25c0,6.7-5.45,12.15-12.15,12.15H64.64v-100.4c0-6.7,5.45-12.15,12.15-12.15h150.8M227.6,39.02H76.8c-17.76,0-32.15,14.4-32.15,32.15v120.4h182.95c17.76,0,32.15-14.4,32.15-32.15v-88.25c0-17.76-14.4-32.15-32.15-32.15h0Z" />
+        <polygon points="146.57 96.47 136.83 86.73 115.14 108.41 93.45 86.73 83.71 96.47 105.4 118.16 83.71 139.84 93.45 149.59 115.14 127.9 136.83 149.59 146.57 139.84 124.88 118.16 146.57 96.47" />
+        <rect x="161.83" y="86.65" width="63" height="63" rx="5.97" ry="5.97" />
+      </svg>
+    </div>
+  </div>
+
+  <div class={stageClass}>
+    {steps.map((step, i) => (
+      <div
+        class={`ps-step absolute inset-0 flex flex-col items-center justify-center text-center ${stepPadding} ${i === 0 ? "active" : ""}`}
+        data-step={i}
+      >
+        <span
+          class={`flex items-center justify-center rounded-2xl bg-brand-orange/10 ${embedded ? "mb-4 h-12 w-12" : "mb-6 h-16 w-16"}`}
+        >
+          <i class={`ti ${step.icon} text-brand-orange ${embedded ? "text-2xl" : "text-3xl"}`} aria-hidden="true"></i>
+        </span>
+
+        <h3 class={`font-bold text-white ${embedded ? "text-lg" : "text-[22px]"}`}>{step.title}</h3>
+        <p class={`mx-auto mt-3 max-w-md text-white/60 ${embedded ? "text-sm" : "text-base"}`}>
+          {step.subtitle}
+        </p>
+
+        {i === 0 && (
+          <div class={`h-1 w-48 overflow-hidden rounded-full bg-white/10 ${embedded ? "mt-5" : "mt-8"}`}>
+            <div class="ps-step1-bar h-full w-0 rounded-full bg-brand-orange"></div>
+          </div>
+        )}
+
+        {i === 1 && (
+          <div class={`w-full ${embedded ? "mt-5 max-w-[17rem]" : "mt-8 max-w-sm"}`}>
+            <div class="grid grid-cols-7 gap-1.5">
+              {weekdays.map((d) => (
+                <span class="text-center text-[10px] font-semibold uppercase text-white/40">{d}</span>
+              ))}
+              {calendarCells.map((label, idx) => (
+                <span
+                  class={`cal-cell flex items-center justify-center rounded-md bg-white/5 px-0.5 text-center text-[8px] leading-tight text-brand-orange ${embedded ? "h-6" : "h-8"}`}
+                  class:list={[label ? "bg-brand-orange/15" : ""]}
+                  style={`--cal-i: ${idx};`}
+                >
+                  {label}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {i === 2 && (
+          <div class={`flex flex-wrap items-center justify-center gap-3 ${embedded ? "mt-5" : "mt-8"}`}>
+            {pills.map((pill) => (
+              <span
+                class={`ps-pill rounded-full font-semibold ${embedded ? "px-3 py-1 text-xs" : "px-4 py-1.5 text-sm"}`}
+                style={`animation-delay: ${pill.delay};`}
+              >
+                {pill.label}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    ))}
+  </div>
+
+  <div class={`relative z-10 flex items-center justify-center gap-2 ${embedded ? "pb-4" : "pb-6"}`}>
+    {steps.map((_, i) => (
+      <span class="ps-dot h-2 w-2 rounded-full bg-white/25" data-dot={i}></span>
+    ))}
+  </div>
+
+  <div class="absolute inset-x-0 bottom-0 z-10 h-[3px] bg-white/10">
+    <div class="ps-progress h-full w-0 bg-brand-orange"></div>
+  </div>
+</div>
+
+<script>
+  const DURATIONS = [4000, 4000, 4000, 5000];
+
+  type ShowcaseRoot = HTMLElement & { __psTimer?: ReturnType<typeof setTimeout> };
+
+  const reducedMotion = () =>
+    window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  function restart(el: HTMLElement | null, className: string) {
+    if (!el) return;
+    el.classList.remove(className);
+    void el.offsetWidth;
+    el.classList.add(className);
+  }
+
+  // Cada instancia sólo toca sus propios nodos: todo se consulta desde su raíz.
+  function initShowcase(root: ShowcaseRoot) {
+    if (root.dataset.psReady === "1") return;
+    root.dataset.psReady = "1";
+
+    const stepEls = Array.from(root.querySelectorAll<HTMLElement>(".ps-step"));
+    const dotEls = Array.from(root.querySelectorAll<HTMLElement>(".ps-dot"));
+    const progressEl = root.querySelector<HTMLElement>(".ps-progress");
+    const stepBarEl = root.querySelector<HTMLElement>(".ps-step1-bar");
+    const calCellEls = Array.from(root.querySelectorAll<HTMLElement>(".cal-cell"));
+    if (!stepEls.length) return;
+
+    // Movimiento reducido: primer paso fijo, sin avance automático ni progreso.
+    if (reducedMotion()) {
+      stepEls.forEach((el, i) => el.classList.toggle("active", i === 0));
+      dotEls.forEach((dot, i) => dot.classList.toggle("ps-dot-active", i === 0));
+      calCellEls.forEach((cell) => cell.classList.add("cal-visible"));
+      return;
+    }
+
+    let current = 0;
+
+    const goToStep = (index: number, isFirst = false) => {
+      const prevEl = stepEls[current];
+      if (!isFirst && prevEl) {
+        prevEl.classList.remove("active");
+        prevEl.classList.add("exiting");
+        setTimeout(() => prevEl.classList.remove("exiting"), 520);
+      }
+
+      current = index;
+      stepEls[current]?.classList.add("active");
+      dotEls.forEach((dot, i) => dot.classList.toggle("ps-dot-active", i === index));
+
+      if (progressEl) {
+        if (index === 0) {
+          progressEl.style.transition = "none";
+          progressEl.style.width = "0%";
+          void progressEl.offsetWidth;
+        }
+        progressEl.style.transition = `width ${DURATIONS[index]}ms linear`;
+        requestAnimationFrame(() => {
+          progressEl.style.width = `${(index + 1) * 25}%`;
+        });
+      }
+
+      if (index === 0) restart(stepBarEl, "ps-fill-run");
+      if (index === 1) calCellEls.forEach((cell) => restart(cell, "cal-pop"));
+
+      // Un único temporizador vivo por instancia.
+      clearTimeout(root.__psTimer);
+      root.__psTimer = setTimeout(
+        () => goToStep((current + 1) % stepEls.length),
+        DURATIONS[index]
+      );
+    };
+
+    goToStep(0, true);
+  }
+
+  function initAll() {
+    document
+      .querySelectorAll<ShowcaseRoot>("[data-product-showcase]")
+      .forEach(initShowcase);
+  }
+
+  function teardownAll() {
+    document
+      .querySelectorAll<ShowcaseRoot>("[data-product-showcase]")
+      .forEach((root) => {
+        clearTimeout(root.__psTimer);
+        root.__psTimer = undefined;
+        delete root.dataset.psReady;
+      });
+  }
+
+  initAll();
+
+  // Compatible con navegación cliente / View Transitions: se limpia el
+  // temporizador anterior antes de volver a inicializar, sin acumular timeouts.
+  document.addEventListener("astro:before-swap", teardownAll);
+  document.addEventListener("astro:page-load", initAll);
+</script>
+
+<style>
+  .ps-icon-float {
+    animation: showcase-float-circle 40s ease infinite;
+  }
+
+  @keyframes showcase-float-circle {
+    0% { transform: translate(27px, 0px); }
+    12.5% { transform: translate(19px, 19px); }
+    25% { transform: translate(0px, 27px); }
+    37.5% { transform: translate(-19px, 19px); }
+    50% { transform: translate(-27px, 0px); }
+    62.5% { transform: translate(-19px, -19px); }
+    75% { transform: translate(0px, -27px); }
+    87.5% { transform: translate(19px, -19px); }
+    100% { transform: translate(27px, 0px); }
+  }
+
+  .ps-step {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .ps-step.active {
+    opacity: 1;
+    pointer-events: auto;
+    animation: fadeSlideIn 700ms ease forwards;
+  }
+
+  .ps-step.exiting {
+    opacity: 1;
+    pointer-events: none;
+    animation: fadeSlideOut 500ms ease forwards;
+  }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeSlideOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-20px); }
+  }
+
+  .ps-dot-active {
+    background-color: var(--color-brand-orange);
+  }
+
+  .ps-progress {
+    width: 0%;
+  }
+
+  .ps-step1-bar {
+    width: 0%;
+  }
+
+  .ps-step1-bar.ps-fill-run {
+    animation: stepBarFill 4000ms linear forwards;
+  }
+
+  @keyframes stepBarFill {
+    from { width: 0%; }
+    to { width: 100%; }
+  }
+
+  .cal-cell {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  .cal-cell.cal-pop {
+    animation: calPop 400ms ease forwards;
+    animation-delay: calc(var(--cal-i) * 90ms);
+  }
+
+  .cal-cell.cal-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @keyframes calPop {
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .ps-pill {
+    animation: pillCycle 3s ease-in-out infinite;
+  }
+
+  @keyframes pillCycle {
+    0%, 28% {
+      background-color: color-mix(in srgb, var(--color-brand-orange) 20%, transparent);
+      color: var(--color-brand-orange);
+    }
+    33%, 61% {
+      background-color: color-mix(in srgb, var(--color-brand-gradient-turquoise) 22%, transparent);
+      color: var(--color-brand-gradient-turquoise);
+    }
+    66%, 94% {
+      background-color: color-mix(in srgb, #22c55e 20%, transparent);
+      color: #4ade80;
+    }
+    100% {
+      background-color: color-mix(in srgb, var(--color-brand-orange) 20%, transparent);
+      color: var(--color-brand-orange);
+    }
+  }
+
+  /* Movimiento reducido: sin animaciones decorativas, toda la info visible. */
+  @media (prefers-reduced-motion: reduce) {
+    .ps-icon-float,
+    .ps-step.active,
+    .ps-step.exiting,
+    .ps-step1-bar.ps-fill-run,
+    .cal-cell.cal-pop,
+    .ps-pill {
+      animation: none;
+    }
+
+    .ps-step.active {
+      opacity: 1;
+    }
+
+    .cal-cell {
+      opacity: 1;
+      transform: none;
+    }
+
+    .ps-pill {
+      background-color: color-mix(in srgb, var(--color-brand-orange) 20%, transparent);
+      color: var(--color-brand-orange);
+    }
+  }
+</style>

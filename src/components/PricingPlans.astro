@@ -1,0 +1,100 @@
+---
+import { plans, APP_REGISTER_URL, EXTERNAL_LINK_ATTRS } from "../data/site";
+---
+
+<div class="grid gap-8 md:grid-cols-3">
+  {plans.map((plan) => (
+    <div
+      class="plan-card relative rounded-2xl border border-gray-200 bg-white p-8 shadow-[0_32px_64px_-12px_rgba(20,40,60,0.45)] transition-all duration-300 ease-out"
+    >
+      {plan.highlighted && (
+        <span
+          class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-brand-orange px-3 py-1 text-xs font-semibold text-white"
+        >
+          Más popular
+        </span>
+      )}
+
+      <h3 class="plan-title font-display text-2xl font-bold text-brand-navy">{plan.name}</h3>
+      <p class="plan-desc mt-1 text-sm text-brand-navy/70">{plan.description}</p>
+
+      <p class="mt-6">
+        <span class="font-display text-4xl font-extrabold text-brand-orange">
+          {plan.price}
+        </span>
+        <span class="plan-suffix ml-1 text-sm text-brand-navy/60">{plan.suffix}</span>
+      </p>
+
+      <ul class="mt-6 space-y-3">
+        {plan.features.map((feature) => (
+          <li class="plan-feature flex items-start gap-2 text-sm text-brand-navy/80">
+            <i class="ti ti-check mt-0.5 shrink-0 text-brand-orange" aria-hidden="true"></i>
+            <span>{feature}</span>
+          </li>
+        ))}
+      </ul>
+
+      <a
+        href={APP_REGISTER_URL}
+        target={EXTERNAL_LINK_ATTRS.target}
+        rel={EXTERNAL_LINK_ATTRS.rel}
+        class:list={[
+          "mt-8 block w-full rounded-full px-6 py-3 text-center text-base font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-orange",
+          plan.highlighted
+            ? "bg-brand-orange text-white hover:bg-brand-orange/90"
+            : "border-2 border-brand-orange bg-transparent text-brand-orange hover:bg-brand-orange hover:text-white",
+        ]}
+      >
+        {plan.cta}
+      </a>
+    </div>
+  ))}
+</div>
+
+<style>
+  /*
+    El flip a azul marino solo se activa desde el ancho "no móvil" (768px,
+    el mismo corte md: que usa el resto del proyecto) Y con ratón real
+    (hover:hover). Por debajo de 768px el efecto queda completamente
+    desactivado, aunque el dispositivo reporte hover:hover (p. ej. un
+    portátil táctil con pantalla estrecha): nunca cambia de color ni de
+    fondo. Esto también evita el bug de táctil donde el texto se ponía
+    blanco sin que el fondo llegase a navy (contenido invisible).
+  */
+  @media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+    .plan-card:hover {
+      transform: scale(1.05);
+      border-color: var(--color-brand-navy);
+      background-color: var(--color-brand-navy);
+      box-shadow:
+        0 20px 25px -5px rgb(0 0 0 / 0.1),
+        0 8px 10px -6px rgb(0 0 0 / 0.1);
+    }
+
+    .plan-card:hover .plan-title,
+    .plan-card:hover .plan-desc,
+    .plan-card:hover .plan-suffix,
+    .plan-card:hover .plan-feature {
+      color: #ffffff;
+    }
+
+    .plan-card:hover .plan-desc,
+    .plan-card:hover .plan-suffix {
+      color: rgb(255 255 255 / 0.7);
+    }
+
+    .plan-card:hover .plan-feature {
+      color: rgb(255 255 255 / 0.85);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .plan-card {
+      transition: none;
+    }
+
+    .plan-card:hover {
+      transform: none;
+    }
+  }
+</style>

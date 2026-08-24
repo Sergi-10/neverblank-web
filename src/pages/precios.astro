@@ -1,0 +1,49 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import PricingPlans from "../components/PricingPlans.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout
+  title="Precios — NeverBlanc"
+  description="Planes de NeverBlanc para freelances y agencias, desde 19€/mes. Sin permanencia: cambia o cancela cuando quieras."
+>
+  <Header />
+
+  <section class="bg-brand-bg px-6 pb-10 pt-28 text-center md:pb-16 md:pt-36">
+    <div class="mx-auto w-full max-w-4xl">
+      <h1 class="font-display text-3xl font-bold text-brand-navy md:text-4xl">Precios</h1>
+      <p class="mt-4 text-lg text-brand-navy/70 md:text-xl">
+        Planes para cada etapa
+      </p>
+      <p class="mt-2 text-base text-brand-navy/60 md:text-lg">
+        Sin permanencia. Cambia o cancela cuando quieras.
+      </p>
+    </div>
+  </section>
+
+  <div class="bg-brand-orange py-3 text-center text-sm font-medium text-white md:py-4">
+    Todos los planes incluyen soporte y actualizaciones
+  </div>
+
+  <section class="bg-brand-bg py-12 md:py-16">
+    <div class="mx-auto max-w-3xl px-6 text-center">
+      <h2 class="font-display text-3xl font-bold text-brand-navy md:text-4xl">
+        Empieza pequeño. Escala cuando tu equipo y tus <span class="text-brand-orange">marcas crezcan</span>.
+      </h2>
+    </div>
+  </section>
+
+  <section class="mt-2 pb-16 md:pb-24">
+    <div class="mx-auto max-w-6xl px-6">
+      <PricingPlans />
+
+      <p class="mt-8 text-center text-sm text-brand-navy/60">
+        ¿Se te acaban los créditos de IA a mitad de mes? Compra más cuando los necesites, sin cambiar de plan.
+      </p>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
